@@ -1,4 +1,4 @@
-id |sukunimietunimi |ika |pituus |paino |
-1  |Ankka Aku       |86  |165    |60    |
-2  |Susi Sepe       |83  |170    |70    |
-3  |Ponteva Veli    |83  |175    |80    |
+id |sukunimi |etunimi |ika |pituus |paino |
+1  |Ankka    |Aku     |86  |165    |60    |
+2  |Susi     |Sepe    |83  |170    |70    |
+3  |Ponteva  |Veli    |83  |175    |80    |
