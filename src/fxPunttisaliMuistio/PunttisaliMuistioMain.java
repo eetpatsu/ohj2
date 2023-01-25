@@ -1,4 +1,4 @@
-package fxPunttisaliMuistio;
+package fxPunttisalimuistio;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,17 +12,17 @@ import javafx.fxml.FXMLLoader;
  * @version 23.1.2023
  *
  */
-public class PunttisaliMuistioMain extends Application {
+public class PunttisalimuistioMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PunttisaliMuistioGUIView.fxml"));
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PunttisalimuistioGUIView.fxml"));
             final Pane root = ldr.load();
-            //final PunttisaliMuistioGUIController punttisalimuistioCtrl = (PunttisaliMuistioGUIController) ldr.getController();
+            //final PunttisalimuistioGUIController punttisalimuistioCtrl = (PunttisalimuistioGUIController) ldr.getController();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("punttisalimuistio.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setTitle("PunttisaliMuistio");
+            primaryStage.setTitle("Punttisalimuistio");
             primaryStage.show();
         } catch(Exception e) {
             e.printStackTrace();
