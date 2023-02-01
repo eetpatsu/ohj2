@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox alignment="CENTER" style="-fx-background-color: #a282ff;" BorderPane.alignment="CENTER">
@@ -43,12 +42,12 @@
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <ComboBoxChooser promptText="Käyttäjä" HBox.hgrow="ALWAYS">
+                  <ComboBoxChooser minWidth="100.0" promptText="Käyttäjä" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" top="5.0" />
                      </HBox.margin>
                   </ComboBoxChooser>
-                  <Button defaultButton="true" mnemonicParsing="false" prefWidth="42.0" text="OK">
+                  <Button defaultButton="true" minWidth="70.0" mnemonicParsing="false" prefWidth="42.0" text="OK">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
@@ -57,7 +56,7 @@
             </HBox>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" text="Uusi käyttäjä" />
+                <Button minWidth="70.0" mnemonicParsing="false" text="Uusi käyttäjä" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
