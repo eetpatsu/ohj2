@@ -64,7 +64,7 @@
                         <Label alignment="CENTER" maxWidth="400.0" text="Treenin tiedot" BorderPane.alignment="CENTER" />
                      </top>
                      <center>
-                        <ListChooser maxHeight="1.7976931348623157E308" prefHeight="220.0" rivit="Kyykky&#10;Penkkipunnerrus&#10;Kulmasoutu&#10;Leuanveto&#10;Selkäojennus" BorderPane.alignment="CENTER" />
+                        <ListChooser maxHeight="1.7976931348623157E308" prefHeight="200.0" rivit="Kyykky&#10;Penkkipunnerrus&#10;Kulmasoutu&#10;Leuanveto&#10;Selkäojennus" BorderPane.alignment="CENTER" />
                      </center>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -83,14 +83,18 @@
                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints />
+                            <RowConstraints />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Kesto (min.)" />
-                              <Label text="Fiilikset (1-5)" GridPane.rowIndex="1" />
-                              <TextField text="90" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField text="5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <Label text="Kesto (min.)" GridPane.rowIndex="2" />
+                              <Label text="Fiilikset (1-5)" GridPane.rowIndex="3" />
+                              <TextField text="90" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <TextField text="5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                              <Label text="Päivämäärä" GridPane.rowIndex="1" />
+                              <TextField text="10.01.2023" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" top="10.0" />
