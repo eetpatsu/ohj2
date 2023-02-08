@@ -24,16 +24,16 @@
         <menus>
           <Menu text="_Tiedosto">
             <items>
-              <MenuItem text="_Tallenna">
+              <MenuItem onAction="#handleTallenna" text="_Tallenna">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Tulosta">
+                  <MenuItem mnemonicParsing="false" onAction="#handleTulosta" text="Tulosta">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem text="L_opeta">
+                  <MenuItem onAction="#handleLopeta" text="L_opeta">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
@@ -42,28 +42,28 @@
           </Menu>
           <Menu text="_Muokkaa">
             <items>
-              <MenuItem text="Lisää uusi treeni">
+              <MenuItem onAction="#handleUusiTreeni" text="Lisää uusi treeni">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem text="Muokkaa treeniä">
+                  <MenuItem onAction="#handleMuokkaaTreeni" text="Muokkaa treeniä">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Poista treeni..." />
-                  <MenuItem text="Muokkaa käyttäjää">
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaTreeni" text="Poista treeni..." />
+                  <MenuItem onAction="#handleMuokkaaKayttaja" text="Muokkaa käyttäjää">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Poista käyttäjä..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaKayttaja" text="Poista käyttäjä..." />
             </items>
           </Menu>
           <Menu text="_Apua">
             <items>
-              <MenuItem mnemonicParsing="false" text="Apua" />
-                  <MenuItem mnemonicParsing="false" text="Tietoja" />
+              <MenuItem mnemonicParsing="false" onAction="#handleApua" text="Apua" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleTietoa" text="Tietoa" />
             </items>
           </Menu>
         </menus>
@@ -77,7 +77,7 @@
                   <VBox BorderPane.alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hae" />
-                        <TextField />
+                        <TextField fx:id="hakuehto" onAction="#handleHakuehto" />
                         <Label alignment="CENTER" maxWidth="300.0" text="Treenit" />
                      </children>
                   </VBox>
@@ -100,7 +100,7 @@
                   </BorderPane>
                </top>
                <bottom>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
+                  <Label fx:id="labelVirhe" alignment="CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
                </bottom>
                <center>
                   <ScrollPane fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
