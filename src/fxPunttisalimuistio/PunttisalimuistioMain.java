@@ -17,7 +17,7 @@ public class PunttisalimuistioMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PunttisalimuistioGUIView.fxml"));
+            final FXMLLoader ldr = new FXMLLoader(getClass().getResource("PunttisalimuistioGUIView.fxml"));
             final Pane root = (Pane)ldr.load();
             final PunttisalimuistioGUIController punttisalimuistioCtrl = (PunttisalimuistioGUIController)ldr.getController();
             

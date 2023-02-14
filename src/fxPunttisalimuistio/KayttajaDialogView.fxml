@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.jyu.mit.fxgui.ModalController">
    <center>
       <ScrollPane BorderPane.alignment="CENTER">
          <content>
@@ -55,8 +55,8 @@
             <HBox />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button defaultButton="true" mnemonicParsing="false" text="OK" />
-                  <Button mnemonicParsing="false" text="Peuuta" />
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#handleDefaultOK" text="OK" />
+                  <Button cancelButton="true" mnemonicParsing="false" onAction="#handleDefaultCancel" text="Peuuta" />
               </buttons>
                <padding>
                   <Insets right="10.0" />

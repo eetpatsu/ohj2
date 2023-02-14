@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.jyu.mit.fxgui.ModalController">
    <center>
       <VBox alignment="CENTER" style="-fx-background-color: #a282ff;" BorderPane.alignment="CENTER">
          <children>
@@ -35,7 +35,7 @@
          <children>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button defaultButton="true" minWidth="70.0" mnemonicParsing="false" text="OK" />
+                <Button defaultButton="true" minWidth="70.0" mnemonicParsing="false" onAction="#handleDefaultOK" text="OK" />
               </buttons>
                <padding>
                   <Insets right="10.0" />

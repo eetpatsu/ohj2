@@ -28,6 +28,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
+                  <MenuItem onAction="#handleAvaa" text="Avaa..." />
                   <MenuItem mnemonicParsing="false" onAction="#handleTulosta" text="Tulosta">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
@@ -187,8 +188,8 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Button text="_Muokkaa treeniä" />
-                  <Button mnemonicParsing="false" text="Poista treeni" />
+                  <Button onAction="#handleMuokkaaTreeni" text="_Muokkaa treeniä" />
+                  <Button mnemonicParsing="false" onAction="#handlePoistaTreeni" text="Poista treeni" />
                </children>
             </HBox>
          </right>

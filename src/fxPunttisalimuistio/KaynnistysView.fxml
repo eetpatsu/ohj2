@@ -57,10 +57,14 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
                 <Button minWidth="70.0" mnemonicParsing="false" onAction="#handleUusiKayttaja" text="Uusi käyttäjä" />
+                  <Button mnemonicParsing="false" onAction="#handlePeruuta" text="Peruuta" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
                </padding>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
             </ButtonBar>
          </children>
       </VBox>

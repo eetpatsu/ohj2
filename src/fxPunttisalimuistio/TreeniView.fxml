@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="380.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPunttisalimuistio.PunttisalimuistioGUIController">
+<BorderPane prefHeight="380.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.jyu.mit.fxgui.ModalController">
    <center>
       <SplitPane dividerPositions="0.25, 0.65" BorderPane.alignment="CENTER">
          <items>
@@ -148,8 +148,8 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="OK" />
-            <Button mnemonicParsing="false" text="Peruuta" />
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#handleDefaultOK" text="OK" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#handleDefaultCancel" text="Peruuta" />
         </buttons>
          <BorderPane.margin>
             <Insets right="10.0" />

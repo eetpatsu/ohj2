@@ -15,27 +15,39 @@ import javafx.stage.Stage;
 public class KaynnistysController implements ModalControllerInterface<String> {
     
     @FXML private ComboBoxChooser<String> cbKayttajat;
-    
-    
-    @FXML private void handleKayttaja() {
-        String valinta = cbKayttajat.getSelectedText();
-        Dialogs.showMessageDialog("Ei osata vielä kirjautua käyttäjälle " + valinta);
-    }
+    private String vastaus = null;
     
     
     @FXML private void handleOK() {
+        vastaus = cbKayttajat.getRivit();
         ModalController.closeStage(cbKayttajat);
     }
     
     
+    @FXML private void handlePeruuta() {
+        ModalController.closeStage(cbKayttajat);
+    }
+    
+    
+    @FXML private void handleKayttaja() {
+        Dialogs.showMessageDialog("Ei osata vielä kirjautua käyttäjälle " + vastaus);
+    }
+    
+    
     @FXML private void handleUusiKayttaja() {
-        Dialogs.showMessageDialog("Vielä ei osata lisätä käyttäjää");
+        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("KayttajaDialogView.fxml"), "Käyttäjä", null, "");
     }
     
     
     @Override
     public String getResult() {
-        return cbKayttajat.getSelectedText();
+        return vastaus;
+    }
+    
+    
+    @Override
+    public void setDefault(String oletus) {
+        cbKayttajat.setRivit(oletus);
     }
 
 
@@ -43,21 +55,15 @@ public class KaynnistysController implements ModalControllerInterface<String> {
     public void handleShown() {
         cbKayttajat.requestFocus();
     }
-
-
-    @Override
-    public void setDefault(String oletus) {
-        cbKayttajat.setPromptText(oletus);
-    }
     
     
     /**
-     * Luodaan käyttäjämkysymisdialogi ja palautetaan käyttäjä tai null
+     * Luodaan käyttäjänkysymisdialogi ja palautetaan käyttäjä tai null
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
      * @param oletus mitä nimeä näytetään oletuksena
      * @return null jos painetaan Cancel, muuten kirjoitettu nimi
      */
-    public static String kysyNimi(Stage modalityStage, String oletus) {
+    public static String kysyKayttaja(Stage modalityStage, String oletus) {
         return ModalController.showModal(
                 KaynnistysController.class.getResource("KaynnistysView.fxml"),
                 "Punttisalimuistio",

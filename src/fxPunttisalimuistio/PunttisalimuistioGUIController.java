@@ -17,20 +17,23 @@ import javafx.scene.control.TextField;
 /**
  * Luokka muistion käyttöliittymän tapahtumien hoitamiseksi.
  * @author Eetu
- * @version 23.1.2023
+ * @version 12 Feb 2023
  */
 public class PunttisalimuistioGUIController implements Initializable {
     
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
     
+    private String kayttajannimi = "Aku Ankka";
     
-    @FXML void handleApua() {
-        avustus();
+    
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        // TODO
     }
     
     
-    @FXML void handleHakuehto() {
+    @FXML private void handleHakuehto() {
         String ehto = hakuehto.getText();
         if ( ehto.isEmpty() )
             naytaVirhe(null);
@@ -39,56 +42,59 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
     
-    @FXML void handleLopeta() {
+    @FXML private void handleTallenna() {
+        tallenna();
+    }
+    
+    
+    @FXML private void handleAvaa() {
+        avaa();
+    }
+    
+    
+    @FXML private void handleTulosta() {
+        TulostusController.tulosta(null);
+    }
+    
+    
+    @FXML private void handleLopeta() {
         tallenna();
         Platform.exit();
     }
     
     
-    @FXML void handleMuokkaaKayttaja() {
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("KayttajaDialogView.fxml"), "Käyttäjä", null, "");
-    }
-    
-    
-    @FXML void handleMuokkaaTreeni() {
+    @FXML private void handleUusiTreeni() {
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniView.fxml"), "Treeni", null, "");
     }
     
     
-    @FXML void handlePoistaKayttaja() {
-        Dialogs.showMessageDialog("Vielä ei osata poistaa käyttäjää");
+    @FXML private void handleMuokkaaTreeni() {
+        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniView.fxml"), "Treeni", null, "");
     }
     
     
-    @FXML void handlePoistaTreeni() {
+    @FXML private void handlePoistaTreeni() {
         Dialogs.showMessageDialog("Vielä ei osata poistaa treeniä");
     }
     
     
-    @FXML void handleTallenna() {
-        tallenna();
+    @FXML private void handleMuokkaaKayttaja() {
+        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("KayttajaDialogView.fxml"), "Käyttäjä", null, "");
+    }
+    
+        
+    @FXML private void handlePoistaKayttaja() {
+        Dialogs.showMessageDialog("Vielä ei osata poistaa käyttäjää");
     }
     
     
-    @FXML void handleTietoa() { 
-       // Dialogs.showMessageDialog("Ei osata vielä tietoa");
+    @FXML void handleApua() {
+        avustus();
+    }
+    
+    
+    @FXML private void handleTietoa() { 
        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TietoaView.fxml"), "Tietoa", null, "");
-    }
-    
-    
-    @FXML void handleTulosta() {
-        TulostusController.tulosta(null);
-    }
-    
-    
-    @FXML void handleUusiTreeni() {
-        Dialogs.showMessageDialog("Vielä ei osata lisätä treeniä");
-    }
-
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
     }
     
     
@@ -103,6 +109,36 @@ public class PunttisalimuistioGUIController implements Initializable {
         }
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
+    }
+    
+    
+    private void setTitle(String title) {
+        ModalController.getStage(hakuehto).setTitle(title);
+    }
+    
+    
+    /**
+     * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
+     * @param nimi tiedosto josta kerhon tiedot luetaan
+     */
+    protected void lueTiedosto(String nimi) {
+        kayttajannimi = nimi;
+        setTitle("Punttisalimuistio - " + kayttajannimi);
+        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
+        // if (virhe != null) 
+            Dialogs.showMessageDialog(virhe);
+    }
+    
+    
+    /**
+     * Kysytään tiedoston nimi ja luetaan se
+     * @return true jos onnistui, false jos ei
+     */
+    public boolean avaa() {
+        String uusinimi = KaynnistysController.kysyKayttaja(null, kayttajannimi);
+        if (uusinimi == null) return false;
+        lueTiedosto(uusinimi);
+        return true;
     }
     
     
