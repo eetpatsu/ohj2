@@ -13,6 +13,7 @@
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="${dir.jarfile}/bin"/>
+        	<zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/fxgui.jar"/>
         </jar>
     </target>
 </project>

@@ -78,7 +78,7 @@
                   <VBox BorderPane.alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hae" />
-                        <TextField fx:id="hakuehto" onAction="#handleHakuehto" />
+                        <TextField fx:id="textHakuehto" onAction="#handleHakuehto" />
                         <Label alignment="CENTER" maxWidth="300.0" text="Treenit" />
                      </children>
                   </VBox>

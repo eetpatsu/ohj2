@@ -17,13 +17,12 @@ import javafx.scene.control.TextField;
 /**
  * Luokka muistion käyttöliittymän tapahtumien hoitamiseksi.
  * @author Eetu
- * @version 12 Feb 2023
+ * @version 14 Feb 2023
  */
 public class PunttisalimuistioGUIController implements Initializable {
     
-    @FXML private TextField hakuehto;
+    @FXML private TextField textHakuehto;
     @FXML private Label labelVirhe;
-    
     private String kayttajannimi = "Aku Ankka";
     
     
@@ -33,8 +32,11 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
     
+    /**
+     * Päiväyksien-hakukenttä
+     */
     @FXML private void handleHakuehto() {
-        String ehto = hakuehto.getText();
+        String ehto = textHakuehto.getText();
         if ( ehto.isEmpty() )
             naytaVirhe(null);
         else
@@ -42,57 +44,90 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
     
+    /**
+     * Tallenna-painike
+     */
     @FXML private void handleTallenna() {
         tallenna();
     }
     
     
+    /**
+     * Avaa-painike
+     */
     @FXML private void handleAvaa() {
         avaa();
     }
     
     
+    /**
+     * Tulosta-painike
+     */
     @FXML private void handleTulosta() {
         TulostusController.tulosta(null);
     }
     
     
+    /**
+     * Lopeta-painike
+     */
     @FXML private void handleLopeta() {
         tallenna();
         Platform.exit();
     }
     
     
+    /**
+     * Uusi treeni -painike
+     */
     @FXML private void handleUusiTreeni() {
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniView.fxml"), "Treeni", null, "");
+        TreeniController.treeni(null);
     }
     
     
+    /**
+     * Muokkaa treeniä -painike
+     */
     @FXML private void handleMuokkaaTreeni() {
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniView.fxml"), "Treeni", null, "");
+        TreeniController.treeni(null);
     }
     
     
+    /**
+     * Poista treeni -painike
+     */
     @FXML private void handlePoistaTreeni() {
         Dialogs.showMessageDialog("Vielä ei osata poistaa treeniä");
     }
     
     
+    /**
+     * Muokkaa käyttäjää -painike
+     */
     @FXML private void handleMuokkaaKayttaja() {
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("KayttajaDialogView.fxml"), "Käyttäjä", null, "");
     }
     
-        
+    
+    /**
+     * Poista käyttäjä -painike
+     */
     @FXML private void handlePoistaKayttaja() {
         Dialogs.showMessageDialog("Vielä ei osata poistaa käyttäjää");
     }
     
     
+    /**
+     * Apua-painike
+     */
     @FXML void handleApua() {
         avustus();
     }
     
     
+    /**
+     * Tietoa-painike
+     */
     @FXML private void handleTietoa() { 
        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TietoaView.fxml"), "Tietoa", null, "");
     }
@@ -101,6 +136,11 @@ public class PunttisalimuistioGUIController implements Initializable {
 //===========================================================================================    
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia    
     
+    
+    /**
+     * Virhepalkin toiminta
+     * @param virhe Selitys virheestä
+     */
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             labelVirhe.setText("");
@@ -113,25 +153,25 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     
     private void setTitle(String title) {
-        ModalController.getStage(hakuehto).setTitle(title);
+        ModalController.getStage(textHakuehto).setTitle(title);
     }
     
     
     /**
-     * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
-     * @param nimi tiedosto josta kerhon tiedot luetaan
+     * Alustaa muistion lukemalla valitun käyttäjän tiedot tiedostoista
+     * @param nimi Käyttäjä josta haetaan muistio tiedot
      */
     protected void lueTiedosto(String nimi) {
         kayttajannimi = nimi;
         setTitle("Punttisalimuistio - " + kayttajannimi);
-        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
+        String virhe = "Ei osata lukea käyttäjätietoja vielä";  // TODO: tähän oikea tiedoston lukeminen
         // if (virhe != null) 
             Dialogs.showMessageDialog(virhe);
     }
     
     
     /**
-     * Kysytään tiedoston nimi ja luetaan se
+     * Kysytään käyttäjä ja luetaan käyttäjätiedot
      * @return true jos onnistui, false jos ei
      */
     public boolean avaa() {

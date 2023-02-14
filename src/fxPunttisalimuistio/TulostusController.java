@@ -9,35 +9,50 @@ import javafx.scene.control.TextArea;
 /**
  * Tulostuksen hoitava luokka
  * @author Eetu
- * @version 9 Feb 2023
+ * @version 14 Feb 2023
  */
 public class TulostusController implements ModalControllerInterface<String> {
     
     @FXML private TextArea tulostusAlue;
     
     
+    /**
+     * OK-painike
+     */
     @FXML void handleOK() {
         ModalController.closeStage(tulostusAlue);
     }
     
     
+    /**
+     * Tulosta-painike
+     */
     @FXML void handleTulosta() {
         Dialogs.showMessageDialog("Ei osata vielä tulostaa");
     }
-
-
+    
+    
+    /**
+     * Mitä palautetaan
+     */
     @Override
     public String getResult() {
         return null;
     }
-
-
+    
+    
+    /**
+     * Mihin keskitytään oletuksena
+     */
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
+        // TODO
     }
-
-
+    
+    
+    /**
+     * Oletusarvo
+     */
     @Override
     public void setDefault(String oletus) {
         if ( oletus == null ) return;

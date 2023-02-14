@@ -1,16 +1,15 @@
 package fxPunttisalimuistio;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 /**
- * Kysytään mille käyttäjälle kirjaudutaan.
+ * Luokka muistion käynnistys- ja kirjautumisikkunaa varten
  * @author Eetu
- * @version 8 Feb 2023
+ * @version 14 Feb 2023
  */
 public class KaynnistysController implements ModalControllerInterface<String> {
     
@@ -18,39 +17,60 @@ public class KaynnistysController implements ModalControllerInterface<String> {
     private String vastaus = null;
     
     
+    /**
+     * OK-painike
+     */
     @FXML private void handleOK() {
         vastaus = cbKayttajat.getRivit();
         ModalController.closeStage(cbKayttajat);
     }
     
     
+    /**
+     * Peruuta-painike
+     */
     @FXML private void handlePeruuta() {
         ModalController.closeStage(cbKayttajat);
     }
     
     
+    /**
+     * Käyttäjälista
+     */
     @FXML private void handleKayttaja() {
-        Dialogs.showMessageDialog("Ei osata vielä kirjautua käyttäjälle " + vastaus);
+        // Dialogs.showMessageDialog("Ei osata vielä kirjautua käyttäjälle " + vastaus);
     }
     
     
+    /**
+     * Uusi käyttäjä -painike
+     */
     @FXML private void handleUusiKayttaja() {
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("KayttajaDialogView.fxml"), "Käyttäjä", null, "");
     }
     
     
+    /**
+     * Mitä palautetaan
+     */
     @Override
     public String getResult() {
         return vastaus;
     }
     
     
+    /**
+     * Oletusarvo käyttäjälistaan
+     */
     @Override
     public void setDefault(String oletus) {
         cbKayttajat.setRivit(oletus);
     }
-
-
+    
+    
+    /**
+     * Mihin keskitytään oletuksena
+     */
     @Override
     public void handleShown() {
         cbKayttajat.requestFocus();
