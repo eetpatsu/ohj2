@@ -1,15 +1,6 @@
 package fxPunttisalimuistio;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import fi.jyu.mit.fxgui.Dialogs;
-import fi.jyu.mit.fxgui.ModalController;
-import javafx.application.Platform;
-import javafx.fxml.Initializable;
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,201 +8,82 @@ import javafx.scene.control.TextField;
 /**
  * Luokka muistion käyttöliittymän tapahtumien hoitamiseksi.
  * @author Eetu
- * @version 14 Feb 2023
+ * @version 30 May 2023
  */
-public class PunttisalimuistioGUIController implements Initializable {
-    
-    @FXML private TextField textHakuehto;
-    @FXML private Label labelVirhe;
-    private String kayttajannimi = "Aku Ankka";
-    
-    
-    @Override
-    public void initialize(URL url, ResourceBundle bundle) {
-        // TODO
+public class PunttisalimuistioGUIController {
+
+    @FXML
+    private ComboBoxChooser<?> cbKentat;
+
+    @FXML
+    private TextField hakuehto;
+
+    @FXML
+    private Label labelVirhe;
+
+    @FXML
+    void handleApua() {
+        //
     }
-    
-    
-    /**
-     * Päiväyksien-hakukenttä
-     */
-    @FXML private void handleHakuehto() {
-        String ehto = textHakuehto.getText();
-        if ( ehto.isEmpty() )
-            naytaVirhe(null);
-        else
-            naytaVirhe("Ei osata vielä hakea " + ehto);
+
+    @FXML
+    void handleAvaa() {
+        //
     }
-    
-    
-    /**
-     * Tallenna-painike
-     */
-    @FXML private void handleTallenna() {
-        tallenna();
+
+    @FXML
+    void handleHakuehto() {
+        //
     }
-    
-    
-    /**
-     * Avaa-painike
-     */
-    @FXML private void handleAvaa() {
-        avaa();
+
+    @FXML
+    void handleLopeta() {
+        //
     }
-    
-    
-    /**
-     * Tulosta-painike
-     */
-    @FXML private void handleTulosta() {
-        TulostusController.tulosta(null);
+
+    @FXML
+    void handleMuokkaaLiike() {
+        //
     }
-    
-    
-    /**
-     * Lopeta-painike
-     */
-    @FXML private void handleLopeta() {
-        tallenna();
-        Platform.exit();
+
+    @FXML
+    void handleMuokkaaTreeni() {
+        //
     }
-    
-    
-    /**
-     * Uusi treeni -painike
-     */
-    @FXML private void handleUusiTreeni() {
-        TreeniController.treeni(null);
+
+    @FXML
+    void handlePoistaLiike() {
+        //
     }
-    
-    
-    /**
-     * Muokkaa treeniä -painike
-     */
-    @FXML private void handleMuokkaaTreeni() {
-        TreeniController.treeni(null);
+
+    @FXML
+    void handlePoistaTreeni() {
+        //
     }
-    
-    
-    /**
-     * Poista treeni -painike
-     */
-    @FXML private void handlePoistaTreeni() {
-        Dialogs.showMessageDialog("Vielä ei osata poistaa treeniä");
+
+    @FXML
+    void handleTallenna() {
+        //
     }
-    
-    
-    /**
-     * Muokkaa käyttäjää -painike
-     */
-    @FXML private void handleMuokkaaKayttaja() {
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("KayttajaDialogView.fxml"), "Käyttäjä", null, "");
+
+    @FXML
+    void handleTietoa() {
+        //
     }
-    
-    
-    /**
-     * Poista käyttäjä -painike
-     */
-    @FXML private void handlePoistaKayttaja() {
-        Dialogs.showMessageDialog("Vielä ei osata poistaa käyttäjää");
+
+    @FXML
+    void handleTulosta() {
+        //
     }
-    
-    
-    /**
-     * Apua-painike
-     */
-    @FXML void handleApua() {
-        avustus();
+
+    @FXML
+    void handleUusiLiike() {
+        //
     }
-    
-    
-    /**
-     * Tietoa-painike
-     */
-    @FXML private void handleTietoa() { 
-       ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TietoaView.fxml"), "Tietoa", null, "");
+
+    @FXML
+    void handleUusiTreeni() {
+        //
     }
-    
-    
-//===========================================================================================    
-// Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia    
-    
-    
-    /**
-     * Virhepalkin toiminta
-     * @param virhe Selitys virheestä
-     */
-    private void naytaVirhe(String virhe) {
-        if ( virhe == null || virhe.isEmpty() ) {
-            labelVirhe.setText("");
-            labelVirhe.getStyleClass().removeAll("virhe");
-            return;
-        }
-        labelVirhe.setText(virhe);
-        labelVirhe.getStyleClass().add("virhe");
-    }
-    
-    
-    private void setTitle(String title) {
-        ModalController.getStage(textHakuehto).setTitle(title);
-    }
-    
-    
-    /**
-     * Alustaa muistion lukemalla valitun käyttäjän tiedot tiedostoista
-     * @param nimi Käyttäjä josta haetaan muistio tiedot
-     */
-    protected void lueTiedosto(String nimi) {
-        kayttajannimi = nimi;
-        setTitle("Punttisalimuistio - " + kayttajannimi);
-        String virhe = "Ei osata lukea käyttäjätietoja vielä";  // TODO: tähän oikea tiedoston lukeminen
-        // if (virhe != null) 
-            Dialogs.showMessageDialog(virhe);
-    }
-    
-    
-    /**
-     * Kysytään käyttäjä ja luetaan käyttäjätiedot
-     * @return true jos onnistui, false jos ei
-     */
-    public boolean avaa() {
-        String uusinimi = KaynnistysController.kysyKayttaja(null, kayttajannimi);
-        if (uusinimi == null) return false;
-        lueTiedosto(uusinimi);
-        return true;
-    }
-    
-    
-    /**
-     * Tietojen tallennus
-     */
-    private void tallenna() {
-        Dialogs.showMessageDialog("Tallennetetaan! Mutta ei toimi vielä");
-    }
-    
-    
-    /**
-     * Tarkistetaan onko tallennus tehty
-     * @return true jos saa sulkea sovelluksen, false jos ei
-     */
-    public boolean voikoSulkea() {
-        tallenna();
-        return true;
-    }
-    
-    
-    /**
-     * Näytetään ohjelman suunnitelma erillisessä selaimessa.
-    */
-    private void avustus() {
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            URI uri = new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2023k/ht/eetpatsu");
-            desktop.browse(uri);
-        } catch (URISyntaxException e) {
-            return;
-        } catch (IOException e) {
-            return;
-        }
-    }
+
 }

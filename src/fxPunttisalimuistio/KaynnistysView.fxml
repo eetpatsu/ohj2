@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fi.jyu.mit.fxgui.ComboBoxChooser?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPunttisalimuistio.KaynnistysController">
+<BorderPane prefHeight="390.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPunttisalimuistio.KaynnistysController">
    <center>
       <VBox alignment="CENTER" style="-fx-background-color: #a282ff;" BorderPane.alignment="CENTER">
          <children>
@@ -37,33 +37,31 @@
          <children>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <Label text="Valitse käyttäjä">
+                  <Label text="Anna käyttäjän nimi">
                      <padding>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <ComboBoxChooser fx:id="cbKayttajat" minWidth="100.0" onAction="#handleKayttaja" promptText="Käyttäjä" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="textVastaus" text="aku">
                      <HBox.margin>
                         <Insets right="10.0" top="5.0" />
                      </HBox.margin>
-                  </ComboBoxChooser>
-                  <Button defaultButton="true" minWidth="70.0" mnemonicParsing="false" onAction="#handleOK" prefWidth="42.0" text="OK">
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                  </Button>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </TextField>
                </children>
             </HBox>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button minWidth="70.0" mnemonicParsing="false" onAction="#handleUusiKayttaja" text="Uusi käyttäjä" />
+                <Button defaultButton="true" minWidth="70.0" mnemonicParsing="false" onAction="#handleOK" text="OK" />
                   <Button mnemonicParsing="false" onAction="#handlePeruuta" text="Peruuta" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
                </padding>
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets />
                </VBox.margin>
             </ButtonBar>
          </children>
