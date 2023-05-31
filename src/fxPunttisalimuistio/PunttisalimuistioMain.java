@@ -19,7 +19,7 @@ public class PunttisalimuistioMain extends Application {
         try {
             final FXMLLoader ldr = new FXMLLoader(getClass().getResource("PunttisalimuistioGUIView.fxml"));
             final Pane root = (Pane)ldr.load();
-            final PunttisalimuistioGUIController punttisalimuistioCtrl = (PunttisalimuistioGUIController)ldr.getController();
+            //final PunttisalimuistioGUIController punttisalimuistioCtrl = (PunttisalimuistioGUIController)ldr.getController();
             
             final Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("punttisalimuistio.css").toExternalForm());
@@ -27,11 +27,11 @@ public class PunttisalimuistioMain extends Application {
             primaryStage.setTitle("Punttisalimuistio");
             
             primaryStage.setOnCloseRequest((event) -> {
-                if ( !punttisalimuistioCtrl.voikoSulkea() ) event.consume();
+                //if ( !punttisalimuistioCtrl.voikoSulkea() ) event.consume();
             });
             
             primaryStage.show();
-            if ( !punttisalimuistioCtrl.avaa() ) Platform.exit();
+            //if ( !punttisalimuistioCtrl.avaa() ) Platform.exit();
         } catch(Exception e) {
             e.printStackTrace();
         }

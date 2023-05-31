@@ -87,7 +87,7 @@
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hakuehto" />
                         <ComboBoxChooser fx:id="cbKentat" maxWidth="200.0" onAction="#handleHakuehto" rivit="pvm&#10;sijainti&#10;kesto&#10;fiilikset&#10;muistiinpanot" />
-                        <TextField fx:id="hakuehto" />
+                        <TextField fx:id="hakuehto" text="*.06.2023" />
                         <Label alignment="CENTER" maxWidth="300.0" text="Treenit" />
                      </children>
                   </VBox>
@@ -95,6 +95,14 @@
                <center>
                   <ListChooser maxHeight="1.7976931348623157E308" prefHeight="100.0" rivit="12.06.2023&#10;10.06.2023&#10;09.06.2023" BorderPane.alignment="CENTER" />
                </center></BorderPane>
+            <BorderPane maxWidth="362.0" minWidth="362.0" prefWidth="362.0">
+               <center>
+                  <StringGrid editable="true" rivit="liike|paino|sarjat|toistot|&#10;pystypunnerrus|40|3|6|&#10;kyykky|80|3|6|&#10;kulmasoutu|45|3|8|&#10;selkäojennus|5|3|8|" BorderPane.alignment="CENTER" />
+               </center>
+               <top>
+                  <Label text="Treenin liikkeet" BorderPane.alignment="CENTER" />
+               </top>
+            </BorderPane>
             <BorderPane prefWidth="200.0">
                <center>
                   <ScrollPane fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
@@ -115,13 +123,13 @@
                               <Insets left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <Label text="pvm" />
+                              <Label text="pvm (pp.kk.vvvv)" />
                               <Label text="sijainti" GridPane.rowIndex="1" />
-                              <Label text="kesto" GridPane.rowIndex="2" />
+                              <Label text="kesto (min.)" GridPane.rowIndex="2" />
                               <TextField text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
                               <TextField text="kotikuntosali" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                               <TextField text="70" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                              <Label text="fiilikset" GridPane.rowIndex="3" />
+                              <Label text="fiilikset (1-5)" GridPane.rowIndex="3" />
                               <Label text="muistiinpanot" GridPane.rowIndex="4" />
                               <TextField text="3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <TextField text="lisää painoja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -136,14 +144,6 @@
                <bottom>
                   <Label fx:id="labelVirhe" alignment="CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
                </bottom>
-            </BorderPane>
-            <BorderPane maxWidth="360.0" minWidth="360.0" prefWidth="360.0">
-               <center>
-                  <StringGrid editable="true" rivit="liike|paino|sarjat|toistot|&#10;pystypunnerrus|40|3|6|&#10;kyykky|80|3|6|&#10;kulmasoutu|45|3|8|&#10;selkäojennus|5|3|8|" BorderPane.alignment="CENTER" />
-               </center>
-               <top>
-                  <Label text="Treenin liikkeet" BorderPane.alignment="CENTER" />
-               </top>
             </BorderPane>
          </items>
          <padding>
