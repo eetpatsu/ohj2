@@ -9,11 +9,11 @@ import javafx.scene.control.TextArea;
 /**
  * Tulostuksen hoitava luokka
  * @author Eetu
- * @version 14 Feb 2023
+ * @version 14.02.2023 Tiedoston synty
  */
 public class TulostusController implements ModalControllerInterface<String> {
     
-    @FXML private TextArea tulostusAlue;
+    @FXML TextArea tulostusAlue;
     
     
     /**
@@ -59,6 +59,8 @@ public class TulostusController implements ModalControllerInterface<String> {
         tulostusAlue.setText(oletus);
     }
     
+//===========================================================================================    
+// Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
     /**
      * Näyttää tulostusalueessa tekstin

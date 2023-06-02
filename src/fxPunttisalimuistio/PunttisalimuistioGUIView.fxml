@@ -181,6 +181,7 @@
                      <tooltip>
                         <Tooltip text="Lisää treeniin uuden liikkeen" />
                      </tooltip></Button>
+                  <Button onAction="#handleMuokkaaLiike" text="Muokkaa liikettä" />
                   <Button onAction="#handlePoistaLiike" text="Poista liike">
                      <tooltip>
                         <Tooltip text="Poistetaan kohdalla oleva liike" />
