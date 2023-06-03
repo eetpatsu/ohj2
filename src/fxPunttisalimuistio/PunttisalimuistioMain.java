@@ -3,6 +3,7 @@ package fxPunttisalimuistio;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import punttisalimuistio.Punttisalimuistio;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,9 @@ public class PunttisalimuistioMain extends Application {
             primaryStage.setOnCloseRequest((event) -> {
                 if ( !punttisalimuistioCtrl.voikoSulkea() ) event.consume();
             });
+            
+            Punttisalimuistio muistio = new Punttisalimuistio();
+            punttisalimuistioCtrl.setMuistio(muistio);
             
             primaryStage.show();
             if ( !punttisalimuistioCtrl.avaa() ) Platform.exit();

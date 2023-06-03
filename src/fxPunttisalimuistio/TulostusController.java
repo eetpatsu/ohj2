@@ -55,8 +55,16 @@ public class TulostusController implements ModalControllerInterface<String> {
      */
     @Override
     public void setDefault(String oletus) {
-        if ( oletus == null ) return;
+        // if ( oletus == null ) return;
         tulostusAlue.setText(oletus);
+    }
+    
+    
+    /**
+     * @return alue johon tulostetaan
+     */
+    public TextArea getTextArea() {
+        return tulostusAlue;
     }
     
 //===========================================================================================    
@@ -65,10 +73,13 @@ public class TulostusController implements ModalControllerInterface<String> {
     /**
      * Näyttää tulostusalueessa tekstin
      * @param tulostus tulostettava teskti
+     * @return kontrolleri, jolta voidaan pyytää lisää tietoa
      */
-    public static void tulosta(String tulostus) {
+    public static TulostusController tulosta(String tulostus) {
+        TulostusController tulostusCtrl =
         ModalController.showModeless(TulostusController.class.getResource("TulostusView.fxml"),
                 "Tulostus", tulostus);
+        return tulostusCtrl;
     }
 }
 

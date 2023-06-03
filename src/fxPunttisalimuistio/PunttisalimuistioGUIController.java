@@ -2,6 +2,7 @@ package fxPunttisalimuistio;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -9,12 +10,20 @@ import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
+import punttisalimuistio.Punttisalimuistio;
+import punttisalimuistio.SailoException;
+import punttisalimuistio.Treeni;
 
 /**
  * Luokka muistion käyttöliittymän tapahtumien hoitamiseksi.
@@ -27,11 +36,13 @@ public class PunttisalimuistioGUIController implements Initializable {
     @FXML private ComboBoxChooser<String> cbKentat;
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
+    @FXML private ScrollPane panelTreeni;
+    @FXML private ListChooser<Treeni> chooserTreenit;
     
     
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
-        // TODO Auto-generated method stub 
+        alusta(); 
     }
     
     
@@ -70,7 +81,8 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Tulosta-painike
      */
     @FXML void handleTulosta() {
-        TulostusController.tulosta(null);
+        TulostusController tulostusCtrl = TulostusController.tulosta(null); 
+        tulostaValitut(tulostusCtrl.getTextArea());
     }
     
     
@@ -89,7 +101,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Uusi treeni -painike
      */
     @FXML void handleUusiTreeni() {
-        Dialogs.showMessageDialog("Vielä ei osata lisätä treeniä");
+        uusiTreeni();
     }
     
     
@@ -152,6 +164,26 @@ public class PunttisalimuistioGUIController implements Initializable {
     
 //===========================================================================================    
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
+    
+    private Punttisalimuistio   muistio;
+    private Treeni              treeniKohdalla;
+    private TextArea areaTreeni = new TextArea();
+    
+    
+    /**
+     * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
+     * yksi iso tekstikenttä, johon voidaan tulostaa treenien tiedot.
+     * Alustetaan myös treenilistan kuuntelija 
+     */
+    protected void alusta() {
+        panelTreeni.setContent(areaTreeni);
+        areaTreeni.setFont(new Font("Courier New", 12));
+        panelTreeni.setFitToHeight(true);
+        
+        chooserTreenit.clear();
+        chooserTreenit.addSelectionListener(e -> naytaTreeni());
+    }
+    
     
     /**
      * Aliohjelma ilmestyneen virheilmoituksen näyttämiseen käyttöliittymässä
@@ -217,6 +249,90 @@ public class PunttisalimuistioGUIController implements Initializable {
     public boolean voikoSulkea() {
         tallenna();
         return true;
+    }
+    
+    
+    /**
+     * Näyttää listasta valitun treenin tiedot, tilapäisesti yhteen isoon edit-kenttään
+     */
+    protected void naytaTreeni() {
+        treeniKohdalla = chooserTreenit.getSelectedObject();
+        if (treeniKohdalla == null) return;
+        areaTreeni.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTreeni)) {
+            treeniKohdalla.tulosta(os);
+        }
+    }
+    
+    
+    /**
+     * Hakee treenien tiedot listaan
+     * @param jnro treenin numero, joka aktivoidaan haun jälkeen
+     */
+    protected void hae(int jnro) {
+        chooserTreenit.clear();
+        int index = 0;
+        for (int i = 0; i < muistio.getTreeneja(); i++) {
+            Treeni treeni = muistio.annaTreeni(i);
+            if (treeni.getTunnusNro() == jnro) index = i;
+            chooserTreenit.add(treeni.getPvm(), treeni);
+        }
+        chooserTreenit.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää treenin
+    }
+    
+    
+    /**
+     * Luo uuden treenin jota aletaan editoimaan 
+     */
+    protected void uusiTreeni() {
+        Treeni uusi = new Treeni();
+        uusi.rekisteroi();
+        uusi.vastaaTreeni();
+        try {
+            muistio.lisaa(uusi);
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+            return;
+        }
+        hae(uusi.getTunnusNro());
+    }
+    
+
+    /**
+     * Aseta punttisalimuistio.
+     * @param muistio Punttisalimuistio jota käytetään tässä käyttöliittymässä
+     */
+    public void setMuistio(Punttisalimuistio muistio) {
+        this.muistio = muistio;
+        naytaTreeni();
+    }
+    
+    
+    /**
+     * Tulostaa treenin tiedot
+     * @param os tietovirta johon tulostetaan
+     * @param treeni tulostettava jäsen
+     */
+    public void tulosta(PrintStream os, final Treeni treeni) {
+        os.println("----------------------------------------------");
+        treeni.tulosta(os);
+        os.println("----------------------------------------------");
+    }
+    
+    
+    /**
+     * Tulostaa listassa olevat treenit tekstialueeseen
+     * @param text alue johon tulostetaan
+     */
+    public void tulostaValitut(TextArea text) {
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
+            os.println("Tulostetaan kaikki treenit");
+            for (int i = 0; i < muistio.getTreeneja(); i++) {
+                Treeni treeni = muistio.annaTreeni(i);
+                tulosta(os, treeni);
+                os.println("\n\n");
+            }
+        }
     }
     
     
