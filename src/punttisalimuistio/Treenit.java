@@ -1,6 +1,25 @@
 package punttisalimuistio;
 
 /**
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   Treenit                             | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    | - Treeni          | 
+ * | - pitää yllä varsinaista treenirekisteriä, eli     |                   | 
+ * |   osaa lisätä ja poistaa treenin                   |                   | 
+ * | - lukee ja kirjoittaa treenit.dat -tiedostoon      |                   | 
+ * | - osaa etsiä ja lajitella                          |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |-------------------------------------------------------------------------
  * Punttisalimuistion Treenit-luokka
  * @author Eetu
  * @version 03.06.2023 Tiedoston synty

@@ -3,6 +3,25 @@ package punttisalimuistio;
 import java.io.*;
 
 /**
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   Treeni                              | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    |                   | 
+ * | (- ei tiedä muistiosta, eikä käyttöliittymästä)    |                   | 
+ * | - tietää treenin kentät                            |                   | 
+ * | - osaa tarkistaa tietyn kentän oikeellisuuden      |                   |
+ * |   syntaksin)                                       |                   | 
+ * | - osaa muuttaa 1|09.06.2023|kotikuntosali|60|5|-|  |                   |
+ * |   -merkkijonon treenin tiedoiksi                   |                   | 
+ * | - osaa antaa merkkijonona i:n kentän tiedot        |                   | 
+ * | - osaa laittaa merkkijonon i:neksi kentäksi        |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |                                                    |                   | 
+ * |-------------------------------------------------------------------------
  * Punttisalimuistion Treeni-luokka
  * @author Eetu
  * @version 03.06.2023 Tiedoston synty

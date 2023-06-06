@@ -1,6 +1,25 @@
 package punttisalimuistio;
 
 /**
+ * |-------------------------------------------------------------------------|
+ * | Luokan nimi:   Punttisalimuistio                   | Avustajat:         |
+ * |--------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                    | 
+ * |                                                    | - Treenit          | 
+ * | - huolehtii Treenit ja Liikkeet -luokkien          | - Treeni           | 
+ * |   välisestä yhteistyöstä ja välittää näitä         | - Liikkeet         | 
+ * |   tietoja pyydettäessä                             | - Liike            | 
+ * | - lukee ja kirjoittaa muistion tiedostoihin        |                    |
+ * |   pyytämällä apua avustajiltaan                    |                    |
+ * |                                                    |                    |
+ * |                                                    |                    | 
+ * |                                                    |                    | 
+ * |                                                    |                    | 
+ * |                                                    |                    | 
+ * |                                                    |                    | 
+ * |                                                    |                    | 
+ * |                                                    |                    | 
+ * |--------------------------------------------------------------------------
  * Punttisalimuistio-luokka, joka huolehtii treeneistä.
  * Pääosin kaikki metodit ovat vain "välittäjämetodeja" treeneihin.
  * @author Eetu
