@@ -33,6 +33,7 @@ import punttisalimuistio.Treeni;
  */
 public class PunttisalimuistioGUIController implements Initializable {
     private String kayttaja = "aku";
+    
     @FXML private ComboBoxChooser<String> cbKentat;
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
@@ -167,7 +168,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     private Punttisalimuistio   muistio;
     private Treeni              treeniKohdalla;
-    private TextArea areaTreeni = new TextArea();
+    private TextArea            areaTreeni = new TextArea();
     
     
     /**
@@ -287,7 +288,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     protected void uusiTreeni() {
         Treeni uusi = new Treeni();
         uusi.rekisteroi();
-        uusi.vastaaTreeni();
+        uusi.taytaTreeni();
         try {
             muistio.lisaa(uusi);
         } catch (SailoException e) {

@@ -39,19 +39,30 @@ public class Treeni {
     /**
      * Palauttaa treenin tunnusnumeron.
      * @return treenin tunnusnumero
+     * <pre name="test">
+     *   Treeni tre1 = new Treeni();
+     *   tre1.getTunnusNro() === 0;
+     *   tre1.rekisteroi();
+     *   tre1.getTunnusNro() === 1;
+     *   
+     *   Treeni tre2 = new Treeni();
+     *   tre2.rekisteroi();
+     *   tre2.getTunnusNro() === 2;
+     * </pre>
      */
     public int getTunnusNro() {
-        return tunnusNro;
+        return this.tunnusNro;
     }
     
     
     /**
-     * Palauta pvm
+     * Palauttaa treenin pvm
      * @return treenin päivämäärä
      * <pre name="test">
      *   Treeni tre = new Treeni();
-     *   tre.vastaaTreeni();
-     *   tre.getPvm() =R= "12.06.2023";
+     *   tre.getPvm() === "";
+     *   tre.taytaTreeni();
+     *   tre.getPvm() === "12.06.2023";
      * </pre>
      */
     public String getPvm() {
@@ -61,8 +72,15 @@ public class Treeni {
     
     /**
      * Apumetodi, luo testiarvot treenille.
+     * @example
+     * <pre name="test">
+     *   Treeni tre = new Treeni();
+     *   tre.getPvm() === "";
+     *   tre.taytaTreeni();
+     *   tre.getPvm() === "12.06.2023";
+     * </pre>
      */
-    public void vastaaTreeni() {
+    public void taytaTreeni() {
         this.pvm = "12.06.2023";
         this.sijainti = "kotikuntosali";
         this.kesto = 70;
@@ -101,8 +119,13 @@ public class Treeni {
      *   Treeni tre1 = new Treeni();
      *   tre1.getTunnusNro() === 0;
      *   tre1.rekisteroi();
+     *   tre1.getTunnusNro() === 3;
+     *   
      *   Treeni tre2 = new Treeni();
+     *   tre2.getTunnusNro() === 0;
      *   tre2.rekisteroi();
+     *   tre2.getTunnusNro() === 4;
+     *   
      *   int n1 = tre1.getTunnusNro();
      *   int n2 = tre2.getTunnusNro();
      *   n1 === n2-1;
@@ -123,14 +146,15 @@ public class Treeni {
         Treeni tre = new Treeni(), tre2 = new Treeni();
         tre.rekisteroi();
         tre2.rekisteroi();
+        
         tre.tulosta(System.out);
-        tre.vastaaTreeni();
+        tre.taytaTreeni();
         tre.tulosta(System.out);
 
-        tre2.vastaaTreeni();
+        tre2.taytaTreeni();
         tre2.tulosta(System.out);
 
-        tre2.vastaaTreeni();
+        tre2.taytaTreeni();
         tre2.tulosta(System.out);
     }
 }

@@ -32,6 +32,19 @@ public class Punttisalimuistio {
     /**
      * Palauttaa punttisalimuistioon kirjattujen treenien määrän
      * @return treenien määrä
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni();
+     *   Treeni tre2 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi();
+     *   
+     *   muistio.getTreeneja() === 0;
+     *   muistio.lisaa(tre1); muistio.getTreeneja() === 1;
+     *   muistio.lisaa(tre2); muistio.getTreeneja() === 2;
+     *   muistio.lisaa(tre1); muistio.getTreeneja() === 3;
+     * </pre>
      */
     public int getTreeneja() {
         return treenit.getLkm();
@@ -43,6 +56,20 @@ public class Punttisalimuistio {
      * @param i monesko treeni palautetaan
      * @return viite i:teen treeniin
      * @throws IndexOutOfBoundsException jos i väärin
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni();
+     *   Treeni tre2 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi();
+     *   
+     *   muistio.getTreeneja() === 0;
+     *   muistio.lisaa(tre1); muistio.annaTreeni(0) === tre1;
+     *   muistio.lisaa(tre2); muistio.annaTreeni(1) === tre2;
+     *   muistio.lisaa(tre1); muistio.annaTreeni(2) === tre1;
+     *   muistio.annaTreeni(3) === tre1; #THROWS IndexOutOfBoundsException
+     * </pre>
      */
     public Treeni annaTreeni(int i) throws IndexOutOfBoundsException {
         return treenit.anna(i);
@@ -56,25 +83,26 @@ public class Punttisalimuistio {
      * @example
      * <pre name="test">
      * #THROWS SailoException
-     * Punttisalimuistio punttisalimuistio = new Punttisalimuistio();
-     * Treeni tre1 = new Treeni(), tre2 = new Treeni();
-     * tre1.rekisteroi(); tre2.rekisteroi();
-     * punttisalimuistio.getTreeneja() === 0;
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.getTreeneja() === 1;
-     * punttisalimuistio.lisaa(tre2); punttisalimuistio.getTreeneja() === 2;
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.getTreeneja() === 3;
-     * punttisalimuistio.getTreeneja() === 3;
-     * punttisalimuistio.annaTreeni(0) === tre1;
-     * punttisalimuistio.annaTreeni(1) === tre2;
-     * punttisalimuistio.annaTreeni(2) === tre1;
-     * punttisalimuistio.annaTreeni(3) === tre1; #THROWS IndexOutOfBoundsException 
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.getTreeneja() === 4;
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.getTreeneja() === 5;
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.lisaa(tre2);
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.lisaa(tre2);
-     * punttisalimuistio.lisaa(tre1); punttisalimuistio.lisaa(tre2);
-     * punttisalimuistio.lisaa(tre1);
-     * punttisalimuistio.lisaa(tre1);            #THROWS SailoException
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni();
+     *   Treeni tre2 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi();
+     *   
+     *   muistio.getTreeneja() === 0;
+     *   muistio.lisaa(tre1); muistio.getTreeneja() === 1;
+     *   muistio.lisaa(tre2); muistio.getTreeneja() === 2;
+     *   muistio.lisaa(tre1); muistio.getTreeneja() === 3;
+     *   
+     *   muistio.annaTreeni(0) === tre1;
+     *   muistio.annaTreeni(1) === tre2;
+     *   muistio.annaTreeni(2) === tre1;
+     *   muistio.annaTreeni(3) === tre1; #THROWS IndexOutOfBoundsException
+     *   
+     *   muistio.lisaa(tre1); muistio.lisaa(tre2);
+     *   muistio.lisaa(tre1); muistio.lisaa(tre2);
+     *   muistio.lisaa(tre1); muistio.lisaa(tre2);
+     *   muistio.lisaa(tre1); muistio.lisaa(tre2);
+     *   muistio.lisaa(tre1); muistio.lisaa(tre2); #THROWS SailoException
      * </pre>
      */
     public void lisaa(Treeni treeni) throws SailoException {
@@ -121,12 +149,14 @@ public class Punttisalimuistio {
         try {
             // punttisalimuistio.lueTiedostosta("aku");
             Treeni tre1 = new Treeni(), tre2 = new Treeni();
-            tre1.rekisteroi();
-            tre1.vastaaTreeni();
-            tre2.rekisteroi();
-            tre2.vastaaTreeni();
+            tre1.rekisteroi(); tre2.rekisteroi();
+            
+            tre1.taytaTreeni();
+            tre2.taytaTreeni();
+            
             punttisalimuistio.lisaa(tre1);
             punttisalimuistio.lisaa(tre2);
+            
             System.out.println("============= Punttisalimuistion testi =================");
             for (int i = 0; i < punttisalimuistio.getTreeneja(); i++) {
                 Treeni treeni = punttisalimuistio.annaTreeni(i);

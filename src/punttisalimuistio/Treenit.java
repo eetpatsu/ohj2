@@ -55,25 +55,32 @@ public class Treenit {
      * @example
      * <pre name="test">
      * #THROWS SailoException 
-     * Treenit treenit = new Treenit();
-     * Treeni tre1 = new Treeni(), tre2 = new Treeni();
-     * treenit.getLkm() === 0;
-     * treenit.lisaa(tre1); treenit.getLkm() === 1;
-     * treenit.lisaa(tre2); treenit.getLkm() === 2;
-     * treenit.lisaa(tre1); treenit.getLkm() === 3;
-     * treenit.anna(0) === tre1;
-     * treenit.anna(1) === tre2;
-     * treenit.anna(2) === tre1;
-     * treenit.anna(1) == tre1 === false;
-     * treenit.anna(1) == tre2 === true;
-     * treenit.anna(3) === tre1; #THROWS IndexOutOfBoundsException 
-     * treenit.lisaa(tre1); treenit.getLkm() === 4;
-     * treenit.lisaa(tre1); treenit.getLkm() === 5;
-     * treenit.lisaa(tre1); treenit.lisaa(tre2);
-     * treenit.lisaa(tre1); treenit.lisaa(tre2);
-     * treenit.lisaa(tre1); treenit.lisaa(tre2);
-     * treenit.lisaa(tre1);
-     * treenit.lisaa(tre2);  #THROWS SailoException
+     *   Treenit treenit = new Treenit();
+     *   Treeni tre1 = new Treeni();
+     *   Treeni tre2 = new Treeni();
+     *   
+     *   treenit.getLkm() === 0;
+     *   treenit.lisaa(tre1); treenit.getLkm() === 1;
+     *   treenit.lisaa(tre2); treenit.getLkm() === 2;
+     *   treenit.lisaa(tre1); treenit.getLkm() === 3;
+     *   
+     *   treenit.anna(0) === tre1;
+     *   treenit.anna(1) === tre2;
+     *   treenit.anna(2) === tre1;
+     *   treenit.anna(1) == tre1 === false;
+     *   treenit.anna(1) == tre2 === true;
+     *   treenit.anna(3) === tre1; #THROWS IndexOutOfBoundsException 
+     *   
+     *   treenit.lisaa(tre1); treenit.getLkm() === 4;
+     *   treenit.lisaa(tre1); treenit.getLkm() === 5;
+     *   
+     *   treenit.lisaa(tre1); treenit.lisaa(tre2);
+     *   treenit.lisaa(tre1); treenit.lisaa(tre2);
+     *   treenit.lisaa(tre1); treenit.lisaa(tre2);
+     *   treenit.lisaa(tre1);
+     *   treenit.getLkm() === 12;
+     *   treenit.lisaa(tre2);  #THROWS SailoException
+     *   treenit.getLkm() === 12;
      * </pre>
      */
     public void lisaa(Treeni treeni) throws SailoException {
@@ -87,7 +94,26 @@ public class Treenit {
      * Palauttaa viitteen i:teen treeniin.
      * @param i monennenko treenin viite halutaan
      * @return viite treeniin, jonka indeksi on i
-     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella  
+     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     *   Treenit treenit = new Treenit();
+     *   Treeni tre1 = new Treeni();
+     *   Treeni tre2 = new Treeni();
+     *   
+     *   treenit.getLkm() === 0;
+     *   treenit.lisaa(tre1); treenit.getLkm() === 1;
+     *   treenit.lisaa(tre2); treenit.getLkm() === 2;
+     *   treenit.lisaa(tre1); treenit.getLkm() === 3;
+     *   
+     *   treenit.anna(0) === tre1;
+     *   treenit.anna(1) === tre2;
+     *   treenit.anna(2) === tre1;
+     *   treenit.anna(1) == tre1 === false;
+     *   treenit.anna(1) == tre2 === true;
+     *   treenit.anna(3) === tre1; #THROWS IndexOutOfBoundsException 
+     * </pre>
      */
     public Treeni anna(int i) throws IndexOutOfBoundsException {
         if (i < 0 || this.lkm <= i)
@@ -124,9 +150,9 @@ public class Treenit {
         Treenit treenit = new Treenit();
         Treeni tre = new Treeni(), tre2 = new Treeni();
         tre.rekisteroi();
-        tre.vastaaTreeni();
+        tre.taytaTreeni();
         tre2.rekisteroi();
-        tre2.vastaaTreeni();
+        tre2.taytaTreeni();
         try {
             treenit.lisaa(tre);
             treenit.lisaa(tre2);
