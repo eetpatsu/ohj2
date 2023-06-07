@@ -26,6 +26,25 @@ import punttisalimuistio.SailoException;
 import punttisalimuistio.Treeni;
 
 /**
+ * |--------------------------------------------------------------------------|
+ * | Luokan nimi:   Naytto                              | Avustajat:          |
+ * |---------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                     | 
+ * |                                                    | - Punttisalimuistio | 
+ * | - hoitaa kaiken näyttöön tulevan tekstin           | - Treeni            | 
+ * | - hoitaa kaiken tiedon pyytämisen käyttäjältä      | - Liike             | 
+ * | (- ei tiedä punttisalimuistion yksityiskohtia)     |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |                                                    |                     | 
+ * |---------------------------------------------------------------------------
  * Luokka muistion käyttöliittymän tapahtumien hoitamiseksi.
  * @author Eetu
  * @version 14.02.2023 Tiedoston synty
@@ -201,10 +220,6 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
     
-    /**
-     * Aseta ohjelmalle nimi
-     * @param title ohjelmalle laitettava nimi
-     */
     private void setTitle(String title) {
         ModalController.getStage(hakuehto).setTitle(title);
     }
@@ -268,14 +283,14 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     /**
      * Hakee treenien tiedot listaan
-     * @param jnro treenin numero, joka aktivoidaan haun jälkeen
+     * @param tnro treenin numero, joka aktivoidaan haun jälkeen
      */
-    protected void hae(int jnro) {
+    protected void hae(int tnro) {
         chooserTreenit.clear();
         int index = 0;
         for (int i = 0; i < muistio.getTreeneja(); i++) {
             Treeni treeni = muistio.annaTreeni(i);
-            if (treeni.getTunnusNro() == jnro) index = i;
+            if (treeni.getTunnusNro() == tnro) index = i;
             chooserTreenit.add(treeni.getPvm(), treeni);
         }
         chooserTreenit.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää treenin

@@ -164,7 +164,7 @@ public class Punttisalimuistio {
                 treeni.tulosta(System.out);
             }
         } catch (SailoException ex) {
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
         }
     }
 }
