@@ -103,7 +103,7 @@ public class Treeni {
     
     
     /**
-     * Tulostetaan treenin tiedot
+     * Tulostetaan liikkeen tiedot
      * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {

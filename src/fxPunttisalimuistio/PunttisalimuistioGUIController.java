@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
@@ -21,6 +22,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import punttisalimuistio.Liike;
 import punttisalimuistio.Punttisalimuistio;
 import punttisalimuistio.SailoException;
 import punttisalimuistio.Treeni;
@@ -145,7 +147,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Lisää liike -painike
      */
     @FXML void handleUusiLiike() {
-        Dialogs.showMessageDialog("Ei osata vielä lisätä liikettä");
+        uusiLiike();
     }
     
     
@@ -276,7 +278,7 @@ public class PunttisalimuistioGUIController implements Initializable {
         if (treeniKohdalla == null) return;
         areaTreeni.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTreeni)) {
-            treeniKohdalla.tulosta(os);
+            tulosta(os,treeniKohdalla);
         }
     }
     
@@ -313,6 +315,19 @@ public class PunttisalimuistioGUIController implements Initializable {
         hae(uusi.getTunnusNro());
     }
     
+    
+    /**
+     * Tekee uuden tyhjän liikkeen editointia varten
+     */
+    public void uusiLiike() {
+        if (treeniKohdalla == null) return;
+        Liike lii = new Liike();
+        lii.rekisteroi();
+        lii.taytaLiike(treeniKohdalla.getTunnusNro());
+        muistio.lisaa(lii);
+        hae(treeniKohdalla.getTunnusNro());
+    }
+    
 
     /**
      * Aseta punttisalimuistio.
@@ -333,6 +348,10 @@ public class PunttisalimuistioGUIController implements Initializable {
         os.println("----------------------------------------------");
         treeni.tulosta(os);
         os.println("----------------------------------------------");
+        List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
+        for (Liike lii : liikkeet) {
+            lii.tulosta(os);
+        }
     }
     
     

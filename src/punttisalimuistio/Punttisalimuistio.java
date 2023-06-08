@@ -1,5 +1,7 @@
 package punttisalimuistio;
 
+import java.util.List;
+
 /**
  * |-------------------------------------------------------------------------|
  * | Luokan nimi:   Punttisalimuistio                   | Avustajat:         |
@@ -23,10 +25,12 @@ package punttisalimuistio;
  * Punttisalimuistio-luokka, joka huolehtii treeneistä.
  * Pääosin kaikki metodit ovat vain "välittäjämetodeja" treeneihin.
  * @author Eetu
- * @version 03.06.2023
+ * @version 03.06.2023 Tiedoston synty
+ * @version 08.06.2023 Liikkeet ja Liike mukaan
  */
 public class Punttisalimuistio {
     private final Treenit treenit = new Treenit();
+    private final Liikkeet liikkeet = new Liikkeet();
     
     
     /**
@@ -77,8 +81,43 @@ public class Punttisalimuistio {
     
     
     /**
-     * Lisää punttisalimuistioon uuden jäsenen
-     * @param treeni lisättävä jäsen
+     * Haetaan kaikki treenin liikkeet
+     * @param treeni minkä treenin liikkeet haetaan
+     * @return tietorakenne jossa viitteet löydettyihin harrastuksiin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi();
+     *   int id1 = tre1.getTunnusNro();
+     *   int id2 = tre2.getTunnusNro();
+     *   Liike lii11 = new Liike(id1); muistio.lisaa(lii11);
+     *   Liike lii12 = new Liike(id1); muistio.lisaa(lii12);
+     *   Liike lii21 = new Liike(id2); muistio.lisaa(lii21);
+     *   Liike lii22 = new Liike(id2); muistio.lisaa(lii22);
+     *   Liike lii23 = new Liike(id2); muistio.lisaa(lii23);
+     *   
+     *   List<Liike> loytyneet;
+     *   loytyneet = muistio.annaLiikkeet(tre3);
+     *   loytyneet.size() === 0; 
+     *   loytyneet = muistio.annaLiikkeet(tre1);
+     *   loytyneet.size() === 2; 
+     *   loytyneet.get(0) == lii11 === true;
+     *   loytyneet.get(1) == lii12 === true;
+     *   loytyneet = muistio.annaLiikkeet(tre2);
+     *   loytyneet.size() === 3; 
+     *   loytyneet.get(0) == lii21 === true;
+     * </pre>
+     */
+    public List<Liike> annaLiikkeet(Treeni treeni) {
+        return liikkeet.annaLiikkeet(treeni.getTunnusNro());
+    }
+    
+    
+    /**
+     * Lisää punttisalimuistioon uuden treenin
+     * @param treeni lisättävä treeni
      * @throws SailoException jos lisäystä ei voida tehdä
      * @example
      * <pre name="test">
@@ -111,6 +150,15 @@ public class Punttisalimuistio {
     
     
     /**
+     * Lisää punttisalimuistioon uuden liikkeen
+     * @param liike lisättävä liike
+     */
+    public void lisaa(Liike liike) {
+        liikkeet.lisaa(liike);
+    }
+    
+    
+    /**
      * Poistaa treeneistä ja liikkeistä ne joilla on nro. Kesken.
      * @param nro viitenumero, jonka mukaan poistetaan
      * @return montako treeniä poistettiin
@@ -127,15 +175,17 @@ public class Punttisalimuistio {
      */
     public void lueTiedostosta(String nimi) throws SailoException {
         treenit.lueTiedostosta(nimi);
+        liikkeet.lueTiedostosta(nimi);
     }
-
-
+    
+    
     /**
      * Tallettaa punttisalimuistion tiedot tiedostoon
      * @throws SailoException jos tallettamisessa ongelmia
      */
     public void talleta() throws SailoException {
         treenit.talleta();
+        liikkeet.talleta();
         // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
     }
     
@@ -145,23 +195,35 @@ public class Punttisalimuistio {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Punttisalimuistio punttisalimuistio = new Punttisalimuistio();
+        Punttisalimuistio muistio = new Punttisalimuistio();
         try {
             // punttisalimuistio.lueTiedostosta("aku");
             Treeni tre1 = new Treeni(), tre2 = new Treeni();
-            tre1.rekisteroi(); tre2.rekisteroi();
-            
+            tre1.rekisteroi();
+            tre2.rekisteroi();
             tre1.taytaTreeni();
             tre2.taytaTreeni();
             
-            punttisalimuistio.lisaa(tre1);
-            punttisalimuistio.lisaa(tre2);
+            muistio.lisaa(tre1);
+            muistio.lisaa(tre2);
+            int id1 = tre1.getTunnusNro();
+            int id2 = tre2.getTunnusNro();
+            
+            Liike lii11 = new Liike(id1); lii11.taytaLiike(id1); muistio.lisaa(lii11);
+            Liike lii12 = new Liike(id1); lii11.taytaLiike(id1); muistio.lisaa(lii12);
+            Liike lii21 = new Liike(id2); lii21.taytaLiike(id2); muistio.lisaa(lii21);
+            Liike lii22 = new Liike(id2); lii22.taytaLiike(id2); muistio.lisaa(lii22);
+            Liike lii23 = new Liike(id2); lii23.taytaLiike(id2); muistio.lisaa(lii23);
             
             System.out.println("============= Punttisalimuistion testi =================");
-            for (int i = 0; i < punttisalimuistio.getTreeneja(); i++) {
-                Treeni treeni = punttisalimuistio.annaTreeni(i);
+            for (int i = 0; i < muistio.getTreeneja(); i++) {
+                Treeni treeni = muistio.annaTreeni(i);
                 System.out.println("Treeni paikassa: " + i);
                 treeni.tulosta(System.out);
+                List<Liike> loytyneet = muistio.annaLiikkeet(treeni);
+                for (Liike liike : loytyneet) {
+                    liike.tulosta(System.out);
+                }
             }
         } catch (SailoException ex) {
             System.err.println(ex.getMessage());
