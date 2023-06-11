@@ -47,21 +47,25 @@ import punttisalimuistio.Treeni;
  * |                                                    |                     | 
  * |                                                    |                     | 
  * |---------------------------------------------------------------------------
- * Luokka muistion käyttöliittymän tapahtumien hoitamiseksi.
+ * Luokka muistion pääkäyttöliittymän tapahtumien hoitamiseen.
  * @author Eetu
- * @version 14.02.2023 Tiedoston synty
- * @version 30.05.2023 Uudistuksia
+ * @version 0.3, 14.02.2023 Tiedoston synty
+ * @version 0.4, 30.05.2023 Uudistuksia
+ * @version 0.5, 09.06.2023 Treenit ja Liikkeet
  */
 public class PunttisalimuistioGUIController implements Initializable {
     private String kayttaja = "aku";
     
-    @FXML private ComboBoxChooser<String> cbKentat;
-    @FXML private TextField hakuehto;
-    @FXML private Label labelVirhe;
-    @FXML private ScrollPane panelTreeni;
-    @FXML private ListChooser<Treeni> chooserTreenit;
+    @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
+    @FXML private TextField hakuehto;                       // Hakuehto-kenttä
+    @FXML private Label labelVirhe;                         // Virheilmoitus-kenttä
+    @FXML private ScrollPane panelTreeni;                   // Treenin tiedot -paneeli
+    @FXML private ListChooser<Treeni> chooserTreenit;       // Treenit-lista
     
     
+    /**
+     * Kontrollerin alustus
+     */
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         alusta(); 
@@ -81,7 +85,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
 //===========================================================================================    
-// Tiedosto
+// Tiedosto-menu
     
     /**
      * Tallenna-painike
@@ -117,7 +121,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
 //===========================================================================================    
-// Muokkaa
+// Muokkaa-menu
     
     /**
      * Uusi treeni -painike
@@ -167,7 +171,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
 //===========================================================================================    
-// Apua
+// Apua-menu
     
     /**
      * Apua-painike
@@ -186,10 +190,11 @@ public class PunttisalimuistioGUIController implements Initializable {
     
 //===========================================================================================    
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
+//=========================================================================================== 
     
-    private Punttisalimuistio   muistio;
-    private Treeni              treeniKohdalla;
-    private TextArea            areaTreeni = new TextArea();
+    private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
+    private Treeni              treeniKohdalla;                 // Tynkä Treeni-olioviite
+    private TextArea            areaTreeni = new TextArea();    // Tynkä TextArea-olioviite
     
     
     /**
@@ -222,6 +227,10 @@ public class PunttisalimuistioGUIController implements Initializable {
     }
     
     
+    /**
+     * Aseta ohjelmaikkunalle nimi
+     * @param title
+     */
     private void setTitle(String title) {
         ModalController.getStage(hakuehto).setTitle(title);
     }

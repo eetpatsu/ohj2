@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 /**
  * Pääohjelma Punttisalimuistio-ohjelman käynnistämiseksi
  * @author Eetu
- * @version 14.02.2023 Tiedoston synty
+ * @version 0.3, 14.02.2023 Tiedoston synty
  */
 public class PunttisalimuistioMain extends Application {
     @Override

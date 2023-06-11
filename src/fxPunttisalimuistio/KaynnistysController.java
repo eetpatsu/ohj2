@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 /**
  * Luokka muistion käynnistysikkunaa varten
  * @author Eetu
- * @version 14.2.2023 Tiedoston synty
- * @version 02.06.2023 Uudistus
+ * @version 0.3, 14.2.2023 Tiedoston synty
+ * @version 0.4, 02.06.2023 Uudistuksia
  */
 public class KaynnistysController implements ModalControllerInterface<String>  {
     

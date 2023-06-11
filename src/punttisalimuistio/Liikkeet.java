@@ -24,11 +24,11 @@ import java.util.*;
  * |-------------------------------------------------------------------------
  * Punttisalimuistion Liikkeet-luokka
  * @author Eetu
- * @version 07.06.2023
+ * @version 0.5, 07.06.2023 Tiedoston synty
  */
 public class Liikkeet implements Iterable<Liike>  {
     private String                      tiedostoNimi = "";
-    private final Collection<Liike>     alkiot        = new ArrayList<Liike>();
+    private final Collection<Liike>     alkiot       = new ArrayList<Liike>();
     
     
     /**
@@ -117,7 +117,7 @@ public class Liikkeet implements Iterable<Liike>  {
     
     
     /**
-     * Haetaan kaikki treeni liikkeet
+     * Haetaan kaikki treenin liikkeet
      * @param tunnusnro treenin tunnusnumero jolle liikkeitä haetaan
      * @return tietorakenne jossa viiteet löydettyihin liikkeisiin
      * @example

@@ -25,16 +25,16 @@ import static kanta.Apu.rand;
  * |-------------------------------------------------------------------------
  * Punttisalimuistion Liike-luokka
  * @author Eetu
- * @version 07.06.2023 Tiedoston synty
+ * @version 0.5, 07.06.2023 Tiedoston synty
  */
 public class Liike {
-    private int        tunnusNro;
-    private int        treeniNro;
-    private String     liikkeenNimi     = "";
-    private int        paino;
-    private int        sarjat;
-    private int        toistot;
-    private static int seuraavaNro      = 1;
+    private int        tunnusNro;               // liikkeen id
+    private int        treeniNro;               // treenin id
+    private String     liikkeenNimi     = "";   // minkä niminen liike
+    private int        paino;                   // millä painoilla
+    private int        sarjat;                  // montako sarjaa
+    private int        toistot;                 // montako kertaa toistettiin
+    private static int seuraavaNro      = 1;    // seuraavan liikkeen id
     
     
     /**
@@ -91,7 +91,7 @@ public class Liike {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(liikkeenNimi + " " + paino + " " + sarjat + " " + toistot);
+        out.println(liikkeenNimi + " " + paino + "kg " + sarjat + " x " + toistot);
     }
     
     

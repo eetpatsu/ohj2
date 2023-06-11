@@ -22,15 +22,15 @@ import java.util.List;
  * |                                                    |                    | 
  * |                                                    |                    | 
  * |--------------------------------------------------------------------------
- * Punttisalimuistio-luokka, joka huolehtii treeneistä.
- * Pääosin kaikki metodit ovat vain "välittäjämetodeja" treeneihin.
+ * Punttisalimuistio-luokka, joka huolehtii treeneistä ja liikkeistä.
+ * Pääosin kaikki metodit ovat vain "välittäjämetodeja".
  * @author Eetu
- * @version 03.06.2023 Tiedoston synty
- * @version 08.06.2023 Liikkeet ja Liike mukaan
+ * @version 0.4, 03.06.2023 Tiedoston synty
+ * @version 0.5, 08.06.2023 Liikkeet ja Liike mukaan
  */
 public class Punttisalimuistio {
-    private final Treenit treenit = new Treenit();
-    private final Liikkeet liikkeet = new Liikkeet();
+    private final Treenit treenit = new Treenit();              // Treenit-olioviite
+    private final Liikkeet liikkeet = new Liikkeet();           // Liikkeet-olioviite
     
     
     /**
@@ -108,6 +108,8 @@ public class Punttisalimuistio {
      *   loytyneet = muistio.annaLiikkeet(tre2);
      *   loytyneet.size() === 3; 
      *   loytyneet.get(0) == lii21 === true;
+     *   loytyneet.get(1) == lii22 === true;
+     *   loytyneet.get(2) == lii23 === true;
      * </pre>
      */
     public List<Liike> annaLiikkeet(Treeni treeni) {
@@ -152,6 +154,33 @@ public class Punttisalimuistio {
     /**
      * Lisää punttisalimuistioon uuden liikkeen
      * @param liike lisättävä liike
+     * <pre name="test">
+     * #import java.util.*;
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi();
+     *   int id1 = tre1.getTunnusNro();
+     *   int id2 = tre2.getTunnusNro();
+     *   Liike lii11 = new Liike(id1); muistio.lisaa(lii11);
+     *   Liike lii12 = new Liike(id1); muistio.lisaa(lii12);
+     *   Liike lii21 = new Liike(id2); muistio.lisaa(lii21);
+     *   Liike lii22 = new Liike(id2); muistio.lisaa(lii22);
+     *   Liike lii23 = new Liike(id2); muistio.lisaa(lii23);
+     *   
+     *   List<Liike> loytyneet;
+     *   loytyneet = muistio.annaLiikkeet(tre3);
+     *   loytyneet.size() === 0; 
+     *   loytyneet = muistio.annaLiikkeet(tre1);
+     *   loytyneet.size() === 2; 
+     *   loytyneet.get(0) == lii11 === true;
+     *   loytyneet.get(1) == lii12 === true;
+     *   loytyneet = muistio.annaLiikkeet(tre2);
+     *   loytyneet.size() === 3; 
+     *   loytyneet.get(0) == lii21 === true;
+     *   loytyneet.get(0) == lii21 === true;
+     *   loytyneet.get(1) == lii22 === true;
+     *   loytyneet.get(2) == lii23 === true;
+     * </pre>
      */
     public void lisaa(Liike liike) {
         liikkeet.lisaa(liike);

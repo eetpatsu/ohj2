@@ -1,5 +1,7 @@
 package punttisalimuistio;
 
+import static kanta.Apu.rand;
+
 import java.io.*;
 
 /**
@@ -24,16 +26,24 @@ import java.io.*;
  * |-------------------------------------------------------------------------
  * Punttisalimuistion Treeni-luokka
  * @author Eetu
- * @version 03.06.2023 Tiedoston synty
+ * @version 0.5, 03.06.2023 Tiedoston synty
  */
 public class Treeni {
-    private int        tunnusNro;
-    private String     pvm              = "";
-    private String     sijainti         = "";
-    private int        kesto;
-    private int        fiilikset;
-    private String     muistiinpanot;
-    private static int seuraavaNro      = 1;
+    private int        tunnusNro;               // liikkeen id
+    private String     pvm              = "";   // treenin päivämäärä
+    private String     sijainti         = "";   // missä tapahtui
+    private int        kesto;                   // kuinka kauan kesti minuuteissa
+    private int        fiilikset;               // fiilikset 1-5 asteikolla
+    private String     muistiinpanot;           // tärkeitä pohdintoja
+    private static int seuraavaNro      = 1;    // seuraavan treenin id
+    
+    
+    /**
+     * Oletusmuodostaja
+     */
+    public Treeni() {
+        // Vielä ei tarvita mitään
+    }
     
     
     /**
@@ -81,10 +91,11 @@ public class Treeni {
      * </pre>
      */
     public void taytaTreeni() {
+        String[] sijainteja = {"kotikuntosali","ulkokuntosali","yksityinen kuntosali"};
         this.pvm = "12.06.2023";
-        this.sijainti = "kotikuntosali";
-        this.kesto = 70;
-        this.fiilikset = 3;
+        this.sijainti = sijainteja[rand(0,2)];
+        this.kesto = rand(20,90);
+        this.fiilikset = rand(1,5);
         this.muistiinpanot = "lisää painoja";
     }
     
@@ -96,14 +107,14 @@ public class Treeni {
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro, 3) + "        pvm: " + pvm);
         out.println("      " + "sijainti: " + sijainti);
-        out.println("         " + "kesto: " + kesto);
+        out.println("         " + "kesto: " + kesto + " min");
         out.println("     " + "fiilikset: " + fiilikset);
         out.println(" " + "muistiinpanot: " + muistiinpanot);
     }
     
     
     /**
-     * Tulostetaan liikkeen tiedot
+     * Tulostetaan treenin tiedot
      * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {

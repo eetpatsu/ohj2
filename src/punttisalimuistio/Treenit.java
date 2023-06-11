@@ -22,11 +22,11 @@ package punttisalimuistio;
  * |-------------------------------------------------------------------------
  * Punttisalimuistion Treenit-luokka
  * @author Eetu
- * @version 03.06.2023 Tiedoston synty
+ * @version 0.5, 03.06.2023 Tiedoston synty
  */
 public class Treenit {
-    private static final int MAX_TREENEJA   = 12;
-    private int              lkm            = 0;
+    private static final int MAX_TREENEJA   = 12;                       // Treenien lkm yläraja
+    private int              lkm            = 0;                        // Montako treeniä kirjattu
     private String           tiedostoNimi   = "";
     private Treeni           alkiot[]       = new Treeni[MAX_TREENEJA];
     

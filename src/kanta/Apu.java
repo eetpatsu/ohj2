@@ -3,7 +3,7 @@ package kanta;
 /**
  * Luokka sekalaisille aliohjelmille
  * @author Eetu
- * @version 07.06.2023
+ * @version 0.5, 07.06.2023 Tiedoston synty
  */
 public class Apu {
     
