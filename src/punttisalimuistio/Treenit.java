@@ -1,5 +1,8 @@
 package punttisalimuistio;
 
+import java.io.*;
+import java.util.Scanner;
+
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Treenit                             | Avustajat:        |
@@ -123,22 +126,52 @@ public class Treenit {
     
     
     /**
-     * Lukee treenit tiedostosta.  Kesken.
+     * Lukee treenit tiedostosta.
      * @param hakemisto tiedoston hakemisto
      * @throws SailoException jos lukeminen epäonnistuu
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
-        tiedostoNimi = hakemisto + "/treenit.dat";
-        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostoNimi);
+        // tiedostoNimi = hakemisto + "/treenit.dat";
+        String nimi = hakemisto + "/treenit.dat";
+        File ftied = new File(nimi);
+        
+        try (Scanner fi = new Scanner(new FileInputStream(ftied))) { // Jotta UTF8/ISO-8859 toimii'
+            while ( fi.hasNext() ) {
+                String s = fi.nextLine();
+                if ( s == null || "".equals(s) || s.charAt(0) == ';') continue;
+                Treeni treeni = new Treeni();
+                treeni.parse(s); // kertoisi onnistumista ???
+                lisaa(treeni);
+            }
+        } catch ( FileNotFoundException e ) {
+            throw new SailoException("Ei saa luettua tiedostoa " + nimi);
+        // } catch ( IOException e ) {
+        //     throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }        
     }
 
 
     /**
-     * Tallentaa treenit tiedostoon.  Kesken.
+     * Tallentaa treenit tiedostoon.
+     * Tiedoston muoto:
+     * <pre>
+     * 1|09.06.2023|kotikuntosali|60|5|-|
+     * 2|10.06.2023|ulkokuntosali|50|1|jatkossa juotavaa|
+     * 3|12.06.2023|kotikuntosali|70|3|lisää painoja|
+     * </pre>
+     * @param hakemisto tallennettavan tiedoston hakemisto
      * @throws SailoException jos talletus epäonnistuu
      */
-    public void talleta() throws SailoException {
-        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostoNimi);
+    public void talleta(String hakemisto) throws SailoException {
+        File ftied = new File(hakemisto + "/treenit.dat");
+        try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
+            for (int i=0; i < getLkm(); i++) {
+                Treeni treeni = anna(i);
+                fo.println(treeni.toString());
+            }
+        } catch (FileNotFoundException ex) {
+                throw new SailoException("Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
+        }
     }
     
     
@@ -148,21 +181,32 @@ public class Treenit {
      */
     public static void main(String args[]) {
         Treenit treenit = new Treenit();
-        Treeni tre = new Treeni(), tre2 = new Treeni();
-        tre.rekisteroi();
-        tre.taytaTreeni();
+        Treeni tre1 = new Treeni();
+        Treeni tre2 = new Treeni();
+        tre1.rekisteroi();
+        tre1.taytaTreeni();
         tre2.rekisteroi();
         tre2.taytaTreeni();
         try {
-            treenit.lisaa(tre);
+            treenit.lisaa(tre1);
             treenit.lisaa(tre2);
-            System.out.println("============= Treenit testi =================");
-            for (int i = 0; i < treenit.getLkm(); i++) {
-                Treeni treeni = treenit.anna(i);
-                System.out.println("Treeni nro: " + i);
-                treeni.tulosta(System.out);
-            }
         } catch (SailoException ex) {
+            System.err.println(ex.getMessage());
+        } catch (IndexOutOfBoundsException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+        System.out.println("============= Treenit testi =================");
+        for (int i = 0; i < treenit.getLkm(); i++) {
+            Treeni treeni = treenit.anna(i);
+            System.out.println("Treeni nro: " + i);
+            treeni.tulosta(System.out);
+        }
+        
+        try {
+            treenit.talleta("aku");
+        } catch (SailoException ex) {
+            // ex.printStackTrace();
             System.err.println(ex.getMessage());
         }
     }
