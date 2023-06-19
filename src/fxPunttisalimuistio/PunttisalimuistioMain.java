@@ -36,8 +36,8 @@ public class PunttisalimuistioMain extends Application {
             
             primaryStage.show();
             if ( !punttisalimuistioCtrl.avaa() ) Platform.exit();
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch(Exception ex) {
+            ex.printStackTrace();
         }
     }
     

@@ -87,7 +87,7 @@
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hakuehto" />
                         <ComboBoxChooser fx:id="cbKentat" maxWidth="200.0" onAction="#handleHakuehto" rivit="pvm&#10;sijainti&#10;kesto&#10;fiilikset&#10;muistiinpanot" />
-                        <TextField fx:id="hakuehto" text="*.06.2023" />
+                        <TextField fx:id="hakuehto" onKeyReleased="#handleHakuehto"/>
                         <Label alignment="CENTER" maxWidth="300.0" text="Treenit" />
                      </children>
                   </VBox>

@@ -1,32 +1,21 @@
 package punttisalimuistio;
 
-import static kanta.Apu.rand;
-
+import static kanta.Apu.*;
 import java.io.*;
+import fi.jyu.mit.ohj2.Mjonot;
 
 /**
- * |------------------------------------------------------------------------|
- * | Luokan nimi:   Treeni                              | Avustajat:        |
- * |-------------------------------------------------------------------------
- * | Vastuualueet:                                      |                   | 
- * |                                                    |                   | 
- * | (- ei tiedä muistiosta, eikä käyttöliittymästä)    |                   | 
- * | - tietää treenin kentät                            |                   | 
- * | - osaa tarkistaa tietyn kentän oikeellisuuden      |                   |
- * |   syntaksin)                                       |                   | 
- * | - osaa muuttaa 1|09.06.2023|kotikuntosali|60|5|-|  |                   |
- * |   -merkkijonon treenin tiedoiksi                   |                   | 
- * | - osaa antaa merkkijonona i:n kentän tiedot        |                   | 
- * | - osaa laittaa merkkijonon i:neksi kentäksi        |                   | 
- * |                                                    |                   | 
- * |                                                    |                   | 
- * |                                                    |                   | 
- * |                                                    |                   | 
- * |                                                    |                   | 
- * |-------------------------------------------------------------------------
+ * Avustajat: -
+ * Vastuualueet: Ei tiedä muistiosta, eikä käyttöliittymästä.
+ * Tietää treenin kentät ja osaa tarkistaa tietyn kentän syntaksin oikeellisuuden.
+ * Osaa muuttaa "1|09.06.2023|kotikuntosali|60|5|-" -merkkijonon treenin tiedoiksi. 
+ * Osaa antaa merkkijonona i:n kentän tiedot 
+ * ja osaa laittaa merkkijonon i:neksi kentäksi.
+ * 
  * Punttisalimuistion Treeni-luokka
  * @author Eetu
  * @version 0.5, 03.06.2023 Tiedoston synty
+ * @version 0.6, 13.06.2023 Tiedostonkäsittely
  */
 public class Treeni {
     private int        tunnusNro;               // liikkeen id
@@ -42,22 +31,20 @@ public class Treeni {
      * Oletusmuodostaja
      */
     public Treeni() {
-        // Vielä ei tarvita mitään
+        // Attribuutit jo alustettu
     }
     
     
     /**
      * Palauttaa treenin tunnusnumeron.
      * @return treenin tunnusnumero
+     * @example
      * <pre name="test">
      *   Treeni tre1 = new Treeni();
      *   tre1.getTunnusNro() === 0;
      *   tre1.rekisteroi();
-     *   tre1.getTunnusNro() === 1;
-     *   
-     *   Treeni tre2 = new Treeni();
-     *   tre2.rekisteroi();
-     *   tre2.getTunnusNro() === 2;
+     *   int n1 = tre1.getTunnusNro();
+     *   n1 > 0 && n1+1 == tre1.getSeuraavaNro() === true;
      * </pre>
      */
     public int getTunnusNro() {
@@ -68,11 +55,27 @@ public class Treeni {
     /**
      * Palauttaa treenin pvm
      * @return treenin päivämäärä
+     * @example
      * <pre name="test">
-     *   Treeni tre = new Treeni();
-     *   tre.getPvm() === "";
-     *   tre.taytaTreeni();
-     *   tre.getPvm() === "12.06.2023";
+     *   Treeni tre1 = new Treeni();
+     *   tre1.rekisteroi();
+     *   tre1.getSeuraavaNro() == 1 + tre1.getTunnusNro() === true;
+     * </pre>
+     */
+    public int getSeuraavaNro() {
+        return seuraavaNro;
+    }
+    
+    
+    /**
+     * Palauttaa treenin pvm
+     * @return treenin päivämäärä
+     * @example
+     * <pre name="test">
+     *   Treeni tre1 = new Treeni();
+     *   tre1.getPvm() === "";
+     *   tre1.taytaTreeni();
+     *   tre1.getPvm() === "12.06.2023";
      * </pre>
      */
     public String getPvm() {
@@ -81,13 +84,26 @@ public class Treeni {
     
     
     /**
+     * Asettaa tunnusnumeron ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+     * @param nro asetettava tunnusnumero
+     */
+    private void setTunnusNro(int nro) {
+        this.tunnusNro = nro;
+        if (this.tunnusNro >= seuraavaNro) {
+            seuraavaNro = this.tunnusNro + 1;
+        }
+    }
+    
+    
+    /**
      * Apumetodi, luo testiarvot treenille.
      * @example
      * <pre name="test">
-     *   Treeni tre = new Treeni();
-     *   tre.getPvm() === "";
-     *   tre.taytaTreeni();
-     *   tre.getPvm() === "12.06.2023";
+     *   Treeni tre1 = new Treeni();
+     *   tre1.getPvm() === "";
+     *   tre1.taytaTreeni();
+     *   tre1.getPvm() === "12.06.2023";
      * </pre>
      */
     public void taytaTreeni() {
@@ -130,22 +146,71 @@ public class Treeni {
      *   Treeni tre1 = new Treeni();
      *   tre1.getTunnusNro() === 0;
      *   tre1.rekisteroi();
-     *   tre1.getTunnusNro() === 3;
-     *   
+     *   int n1 = tre1.getTunnusNro();
+     *   n1 > 0 && n1+1 == tre1.getSeuraavaNro() === true;
      *   Treeni tre2 = new Treeni();
      *   tre2.getTunnusNro() === 0;
      *   tre2.rekisteroi();
-     *   tre2.getTunnusNro() === 4;
-     *   
-     *   int n1 = tre1.getTunnusNro();
      *   int n2 = tre2.getTunnusNro();
+     *   n2 > 0 && n2+1 == tre2.getSeuraavaNro() === true;
      *   n1 === n2-1;
      * </pre>
      */
     public int rekisteroi() {
-        tunnusNro = seuraavaNro;
+        this.tunnusNro = seuraavaNro;
         seuraavaNro++;
-        return tunnusNro;
+        return this.tunnusNro;
+    }
+    
+    
+    /**
+     * Palauttaa treenin tiedot merkkijonona
+     * @return treeni tolppaerotettuna merkkijonona
+     * @example
+     * <pre name="test">
+     *   Treeni tre1 = new Treeni();
+     *   tre1.parse("3|12.06.2023|kotikuntosali|70");
+     *   tre1.toString().startsWith("3|12.06.2023|kotikuntosali|70|") === true; // on yli 4 kenttää, siksi loppuu tolppaan
+     * </pre> 
+     */
+    @Override
+    public String toString() {
+        return "" +
+                this.tunnusNro + "|" +
+                this.pvm + "|" + 
+                this.sijainti + "|" +
+                this.kesto + "|" +
+                this.fiilikset + "|" +
+                this.muistiinpanot;
+    }
+    
+    
+    /**
+     * Selvitää jäsenen tiedot tolpilla erotellusta merkkijonosta
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * @param rivi josta treenin tiedot otetaan
+     * @example
+     * <pre name="test">
+     *   Treeni tre1 = new Treeni();
+     *   tre1.parse("3 |12.06.2023|kotikuntosali|70");
+     *   tre1.getTunnusNro() === 3;
+     *   tre1.getPvm() === "12.06.2023";
+     *   tre1.toString().startsWith("3|12.06.2023|kotikuntosali|70|") === true; // on yli 4 kenttää, siksi loppu |
+     *   tre1.rekisteroi();
+     *   int n = tre1.getTunnusNro();
+     *   tre1.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   tre1.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   tre1.getTunnusNro() === n+20+1;
+     * </pre>
+     */
+    public void parse(String rivi) {
+        var sb = new StringBuilder(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', this.tunnusNro));
+        this.pvm = Mjonot.erota(sb, '|', this.pvm);
+        this.sijainti = Mjonot.erota(sb, '|', this.sijainti);
+        this.kesto = Mjonot.erota(sb, '|', this.kesto);
+        this.fiilikset = Mjonot.erota(sb, '|', this.fiilikset);
+        this.muistiinpanot = Mjonot.erota(sb, '|', this.muistiinpanot);
     }
     
     
@@ -154,7 +219,8 @@ public class Treeni {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Treeni tre = new Treeni(), tre2 = new Treeni();
+        Treeni tre = new Treeni();
+        Treeni tre2 = new Treeni();
         tre.rekisteroi();
         tre2.rekisteroi();
         

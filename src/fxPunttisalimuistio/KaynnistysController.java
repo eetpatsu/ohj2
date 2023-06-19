@@ -10,17 +10,18 @@ import javafx.stage.Stage;
  * @author Eetu
  * @version 0.3, 14.2.2023 Tiedoston synty
  * @version 0.4, 02.06.2023 Uudistuksia
+ * @version 0.6, 14.06.2023 Tiedostonhallinta
  */
 public class KaynnistysController implements ModalControllerInterface<String>  {
     
-    private String vastaus = null;
     @FXML private TextField textVastaus;
+    private String vastaus = null;
     
     
     /**
      * OK-painike
      */
-    @FXML void handleOK() {
+    @FXML private void handleOK() {
         vastaus = textVastaus.getText();
         ModalController.closeStage(textVastaus);
     }
@@ -29,7 +30,7 @@ public class KaynnistysController implements ModalControllerInterface<String>  {
     /**
      * Peruuta-painike
      */
-    @FXML void handlePeruuta() {
+    @FXML private void handlePeruuta() {
         ModalController.closeStage(textVastaus);
     }
     
@@ -39,7 +40,7 @@ public class KaynnistysController implements ModalControllerInterface<String>  {
      */
     @Override
     public String getResult() {
-        return vastaus;
+        return this.vastaus;
     }
     
     

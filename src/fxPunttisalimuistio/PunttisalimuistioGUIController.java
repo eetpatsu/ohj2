@@ -1,13 +1,11 @@
 package fxPunttisalimuistio;
 
 import java.awt.Desktop;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
@@ -28,34 +26,19 @@ import punttisalimuistio.SailoException;
 import punttisalimuistio.Treeni;
 
 /**
- * |--------------------------------------------------------------------------|
- * | Luokan nimi:   Naytto                              | Avustajat:          |
- * |---------------------------------------------------------------------------
- * | Vastuualueet:                                      |                     | 
- * |                                                    | - Punttisalimuistio | 
- * | - hoitaa kaiken näyttöön tulevan tekstin           | - Treeni            | 
- * | - hoitaa kaiken tiedon pyytämisen käyttäjältä      | - Liike             | 
- * | (- ei tiedä punttisalimuistion yksityiskohtia)     |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |                                                    |                     | 
- * |---------------------------------------------------------------------------
+ * Avustajat: Punttisalimuistio, Treeni, Liike
+ * Vastuualueet: Hoitaa kaiken näyttöön tulevan tekstin
+ * ja kaiken tiedon pyytämisen käyttäjältä.
+ * Ei tiedä punttisalimuistion yksityiskohtia.
+ * 
  * Luokka muistion pääkäyttöliittymän tapahtumien hoitamiseen.
  * @author Eetu
  * @version 0.3, 14.02.2023 Tiedoston synty
  * @version 0.4, 30.05.2023 Uudistuksia
  * @version 0.5, 09.06.2023 Treenit ja Liikkeet
+ * @version 0.6, 14.06.2023 Tiedostonhallinta
  */
-public class PunttisalimuistioGUIController implements Initializable {
-    private String kayttaja = "aku";
-    
+public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
     @FXML private TextField hakuehto;                       // Hakuehto-kenttä
     @FXML private Label labelVirhe;                         // Virheilmoitus-kenttä
@@ -76,12 +59,9 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Hakuehto-valikko
      */
     @FXML private void handleHakuehto() {
-        String hakukentta = cbKentat.getSelectedText();
-        String ehto = hakuehto.getText(); 
-        if ( ehto.isEmpty() )
-            naytaVirhe(null);
-        else
-            naytaVirhe("Ei osata vielä hakea " + hakukentta + ": " + ehto);
+        if (treeniKohdalla != null) {
+            hae(treeniKohdalla.getTunnusNro());
+        }
     }
     
 //===========================================================================================    
@@ -90,7 +70,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Tallenna-painike
      */
-    @FXML void handleTallenna() {
+    @FXML private void handleTallenna() {
         tallenna();
     }
     
@@ -98,7 +78,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Avaa-painike
      */
-    @FXML void handleAvaa() {
+    @FXML private void handleAvaa() {
         avaa();
     }
     
@@ -106,7 +86,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Tulosta-painike
      */
-    @FXML void handleTulosta() {
+    @FXML private void handleTulosta() {
         TulostusController tulostusCtrl = TulostusController.tulosta(null); 
         tulostaValitut(tulostusCtrl.getTextArea());
     }
@@ -115,7 +95,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Lopeta-painike
      */
-    @FXML void handleLopeta() {
+    @FXML private void handleLopeta() {
         tallenna();
         Platform.exit();
     }
@@ -126,7 +106,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Uusi treeni -painike
      */
-    @FXML void handleUusiTreeni() {
+    @FXML private void handleUusiTreeni() {
         uusiTreeni();
     }
     
@@ -134,7 +114,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Muokkaa treeniä -painike
      */
-    @FXML void handleMuokkaaTreeni() {
+    @FXML private void handleMuokkaaTreeni() {
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", null, "");
     }
     
@@ -142,7 +122,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Poista treeni -painike
      */
-    @FXML void handlePoistaTreeni() {
+    @FXML private void handlePoistaTreeni() {
         Dialogs.showMessageDialog("Vielä ei osata poistaa treeniä");
     }
     
@@ -150,7 +130,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Lisää liike -painike
      */
-    @FXML void handleUusiLiike() {
+    @FXML private void handleUusiLiike() {
         uusiLiike();
     }
     
@@ -158,7 +138,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Muokkaa liikettä -painike
      */
-    @FXML void handleMuokkaaLiike() {
+    @FXML private void handleMuokkaaLiike() {
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("LiikeDialogView.fxml"), "Liike", null, "");
     }
     
@@ -166,7 +146,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Poista liike -painike
      */
-    @FXML void handlePoistaLiike() {
+    @FXML private void handlePoistaLiike() {
         Dialogs.showMessageDialog("Ei osata vielä poistaa liikettä");
     }
     
@@ -176,7 +156,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Apua-painike
      */
-    @FXML void handleApua() {
+    @FXML private void handleApua() {
         avustus();
     }
     
@@ -184,7 +164,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Tietoa-painike
      */
-    @FXML void handleTietoa() {
+    @FXML private void handleTietoa() {
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TietoaView.fxml"), "Punttisalimuistio", null, "");
     }
     
@@ -192,6 +172,7 @@ public class PunttisalimuistioGUIController implements Initializable {
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
 //=========================================================================================== 
     
+    private String              kayttaja = "aku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
     private Treeni              treeniKohdalla;                 // Tynkä Treeni-olioviite
     private TextArea            areaTreeni = new TextArea();    // Tynkä TextArea-olioviite
@@ -202,11 +183,10 @@ public class PunttisalimuistioGUIController implements Initializable {
      * yksi iso tekstikenttä, johon voidaan tulostaa treenien tiedot.
      * Alustetaan myös treenilistan kuuntelija 
      */
-    protected void alusta() {
+    private void alusta() {
         panelTreeni.setContent(areaTreeni);
         areaTreeni.setFont(new Font("Courier New", 12));
         panelTreeni.setFitToHeight(true);
-        
         chooserTreenit.clear();
         chooserTreenit.addSelectionListener(e -> naytaTreeni());
     }
@@ -237,24 +217,32 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     
     /**
-     * Alustaa punttisalimuisiton lukemalla sen valitun nimisestä kansiosta
-     * @param nimi kansio josta kayttajan tiedot luetaan
+     * Alustaa punttisalimuisiton lukemalla sen valitun nimisestä hakemistosta
+     * @param nimi hakemisto josta käyttajän tiedot luetaan
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected void lueTiedosto(String nimi) {
-        kayttaja = nimi;
-        setTitle("Punttisalimuistio - " + kayttaja);
-        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
-        // if (virhe != null) 
-            Dialogs.showMessageDialog(virhe);
+    protected String lueTiedosto(String nimi) {
+        this.kayttaja = nimi;
+        setTitle("Punttisalimuistio - " + this.kayttaja);
+        try {
+            muistio.lueTiedostosta(nimi);
+            hae(0);
+            return null;
+        } catch (SailoException ex) {
+            hae(0);
+            if (ex.getMessage() != null)
+                Dialogs.showMessageDialog(ex.getMessage());
+            return ex.getMessage();
+        }
     }
     
     
     /**
-     * Kysytään kansion nimi ja luetaan se
+     * Kysytään hakemiston nimi ja luetaan se
      * @return true jos onnistui, false jos ei
      */
     public boolean avaa() {
-        String uusikayttaja = KaynnistysController.kysyKayttaja(null, kayttaja);
+        String uusikayttaja = KaynnistysController.kysyKayttaja(null, this.kayttaja);
         if (uusikayttaja == null) return false;
         lueTiedosto(uusikayttaja);
         return true;
@@ -263,9 +251,16 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     /**
      * Tietojen tallennustoiminto
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    private void tallenna() {
-        Dialogs.showMessageDialog("Tallennetetaan! Mutta ei toimi vielä");
+    private String tallenna() {
+        try {
+            muistio.talleta();
+            return null;
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
+            return ex.getMessage();
+        }
     }
     
     
@@ -282,44 +277,59 @@ public class PunttisalimuistioGUIController implements Initializable {
     /**
      * Näyttää listasta valitun treenin tiedot, tilapäisesti yhteen isoon edit-kenttään
      */
-    protected void naytaTreeni() {
+    private void naytaTreeni() {
         treeniKohdalla = chooserTreenit.getSelectedObject();
-        if (treeniKohdalla == null) return;
+        if (treeniKohdalla == null) {
+            areaTreeni.clear();
+            return;
+        }
         areaTreeni.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTreeni)) {
-            tulosta(os,treeniKohdalla);
+            tulosta(os, treeniKohdalla);
         }
     }
     
     
     /**
      * Hakee treenien tiedot listaan
-     * @param tnro treenin numero, joka aktivoidaan haun jälkeen
+     * @param treNro treeni joka valitaan haun jälkeen
      */
-    protected void hae(int tnro) {
+    private void hae(int treNro) {
+        int indeksi = cbKentat.getSelectionModel().getSelectedIndex();
+        String ehto = hakuehto.getText(); 
+        if (indeksi > 0 || ehto.length() > 0)
+            naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", indeksi, ehto));
+        else
+            naytaVirhe(null);
         chooserTreenit.clear();
         int index = 0;
-        for (int i = 0; i < muistio.getTreeneja(); i++) {
-            Treeni treeni = muistio.annaTreeni(i);
-            if (treeni.getTunnusNro() == tnro) index = i;
-            chooserTreenit.add(treeni.getPvm(), treeni);
+        Collection<Treeni> treenit;
+        try {
+            treenit = muistio.etsi(ehto, indeksi);
+            int i = 0;
+            for (Treeni treeni:treenit) {
+                if (treeni.getTunnusNro() == treNro) index = i;
+                chooserTreenit.add(treeni.getPvm(), treeni);
+                i++;
+            }
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Treenin hakemisessa ongelmia! " + ex.getMessage());
         }
-        chooserTreenit.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää treenin
+        chooserTreenit.setSelectedIndex(index);
     }
     
     
     /**
      * Luo uuden treenin jota aletaan editoimaan 
      */
-    protected void uusiTreeni() {
+    private void uusiTreeni() {
         Treeni uusi = new Treeni();
         uusi.rekisteroi();
         uusi.taytaTreeni();
         try {
             muistio.lisaa(uusi);
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
-            return;
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + ex.getMessage());
         }
         hae(uusi.getTunnusNro());
     }
@@ -329,11 +339,16 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Tekee uuden tyhjän liikkeen editointia varten
      */
     public void uusiLiike() {
-        if (treeniKohdalla == null) return;
-        Liike lii = new Liike();
-        lii.rekisteroi();
-        lii.taytaLiike(treeniKohdalla.getTunnusNro());
-        muistio.lisaa(lii);
+        if (treeniKohdalla == null)
+            return;
+        Liike uusi = new Liike();
+        uusi.rekisteroi();
+        uusi.taytaLiike(treeniKohdalla.getTunnusNro());
+        try {
+            muistio.lisaa(uusi);
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + ex.getMessage());
+        }
         hae(treeniKohdalla.getTunnusNro());
     }
     
@@ -357,9 +372,13 @@ public class PunttisalimuistioGUIController implements Initializable {
         os.println("----------------------------------------------");
         treeni.tulosta(os);
         os.println("----------------------------------------------");
-        List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
-        for (Liike lii : liikkeet) {
-            lii.tulosta(os);
+        try {
+            List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
+            for (Liike lii : liikkeet) {
+                lii.tulosta(os);
+            }
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Liikkeiden hakemisessa ongelmia! " + ex.getMessage());
         }
     }
     
@@ -371,11 +390,13 @@ public class PunttisalimuistioGUIController implements Initializable {
     public void tulostaValitut(TextArea text) {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
             os.println("Tulostetaan kaikki treenit");
-            for (int i = 0; i < muistio.getTreeneja(); i++) {
-                Treeni treeni = muistio.annaTreeni(i);
+            Collection<Treeni> treenit = muistio.etsi("", -1); 
+            for (Treeni treeni:treenit) { 
                 tulosta(os, treeni);
                 os.println("\n\n");
             }
+        } catch (SailoException ex) { 
+            Dialogs.showMessageDialog("Jäsenen hakemisessa ongelmia! " + ex.getMessage()); 
         }
     }
     
@@ -388,9 +409,9 @@ public class PunttisalimuistioGUIController implements Initializable {
         try {
             URI uri = new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2023k/ht/eetpatsu");
             desktop.browse(uri);
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException ex) {
             return;
-        } catch (IOException e) {
+        } catch (IOException ex) {
             return;
         }
     }
