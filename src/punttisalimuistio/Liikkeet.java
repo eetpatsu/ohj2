@@ -158,8 +158,8 @@ public class Liikkeet implements Iterable<Liike>  {
             return;
         File tiedosto = new File(hakemisto + "/liikkeet.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(tiedosto, false))) {
-            for (var har: alkiot) {
-                fo.println(har.toString());
+            for (var lii: alkiot) {
+                fo.println(lii.toString());
             }
         } catch (FileNotFoundException ex) {
             throw new SailoException("Tiedosto " + tiedosto.getAbsolutePath() + " ei aukea");
@@ -264,9 +264,13 @@ public class Liikkeet implements Iterable<Liike>  {
         Liike lii3 = new Liike();
         Liike lii4 = new Liike();
         lii1.taytaLiike(1);
+        lii1.rekisteroi();
         lii2.taytaLiike(2);
+        lii2.rekisteroi();
         lii3.taytaLiike(2);
+        lii3.rekisteroi();
         lii4.taytaLiike(2);
+        lii4.rekisteroi();
         // Lisää Liikkeet
         liikkeet.lisaa(lii1);
         liikkeet.lisaa(lii2);

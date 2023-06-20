@@ -198,7 +198,7 @@ public class Treenit implements Iterable<Treeni> {
     
     
     /**
-     * Tallentaa harjoitukset tiedostoon
+     * Tallentaa treenit tiedostoon
      * @throws SailoException jos talletus epäonnistuu
      */
     public void talleta() throws SailoException {

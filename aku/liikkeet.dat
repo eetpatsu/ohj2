@@ -1,4 +1,3 @@
-;id|tid|liikkeennimi|paino|sarjat|toistot
 1|1|penkkipunnerrus|60|3|5
 2|1|kyykky|80|3|5
 3|1|kulmasoutu|45|3|8
@@ -9,3 +8,7 @@
 8|3|kyykky|80|3|6
 9|3|kulmasoutu|45|3|8
 10|3|selkäojennus|5|3|8
+11|1|soutu|3|9|3
+12|2|soutu|36|8|5
+13|2|soutu|46|7|3
+14|2|kyykky|35|6|3

@@ -70,7 +70,7 @@ public class Punttisalimuistio {
     /**
      * Haetaan kaikki treenin liikkeet
      * @param treeni minkä treenin liikkeet haetaan
-     * @return tietorakenne jossa viitteet löydettyihin harrastuksiin
+     * @return tietorakenne jossa viitteet löydettyihin liikkeisiin
      * @throws SailoException jos tulee ongelmia
      * @example
      * <pre name="test">
@@ -257,7 +257,8 @@ public class Punttisalimuistio {
         } catch (SailoException ex) {
             virhe += ex.getMessage();
         }
-        if (!virhe.isEmpty()) throw new SailoException(virhe);
+        if (!virhe.isEmpty())
+            throw new SailoException(virhe);
     }
     
     
@@ -267,29 +268,52 @@ public class Punttisalimuistio {
      */
     public static void main(String[] args)  {
         Punttisalimuistio muistio = new Punttisalimuistio();
-        // Lue Treenit
+        // Lue Treenit ja Liikkeet
         try {
             muistio.lueTiedostosta("testiaku");
         } catch (SailoException ex) {
             System.out.println(ex.getMessage());
         }
         // Luo Treenit
-        Treeni tre = new Treeni();
+        Treeni tre1 = new Treeni();
         Treeni tre2 = new Treeni();
-        tre.rekisteroi();
-        tre.taytaTreeni();
+        tre1.rekisteroi();
+        tre1.taytaTreeni();
         tre2.rekisteroi();
         tre2.taytaTreeni();
+        // Luo Liikkeet
+        Liike lii1T1 = new Liike();
+        lii1T1.rekisteroi();
+        Liike lii2T2 = new Liike();
+        lii2T2.rekisteroi();
+        Liike lii3T2 = new Liike();
+        lii3T2.rekisteroi();
+        Liike lii4T2 = new Liike();
+        lii4T2.rekisteroi();
+        lii1T1.taytaLiike(1);
+        lii2T2.taytaLiike(2);
+        lii3T2.taytaLiike(2);
+        lii4T2.taytaLiike(2);
         // Lisää Treenit
         try {
-            muistio.lisaa(tre);
+            muistio.lisaa(tre1);
             muistio.lisaa(tre2);
+            // Lisää Liikkeet
+            muistio.lisaa(lii1T1);
+            muistio.lisaa(lii2T2);
+            muistio.lisaa(lii3T2);
+            muistio.lisaa(lii4T2);
             // Tulosta Treenit
             for (int i = 0; i < muistio.getTreeneja(); i++) {
                 Treeni treeni = muistio.annaTreeni(i);
                 treeni.tulosta(System.out);
+                // Tulosta Liikkeet
+                var liikkeet = muistio.annaLiikkeet(treeni);
+                for (Liike liike : liikkeet) {
+                    liike.tulosta(System.out);
+                }
             }
-            // Tallenna Treenit
+            // Tallenna Treenit ja Liikkeet
             muistio.talleta();
         } catch (SailoException ex) {
             System.err.println(ex.getMessage());
