@@ -11,6 +11,7 @@ import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
+import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -37,6 +38,7 @@ import punttisalimuistio.Treeni;
  * @version 0.5, 09.06.2023 Treenit ja Liikkeet
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen tyhmästi
+ * @version 0.7.3, 22.06.2023 Liikkeiden näyttäminen, treeni fiksusti
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -49,6 +51,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     @FXML private Label labelVirhe;                         // Virheilmoitus-kenttä
     @FXML private ScrollPane panelTreeni;                   // Treenin tiedot -paneeli
     @FXML private ListChooser<Treeni> chooserTreenit;       // Treenit-lista
+    @FXML private StringGrid<Liike> tableLiikkeet;
     
     
     /**
@@ -180,6 +183,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     private String              kayttaja = "aku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
+    private TextField[]         edits;
     
     
     /**
@@ -187,6 +191,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Alustetaan myös treenilistan kuuntelija 
      */
     private void alusta() {
+        edits = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
         chooserTreenit.clear();
         chooserTreenit.addSelectionListener(e -> naytaTreeni());
     }
@@ -282,11 +287,34 @@ public class PunttisalimuistioGUIController implements Initializable {
         if (treeniKohdalla == null) {
             return;
         }
-        editPvm.setText(treeniKohdalla.getPvm());
-        editSijainti.setText(treeniKohdalla.getSijainti());
-        editKesto.setText(treeniKohdalla.getKesto());
-        editFiilikset.setText(treeniKohdalla.getFiilikset());
-        editMuistiinpanot.setText(treeniKohdalla.getMuistiinpanot());
+        TreeniDialogController.naytaTreeni(edits, treeniKohdalla);
+        naytaLiikkeet(treeniKohdalla);
+    }
+    
+    
+    /**
+     * Näyttää listasta valitun treenin liikkeet taulukossa
+     * @param treeni
+     */
+    private void naytaLiikkeet(Treeni treeni) {
+        if (treeni == null)
+            return;
+        tableLiikkeet.clear();
+        List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
+        if (liikkeet.size() == 0)
+            return;
+        for (Liike lii : liikkeet)
+            naytaLiike(lii);
+    }
+    
+    
+    /**
+     * Asettaa yhden liikkeen tiedot taulukkoon
+     * @param liike jonka tiedot asetetaan
+     */
+    private void naytaLiike(Liike liike) {
+        String[] rivi = liike.toString().split("\\|");
+        tableLiikkeet.add(liike, rivi[2], rivi[3], rivi[4], rivi[5]);
     }
     
     
@@ -378,13 +406,9 @@ public class PunttisalimuistioGUIController implements Initializable {
         os.println("----------------------------------------------");
         treeni.tulosta(os);
         os.println("----------------------------------------------");
-        try {
-            List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
-            for (Liike lii : liikkeet) {
-                lii.tulosta(os);
-            }
-        } catch (SailoException ex) {
-            Dialogs.showMessageDialog("Liikkeiden hakemisessa ongelmia! " + ex.getMessage());
+        List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
+        for (Liike lii : liikkeet) {
+            lii.tulosta(os);
         }
     }
     

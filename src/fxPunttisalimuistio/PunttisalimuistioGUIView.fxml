@@ -97,7 +97,7 @@
                </center></BorderPane>
             <BorderPane maxWidth="362.0" minWidth="362.0" prefWidth="362.0">
                <center>
-                  <StringGrid editable="true" rivit="liike|paino|sarjat|toistot|&#10;pystypunnerrus|40|3|6|&#10;kyykky|80|3|6|&#10;kulmasoutu|45|3|8|&#10;selkäojennus|5|3|8|" BorderPane.alignment="CENTER" />
+                  <StringGrid fx:id="tableLiikkeet" editable="true" rivit="liike|paino|sarjat|toistot|&#10;pystypunnerrus|40|3|6|&#10;kyykky|80|3|6|&#10;kulmasoutu|45|3|8|&#10;selkäojennus|5|3|8|" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <Label text="Treenin liikkeet" BorderPane.alignment="CENTER" />

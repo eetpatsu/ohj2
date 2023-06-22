@@ -16,6 +16,7 @@ import punttisalimuistio.Treeni;
  * Treenille oma kontrolleri
  * @author Eetu
  * @version 0.7.1, 22.06.2023 Tiedoston synty
+ * @version 0.7.2, 22.06.2023 Treenin näyttäminen fiksusti
  */
 public class TreeniDialogController implements ModalControllerInterface<Treeni>, Initializable {
     @FXML private Label labelVirhe;
@@ -41,12 +42,18 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     }
     
     
+    /**
+     * Kontrollerin alustus
+     */
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
+    public void initialize(URL url, ResourceBundle bundle) {
+        alusta();
     }
     
     
+    /**
+     * Tiedon palautus
+     */
     @Override
     public Treeni getResult() {
         // TODO Auto-generated method stub
@@ -54,36 +61,53 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     }
     
     
+    /**
+     * Oletuskeskitys
+     */
     @Override
     public void handleShown() {
         // TODO Auto-generated method stub
     }
     
     
+    /**
+     * Aseta oletustreeni
+     */
     @Override
     public void setDefault(Treeni oletus) {
         treeniKohdalla = oletus;
-        naytaTreeni(treeniKohdalla);
+        naytaTreeni(edits, treeniKohdalla);
     }
     
 //===========================================================================================    
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
     private Treeni treeniKohdalla;
+    private TextField[] edits;
+    
+    
+    /**
+     * Tekee tarvittavat alustukset
+     */
+    private void alusta() {
+        edits = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
+    }
     
     
     /**
      * Näytetään annettu treeni dialogissa
+     * Täytetään treenin kentät
+     * @param edit TextField jossa täytettävät kentät
      * @param treeni joka näytetään
      */
-    private void naytaTreeni(Treeni treeni) {
+    public static void naytaTreeni(TextField[] edit, Treeni treeni) {
         if (treeni == null)
             return;
-        editPvm.setText(treeni.getPvm());
-        editSijainti.setText(treeni.getSijainti());
-        editKesto.setText(treeni.getKesto());
-        editFiilikset.setText(treeni.getFiilikset());
-        editMuistiinpanot.setText(treeni.getMuistiinpanot());
+        edit[0].setText(treeni.getPvm());
+        edit[1].setText(treeni.getSijainti());
+        edit[2].setText(treeni.getKesto());
+        edit[3].setText(treeni.getFiilikset());
+        edit[4].setText(treeni.getMuistiinpanot());
     }
     
     

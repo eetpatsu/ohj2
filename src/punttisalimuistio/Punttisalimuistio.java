@@ -72,10 +72,8 @@ public class Punttisalimuistio {
      * Haetaan kaikki treenin liikkeet
      * @param treeni minkä treenin liikkeet haetaan
      * @return tietorakenne jossa viitteet löydettyihin liikkeisiin
-     * @throws SailoException jos tulee ongelmia
      * @example
      * <pre name="test">
-     * #THROWS SailoException
      * #import java.util.*;
      *   Punttisalimuistio muistio = new Punttisalimuistio();
      *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
@@ -101,7 +99,7 @@ public class Punttisalimuistio {
      *   loytyneet.get(2) == lii5T2 === true;
      * </pre>
      */
-    public List<Liike> annaLiikkeet(Treeni treeni) throws SailoException {
+    public List<Liike> annaLiikkeet(Treeni treeni) {
         return liikkeet.anna(treeni.getTunnusNro());
     }
     
