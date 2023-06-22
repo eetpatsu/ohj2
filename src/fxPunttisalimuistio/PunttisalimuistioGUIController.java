@@ -37,6 +37,7 @@ import punttisalimuistio.Treeni;
  * @version 0.4, 30.05.2023 Uudistuksia
  * @version 0.5, 09.06.2023 Treenit ja Liikkeet
  * @version 0.6, 14.06.2023 Tiedostonhallinta
+ * @version 0.7.1, 22.06.2023 TreeniDialogController
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -115,7 +116,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Muokkaa treeniä -painike
      */
     @FXML private void handleMuokkaaTreeni() {
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", null, "");
+        muokkaa();
     }
     
     
@@ -348,7 +349,15 @@ public class PunttisalimuistioGUIController implements Initializable {
         hae(treeniKohdalla.getTunnusNro());
     }
     
-
+    
+    /**
+     * Avaa valitun treenin muokkausdialogissa
+     */
+    private void muokkaa() {
+        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", null, treeniKohdalla);
+    }
+    
+    
     /**
      * Aseta punttisalimuistio.
      * @param muistio Punttisalimuistio jota käytetään tässä käyttöliittymässä
