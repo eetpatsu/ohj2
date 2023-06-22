@@ -356,7 +356,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      */
     private void muokkaa() {
         Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", null, treeniKohdalla);
+        TreeniDialogController.kysyTreeni(null, treeniKohdalla);
     }
     
     

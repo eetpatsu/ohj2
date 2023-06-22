@@ -34,7 +34,7 @@
                   <Label text="sijainti" GridPane.rowIndex="1" />
                   <Label text="kesto (min.)" GridPane.rowIndex="2" />
                   <Label text="muistiinpanot" GridPane.rowIndex="4" />
-                  <TextField text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                  <TextField fx:id="editPvm" text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
                   <TextField text="kotikuntosali" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                   <TextField text="70" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                   <Label text="fiilikset (1-5)" GridPane.rowIndex="3" />

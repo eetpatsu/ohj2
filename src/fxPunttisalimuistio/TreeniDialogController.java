@@ -3,10 +3,13 @@ package fxPunttisalimuistio;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import punttisalimuistio.Treeni;
 
 /**
@@ -16,7 +19,7 @@ import punttisalimuistio.Treeni;
  */
 public class TreeniDialogController implements ModalControllerInterface<Treeni>, Initializable {
     @FXML private Label labelVirhe;
-    
+    @FXML private TextField editPvm;
     
     /**
      * OK-painike
@@ -55,6 +58,34 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     
     @Override
     public void setDefault(Treeni oletus) {
-        // TODO Auto-generated method stub  
+        treeniKohdalla = oletus;
+        naytaTreeni(treeniKohdalla);
+    }
+    
+//===========================================================================================    
+// Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
+    
+    private Treeni treeniKohdalla;
+    
+    
+    /**
+     * Näytetään annettu treeni dialogissa
+     * @param treeni joka näytetään
+     */
+    private void naytaTreeni(Treeni treeni) {
+        if (treeni == null)
+            return;
+        editPvm.setText(treeni.getPvm());
+    }
+    
+    
+    /**
+     * Luodaan treenin kysymisdialogi ja palautetaan sama tietue muutettuna tai null.
+     * @param modalityStage mille ollaan modaalisia, null = ollaan modaalisia sovellukselle.
+     * @param oletus minkä tietoa näytetään oletuksena.
+     * @return null jos peruutetaan, muuten täytetty tietue.
+     */
+    public static Treeni kysyTreeni(Stage modalityStage, Treeni oletus) {
+        return ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", modalityStage, oletus);
     }
 }
