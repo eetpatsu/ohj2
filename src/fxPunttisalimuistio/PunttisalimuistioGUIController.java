@@ -326,11 +326,7 @@ public class PunttisalimuistioGUIController implements Initializable {
         Treeni uusi = new Treeni();
         uusi.rekisteroi();
         uusi.taytaTreeni();
-        try {
-            muistio.lisaa(uusi);
-        } catch (SailoException ex) {
-            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + ex.getMessage());
-        }
+        muistio.lisaa(uusi);
         hae(uusi.getTunnusNro());
     }
     

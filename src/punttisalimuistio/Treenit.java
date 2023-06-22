@@ -14,6 +14,7 @@ import java.util.*;
  * @author Eetu
  * @version 0.5, 03.06.2023 Tiedoston synty
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
+ * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
  */
 public class Treenit implements Iterable<Treeni> {
     private static final int MAX_TREENEJA   = 12;                       // Treenien lkm yläraja
@@ -43,10 +44,8 @@ public class Treenit implements Iterable<Treeni> {
     /**
      * Lisää uuden treenin tietorakenteeseen.  Ottaa treenin omistukseensa.
      * @param treeni lisättävän treenin viite.  Huom tietorakenne muuttuu omistajaksi
-     * @throws SailoException jos tietorakenne on jo täynnä
      * @example
      * <pre name="test">
-     * #THROWS SailoException 
      *   Treenit treenit = new Treenit();
      *   Treeni tre1 = new Treeni();
      *   Treeni tre2 = new Treeni();
@@ -67,12 +66,12 @@ public class Treenit implements Iterable<Treeni> {
      *   treenit.lisaa(tre1); treenit.lisaa(tre2);
      *   treenit.lisaa(tre1);
      *   treenit.getLkm() === 12;
-     *   treenit.lisaa(tre2);  #THROWS SailoException
-     *   treenit.getLkm() === 12;
+     *   treenit.lisaa(tre1);
+     *   treenit.getLkm() === 13;
      * </pre>
      */
-    public void lisaa(Treeni treeni) throws SailoException {
-        if (this.lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
+    public void lisaa(Treeni treeni) {
+        if (this.lkm >= alkiot.length) alkiot = Arrays.copyOf(alkiot, lkm+12);
         alkiot[this.lkm] = treeni;
         this.lkm++;
         this.onkoMuutettu = true;
@@ -337,8 +336,6 @@ public class Treenit implements Iterable<Treeni> {
         try {
             treenit.lisaa(tre1);
             treenit.lisaa(tre2);
-        } catch (SailoException ex) {
-            System.err.println(ex.getMessage());
         } catch (IndexOutOfBoundsException ex) {
             System.err.println(ex.getMessage());
         }

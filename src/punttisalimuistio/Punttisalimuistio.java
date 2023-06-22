@@ -15,6 +15,7 @@ import java.util.*;
  * @version 0.4, 03.06.2023 Tiedoston synty
  * @version 0.5, 08.06.2023 Liikkeet ja Liike mukaan
  * @version 0.6, 14.06.2023 Tiedostonhallinta
+ * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
  */
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
@@ -108,10 +109,8 @@ public class Punttisalimuistio {
     /**
      * Lisää punttisalimuistioon uuden treenin
      * @param treeni lisättävä treeni
-     * @throws SailoException jos lisäystä ei voida tehdä
      * @example
      * <pre name="test">
-     * #THROWS SailoException
      *   Punttisalimuistio muistio = new Punttisalimuistio();
      *   Treeni tre1 = new Treeni();
      *   Treeni tre2 = new Treeni();
@@ -128,10 +127,11 @@ public class Punttisalimuistio {
      *   muistio.lisaa(tre1); muistio.lisaa(tre2);
      *   muistio.lisaa(tre1); muistio.lisaa(tre2);
      *   muistio.lisaa(tre1); muistio.lisaa(tre2);
-     *   muistio.lisaa(tre1); muistio.lisaa(tre2); #THROWS SailoException
+     *   muistio.lisaa(tre1); muistio.lisaa(tre2);
+     *   muistio.getTreeneja() === 13;
      * </pre>
      */
-    public void lisaa(Treeni treeni) throws SailoException {
+    public void lisaa(Treeni treeni) {
         treenit.lisaa(treeni);
     }
     
