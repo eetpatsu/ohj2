@@ -60,6 +60,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Hakuehto-valikko
      */
     @FXML private void handleHakuehto() {
+        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla != null) {
             hae(treeniKohdalla.getTunnusNro());
         }
@@ -175,7 +176,6 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     private String              kayttaja = "aku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
-    private Treeni              treeniKohdalla;                 // Tynkä Treeni-olioviite
     private TextArea            areaTreeni = new TextArea();    // Tynkä TextArea-olioviite
     
     
@@ -279,7 +279,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Näyttää listasta valitun treenin tiedot, tilapäisesti yhteen isoon edit-kenttään
      */
     private void naytaTreeni() {
-        treeniKohdalla = chooserTreenit.getSelectedObject();
+        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null) {
             areaTreeni.clear();
             return;
@@ -336,6 +336,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Tekee uuden tyhjän liikkeen editointia varten
      */
     public void uusiLiike() {
+        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null)
             return;
         Liike uusi = new Liike();
@@ -354,6 +355,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Avaa valitun treenin muokkausdialogissa
      */
     private void muokkaa() {
+        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", null, treeniKohdalla);
     }
     
