@@ -16,6 +16,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @author Eetu
  * @version 0.5, 03.06.2023 Tiedoston synty
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
+ * @version 0.7.1, 22.06.2023 Treenin näyttäminen
  */
 public class Treeni {
     private int        tunnusNro;               // liikkeen id
@@ -80,6 +81,41 @@ public class Treeni {
      */
     public String getPvm() {
         return this.pvm;
+    }
+    
+    /**
+     * Palauttaa treenin sijainnin
+     * @return treenin sijainti
+     */
+    public String getSijainti() {
+        return this.sijainti;
+    }
+    
+    
+    /**
+     * Palauttaa treenin keston
+     * @return treenin kesto
+     */
+    public String getKesto() {
+        return "" + this.kesto;
+    }
+    
+    
+    /**
+     * Palauttaa treenin fiilikset
+     * @return treenin fiilikset
+     */
+    public String getFiilikset() {
+        return "" + this.fiilikset;
+    }
+    
+    
+    /**
+     * Palauttaa treenin muistiinpanot
+     * @return treenin muistiinpanot
+     */
+    public String getMuistiinpanot() {
+        return this.muistiinpanot;
     }
     
     

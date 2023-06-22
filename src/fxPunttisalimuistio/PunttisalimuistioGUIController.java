@@ -19,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
 import punttisalimuistio.Liike;
 import punttisalimuistio.Punttisalimuistio;
 import punttisalimuistio.SailoException;
@@ -37,11 +36,16 @@ import punttisalimuistio.Treeni;
  * @version 0.4, 30.05.2023 Uudistuksia
  * @version 0.5, 09.06.2023 Treenit ja Liikkeet
  * @version 0.6, 14.06.2023 Tiedostonhallinta
- * @version 0.7.1, 22.06.2023 TreeniDialogController
+ * @version 0.7.1, 22.06.2023 Treenin näyttäminen tyhmästi
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
     @FXML private TextField hakuehto;                       // Hakuehto-kenttä
+    @FXML private TextField editPvm;
+    @FXML private TextField editSijainti;
+    @FXML private TextField editKesto;
+    @FXML private TextField editFiilikset;
+    @FXML private TextField editMuistiinpanot;
     @FXML private Label labelVirhe;                         // Virheilmoitus-kenttä
     @FXML private ScrollPane panelTreeni;                   // Treenin tiedot -paneeli
     @FXML private ListChooser<Treeni> chooserTreenit;       // Treenit-lista
@@ -176,18 +180,13 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     private String              kayttaja = "aku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
-    private TextArea            areaTreeni = new TextArea();    // Tynkä TextArea-olioviite
     
     
     /**
-     * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
-     * yksi iso tekstikenttä, johon voidaan tulostaa treenien tiedot.
+     * Tekee tarvittavat muut alustukset
      * Alustetaan myös treenilistan kuuntelija 
      */
     private void alusta() {
-        panelTreeni.setContent(areaTreeni);
-        areaTreeni.setFont(new Font("Courier New", 12));
-        panelTreeni.setFitToHeight(true);
         chooserTreenit.clear();
         chooserTreenit.addSelectionListener(e -> naytaTreeni());
     }
@@ -276,18 +275,18 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     
     /**
-     * Näyttää listasta valitun treenin tiedot, tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun treenin tiedot
      */
     private void naytaTreeni() {
         Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null) {
-            areaTreeni.clear();
             return;
         }
-        areaTreeni.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTreeni)) {
-            tulosta(os, treeniKohdalla);
-        }
+        editPvm.setText(treeniKohdalla.getPvm());
+        editSijainti.setText(treeniKohdalla.getSijainti());
+        editKesto.setText(treeniKohdalla.getKesto());
+        editFiilikset.setText(treeniKohdalla.getFiilikset());
+        editMuistiinpanot.setText(treeniKohdalla.getMuistiinpanot());
     }
     
     

@@ -20,6 +20,10 @@ import punttisalimuistio.Treeni;
 public class TreeniDialogController implements ModalControllerInterface<Treeni>, Initializable {
     @FXML private Label labelVirhe;
     @FXML private TextField editPvm;
+    @FXML private TextField editSijainti;
+    @FXML private TextField editKesto;
+    @FXML private TextField editFiilikset;
+    @FXML private TextField editMuistiinpanot;
     
     /**
      * OK-painike
@@ -76,6 +80,10 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
         if (treeni == null)
             return;
         editPvm.setText(treeni.getPvm());
+        editSijainti.setText(treeni.getSijainti());
+        editKesto.setText(treeni.getKesto());
+        editFiilikset.setText(treeni.getFiilikset());
+        editMuistiinpanot.setText(treeni.getMuistiinpanot());
     }
     
     

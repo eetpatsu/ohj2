@@ -126,13 +126,13 @@
                               <Label text="pvm (pp.kk.vvvv)" />
                               <Label text="sijainti" GridPane.rowIndex="1" />
                               <Label text="kesto (min.)" GridPane.rowIndex="2" />
-                              <TextField text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField text="kotikuntosali" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                              <TextField text="70" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                               <Label text="fiilikset (1-5)" GridPane.rowIndex="3" />
                               <Label text="muistiinpanot" GridPane.rowIndex="4" />
-                              <TextField text="3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField text="lisää painoja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="editPvm" text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                              <TextField fx:id="editSijainti" text="kotikuntosali" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <TextField fx:id="editKesto" text="70" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <TextField fx:id="editFiilikset" text="3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="editMuistiinpanot" text="lisää painoja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </content>
