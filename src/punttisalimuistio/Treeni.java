@@ -17,8 +17,9 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 0.5, 03.06.2023 Tiedoston synty
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen
+ * @version 0.7.4, 23.06.2023 Kloonaaminen
  */
-public class Treeni {
+public class Treeni implements Cloneable {
     private int        tunnusNro;               // liikkeen id
     private String     pvm              = "";   // treenin päivämäärä
     private String     sijainti         = "";   // missä tapahtui
@@ -133,6 +134,17 @@ public class Treeni {
     
     
     /**
+     * Asettaa treenin päivämäärän jos annettu syöte kelpaa sellaiseksi
+     * @param syote joka yritetään laittaa päivämäräksi
+     * @return virheteksti jos syöte ei kelpaa päivämääräksi
+     */
+    public String setPvm(String syote) {
+        this.pvm = syote;
+        return null;
+    }
+    
+    
+    /**
      * Apumetodi, luo testiarvot treenille.
      * @example
      * <pre name="test">
@@ -196,6 +208,26 @@ public class Treeni {
         this.tunnusNro = seuraavaNro;
         seuraavaNro++;
         return this.tunnusNro;
+    }
+    
+    
+    /**
+     * Luo ja palauttaa kloonin annetusta treenistä
+     * @return Object kloonattu treeni olio
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     *   Treeni tre = new Treeni();
+     *   tre.parse("3|12.06.2023|kotikuntosali|70");
+     *   Treeni klooni = tre.clone();
+     *   tre.toString().equals(klooni.toString()) === true;
+     *   tre.parse("1|09.06.2023|kotikuntosali|60|5|-");
+     *   tre.toString().equals(klooni.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Treeni clone() throws CloneNotSupportedException {
+        return (Treeni)super.clone();
     }
     
     

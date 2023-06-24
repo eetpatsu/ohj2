@@ -15,6 +15,7 @@ import java.util.*;
  * @version 0.5, 03.06.2023 Tiedoston synty
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
+ * @version 0.7.4, 23.06.2023 Lisää tai korvaa olemassaoleva
  */
 public class Treenit implements Iterable<Treeni> {
     private static final int MAX_TREENEJA   = 12;                       // Treenien lkm yläraja
@@ -75,6 +76,49 @@ public class Treenit implements Iterable<Treeni> {
         alkiot[this.lkm] = treeni;
         this.lkm++;
         this.onkoMuutettu = true;
+    }
+    
+    
+    /**
+     * Katsotaan onko jo olemassa treeni samalla id:llä
+     * ja korvataan jos on. Muulloin lisätään normaalisti.
+     * @param treeni käsiteltävä treeni
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     * #THROWS SailoException
+     *   Treenit treenit = new Treenit();
+     *   Treeni tre1 = new Treeni();
+     *   tre1.rekisteroi();
+     *   tre1.taytaTreeni();
+     *   treenit.lisaa(tre1);
+     *   Treeni tre2 = new Treeni();
+     *   tre2.rekisteroi();
+     *   tre2.taytaTreeni();
+     *   treenit.lisaa(tre2);
+     *   treenit.korvaaTaiLisaa(tre1);
+     *   treenit.korvaaTaiLisaa(tre2);
+     *   treenit.getLkm() === 2;
+     *   Treeni klooni = tre1.clone();
+     *   tre1.toString().equals(klooni.toString()) === true;
+     *   treenit.korvaaTaiLisaa(klooni);
+     *   treenit.getLkm() === 2;
+     *   tre1.parse("1|09.06.2023|kotikuntosali|60|5|-");
+     *   tre1.toString().equals(klooni.toString()) === false;
+     *   treenit.korvaaTaiLisaa(tre1);
+     *   treenit.getLkm() === 3;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Treeni treeni) {
+        int tunnusNro = treeni.getTunnusNro();
+        for (int i = 0; i < this.lkm; i++) {
+            if (tunnusNro == alkiot[i].getTunnusNro()) {
+                alkiot[i] = treeni;
+                this.onkoMuutettu = true;
+                return;
+            }
+        }
+        lisaa(treeni);
     }
     
     

@@ -16,7 +16,8 @@ import punttisalimuistio.Treeni;
  * Treenille oma kontrolleri
  * @author Eetu
  * @version 0.7.1, 22.06.2023 Tiedoston synty
- * @version 0.7.2, 22.06.2023 Treenin näyttäminen fiksusti
+ * @version 0.7.3, 22.06.2023 Treenin näyttäminen fiksusti
+ * @version 0.7.4, 23.06.2023 Tiedon syöttäminen
  */
 public class TreeniDialogController implements ModalControllerInterface<Treeni>, Initializable {
     @FXML private Label labelVirhe;
@@ -30,7 +31,11 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      * OK-painike
      */
     @FXML private void handleOK() {
-        //
+        if (treeniKohdalla != null && treeniKohdalla.getPvm().equals("")) {
+            naytaVirhe("Pvm ei voi olla tyhjä");
+            return;
+        }
+        ModalController.closeStage(editPvm);
     }
     
     
@@ -38,7 +43,8 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      * Peruuta-painike
      */
     @FXML private void handlePeruuta() {
-        //
+        treeniKohdalla = null;
+        ModalController.closeStage(editPvm);
     }
     
     
@@ -56,8 +62,7 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      */
     @Override
     public Treeni getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return treeniKohdalla;
     }
     
     
@@ -76,38 +81,68 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     @Override
     public void setDefault(Treeni oletus) {
         treeniKohdalla = oletus;
-        naytaTreeni(edits, treeniKohdalla);
+        naytaTreeni(kenttia, treeniKohdalla);
     }
     
 //===========================================================================================    
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
     private Treeni treeniKohdalla;
-    private TextField[] edits;
+    private TextField[] kenttia;
     
     
     /**
      * Tekee tarvittavat alustukset
      */
     private void alusta() {
-        edits = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
+        kenttia = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
+        editPvm.setOnKeyReleased(e -> handleMuutos(editPvm));
+    }
+    
+    
+    /**
+     * Käsitellään muutos treenin kentässä
+     * @param kentta jossa muutos
+     */
+    private void handleMuutos(TextField kentta) {
+        if (treeniKohdalla == null)
+            return;
+        String syote = kentta.getText();
+        String virhe = null;
+        virhe = treeniKohdalla.setPvm(syote);
+        naytaVirhe(virhe);
+    }
+    
+    
+    /**
+     * Aliohjelma ilmestyneen virheilmoituksen näyttämiseen käyttöliittymässä
+     * @param virhe virheilmoitus
+     */
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
     }
     
     
     /**
      * Näytetään annettu treeni dialogissa
      * Täytetään treenin kentät
-     * @param edit TextField jossa täytettävät kentät
+     * @param kentat TextField jossa täytettävät kentät
      * @param treeni joka näytetään
      */
-    public static void naytaTreeni(TextField[] edit, Treeni treeni) {
+    public static void naytaTreeni(TextField[] kentat, Treeni treeni) {
         if (treeni == null)
             return;
-        edit[0].setText(treeni.getPvm());
-        edit[1].setText(treeni.getSijainti());
-        edit[2].setText(treeni.getKesto());
-        edit[3].setText(treeni.getFiilikset());
-        edit[4].setText(treeni.getMuistiinpanot());
+        kentat[0].setText(treeni.getPvm());
+        kentat[1].setText(treeni.getSijainti());
+        kentat[2].setText(treeni.getKesto());
+        kentat[3].setText(treeni.getFiilikset());
+        kentat[4].setText(treeni.getMuistiinpanot());
     }
     
     

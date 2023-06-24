@@ -39,6 +39,7 @@ import punttisalimuistio.Treeni;
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen tyhmästi
  * @version 0.7.3, 22.06.2023 Liikkeiden näyttäminen, treeni fiksusti
+ * @version 0.7.4, 23.06.2023 Tiedon syöttäminen treeniin ja tallentaminen
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -183,7 +184,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     private String              kayttaja = "aku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
-    private TextField[]         edits;
+    private TextField[]         kentat;
     
     
     /**
@@ -191,7 +192,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Alustetaan myös treenilistan kuuntelija 
      */
     private void alusta() {
-        edits = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
+        kentat = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
         chooserTreenit.clear();
         chooserTreenit.addSelectionListener(e -> naytaTreeni());
     }
@@ -287,7 +288,7 @@ public class PunttisalimuistioGUIController implements Initializable {
         if (treeniKohdalla == null) {
             return;
         }
-        TreeniDialogController.naytaTreeni(edits, treeniKohdalla);
+        TreeniDialogController.naytaTreeni(kentat, treeniKohdalla);
         naytaLiikkeet(treeniKohdalla);
     }
     
@@ -383,7 +384,17 @@ public class PunttisalimuistioGUIController implements Initializable {
      */
     private void muokkaa() {
         Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
-        TreeniDialogController.kysyTreeni(null, treeniKohdalla);
+        if (treeniKohdalla == null)
+            return;
+        try {
+            treeniKohdalla = treeniKohdalla.clone();
+        } catch (CloneNotSupportedException ex) {
+            Dialogs.showMessageDialog(ex.getMessage()); 
+        }
+        if (TreeniDialogController.kysyTreeni(null, treeniKohdalla) == null)
+            return;
+        muistio.korvaaTaiLisaa(treeniKohdalla);
+        hae(treeniKohdalla.getTunnusNro());
     }
     
     

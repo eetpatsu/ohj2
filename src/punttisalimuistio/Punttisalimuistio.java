@@ -16,6 +16,7 @@ import java.util.*;
  * @version 0.5, 08.06.2023 Liikkeet ja Liike mukaan
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
+ * @version 0.7.4, 23.06.2023 Lisää tai korvaa olemassaoleva
  */
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
@@ -131,6 +132,16 @@ public class Punttisalimuistio {
      */
     public void lisaa(Treeni treeni) {
         treenit.lisaa(treeni);
+    }
+    
+    
+    /**
+     * Katsotaan onko jo olemassa treeni samalla id:llä
+     * ja korvataan jos on. Muulloin lisätään normaalisti.
+     * @param treeni käsiteltävä treeni
+     */
+    public void korvaaTaiLisaa(Treeni treeni) {
+        treenit.korvaaTaiLisaa(treeni);
     }
     
     
