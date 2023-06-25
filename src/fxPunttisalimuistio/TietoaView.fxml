@@ -22,9 +22,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="Eetu Sutinen">
+            <Label alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="Eetu Sutinen&#10;eetpatsu@student.jyu.fi" textAlignment="CENTER">
                <font>
-                  <Font name="System Italic" size="24.0" />
+                  <Font name="System Italic" size="17.0" />
                </font>
             </Label>
          </children>

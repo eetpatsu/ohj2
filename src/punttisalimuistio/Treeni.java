@@ -3,6 +3,7 @@ package punttisalimuistio;
 import static kanta.Apu.*;
 import java.io.*;
 import fi.jyu.mit.ohj2.Mjonot;
+import kanta.Apu;
 
 /**
  * Avustajat: -
@@ -13,19 +14,19 @@ import fi.jyu.mit.ohj2.Mjonot;
  * ja osaa laittaa merkkijonon i:neksi kentäksi.
  * 
  * Punttisalimuistion Treeni-luokka
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.5, 03.06.2023 Tiedoston synty
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen
- * @version 0.7.4, 23.06.2023 Kloonaaminen
+ * @version 0.7.4, 25.06.2023 Kloonaaminen, Oikeellisuustarkistus
  */
 public class Treeni implements Cloneable {
     private int        tunnusNro;               // liikkeen id
     private String     pvm              = "";   // treenin päivämäärä
-    private String     sijainti         = "";   // missä tapahtui
-    private int        kesto;                   // kuinka kauan kesti minuuteissa
-    private int        fiilikset;               // fiilikset 1-5 asteikolla
-    private String     muistiinpanot;           // tärkeitä pohdintoja
+    private String     sijainti         = "-";  // missä tapahtui
+    private int        kesto            = 0;    // kuinka kauan kesti minuuteissa
+    private int        fiilikset        = 3;    // fiilikset 1-5 asteikolla
+    private String     muistiinpanot    = "-";  // tärkeitä pohdintoja
     private static int seuraavaNro      = 1;    // seuraavan treenin id
     
     
@@ -84,39 +85,21 @@ public class Treeni implements Cloneable {
         return this.pvm;
     }
     
-    /**
-     * Palauttaa treenin sijainnin
-     * @return treenin sijainti
-     */
-    public String getSijainti() {
-        return this.sijainti;
-    }
-    
     
     /**
-     * Palauttaa treenin keston
-     * @return treenin kesto
+     * Antaa kenttänumeroa vastaavan kentän sisällön
+     * @param kenttaNro Monennenko kentän sisältö annetaan
+     * @return kentän sisältö
      */
-    public String getKesto() {
-        return "" + this.kesto;
-    }
-    
-    
-    /**
-     * Palauttaa treenin fiilikset
-     * @return treenin fiilikset
-     */
-    public String getFiilikset() {
-        return "" + this.fiilikset;
-    }
-    
-    
-    /**
-     * Palauttaa treenin muistiinpanot
-     * @return treenin muistiinpanot
-     */
-    public String getMuistiinpanot() {
-        return this.muistiinpanot;
+    public String anna(int kenttaNro) {
+        switch (kenttaNro) {
+        case 0: return "" + this.pvm;
+        case 1: return "" + this.sijainti;
+        case 2: return "" + this.kesto;
+        case 3: return "" + this.fiilikset;
+        case 4: return "" + this.muistiinpanot;
+        default: return "Kenttää ei ole";
+        }
     }
     
     
@@ -134,13 +117,56 @@ public class Treeni implements Cloneable {
     
     
     /**
-     * Asettaa treenin päivämäärän jos annettu syöte kelpaa sellaiseksi
-     * @param syote joka yritetään laittaa päivämäräksi
-     * @return virheteksti jos syöte ei kelpaa päivämääräksi
+     * Asettaa syötteen haluttuun kenttään jos syöte kelpaa.
+     * @param kenttaNro Monenteenko kenttään halutaan asettaa
+     * @param syote Mitä kenttään asetetaan
+     * @return virheilmoitus jos syöte ei kelvannut kenttään, kelvatessa null
+     * @example
+     * <pre name="test">
+     *   Treeni tre = new Treeni();
+     *   tre.aseta(0, "abcdefgh") === "Kiellettyjä merkkejä";
+     *   tre.aseta(0, "12.06.2023") === null;
+     *   tre.getPvm() === "12.06.2023";
+     *   tre.aseta(1, "4 b c d 3 f g") === null;
+     *   tre.aseta(1, "kotikuntosali") === null;
+     *   tre.aseta(2, "30 minuuttia") === "Kiellettyjä merkkejä";
+     *   tre.aseta(2, "30") === null;
+     *   tre.aseta(3, "OK") === "Fiilikset 1-5 asteikolla";
+     *   tre.aseta(3, "0") === "Fiilikset 1-5 asteikolla";
+     *   tre.aseta(3, "3") === null;
+     *   tre.aseta(4, "4 b c d 3 f g") === null;
+     *   tre.aseta(4, "lisää painoja") === null;
+     * </pre>
      */
-    public String setPvm(String syote) {
-        this.pvm = syote;
-        return null;
+    public String aseta(int kenttaNro, String syote) {
+        switch (kenttaNro) {
+        case 0:
+            String virhe = Apu.tarkistaPvm(syote);
+            if (virhe != null)
+                return virhe;
+            this.pvm = syote;
+            return null;
+        case 1:
+            this.sijainti = syote;
+            return null;
+        case 2:
+            if (!syote.matches("[0-9]+"))
+                return "Kiellettyjä merkkejä";
+            int minuuttia = Mjonot.erotaInt(syote, 0);
+            this.kesto = minuuttia;
+            return null;
+        case 3:
+            if (!syote.matches("[1-5]"))
+                return "Fiilikset 1-5 asteikolla";
+            int fiilis = Mjonot.erotaInt(syote, 0);
+            this.fiilikset = fiilis;
+            return null;
+        case 4:
+            this.muistiinpanot = syote;
+            return null;
+        default:
+            return "Kenttää ei ole";
+        }
     }
     
     

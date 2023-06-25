@@ -8,7 +8,7 @@ import javafx.scene.control.TextArea;
 
 /**
  * Tulostuksen hoitava luokka
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.3, 14.02.2023 Tiedoston synty
  */
 public class TulostusController implements ModalControllerInterface<String> {

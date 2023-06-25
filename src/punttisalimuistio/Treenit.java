@@ -11,11 +11,11 @@ import java.util.*;
  * Osaa etsiä ja lajitella.
  * 
  * Punttisalimuistion Treenit-luokka
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.5, 03.06.2023 Tiedoston synty
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
- * @version 0.7.4, 23.06.2023 Lisää tai korvaa olemassaoleva
+ * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva
  */
 public class Treenit implements Iterable<Treeni> {
     private static final int MAX_TREENEJA   = 12;                       // Treenien lkm yläraja

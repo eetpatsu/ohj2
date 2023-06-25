@@ -87,7 +87,7 @@
                      <children>
                         <Label alignment="CENTER" maxWidth="300.0" text="Hakuehto" />
                         <ComboBoxChooser fx:id="cbKentat" maxWidth="200.0" onAction="#handleHakuehto" rivit="pvm&#10;sijainti&#10;kesto&#10;fiilikset&#10;muistiinpanot" />
-                        <TextField fx:id="hakuehto" onKeyReleased="#handleHakuehto"/>
+                        <TextField fx:id="hakuehto" onKeyReleased="#handleHakuehto" />
                         <Label alignment="CENTER" maxWidth="300.0" text="Treenit" />
                      </children>
                   </VBox>
@@ -97,7 +97,7 @@
                </center></BorderPane>
             <BorderPane maxWidth="362.0" minWidth="362.0" prefWidth="362.0">
                <center>
-                  <StringGrid fx:id="tableLiikkeet" editable="true" rivit="liike|paino|sarjat|toistot|&#10;pystypunnerrus|40|3|6|&#10;kyykky|80|3|6|&#10;kulmasoutu|45|3|8|&#10;selkäojennus|5|3|8|" BorderPane.alignment="CENTER" />
+                  <StringGrid fx:id="tableLiikkeet" rivit="liike|paino|sarjat|toistot|&#10;pystypunnerrus|40|3|6|&#10;kyykky|80|3|6|&#10;kulmasoutu|45|3|8|&#10;selkäojennus|5|3|8|" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <Label text="Treenin liikkeet" BorderPane.alignment="CENTER" />
@@ -128,11 +128,11 @@
                               <Label text="kesto (min.)" GridPane.rowIndex="2" />
                               <Label text="fiilikset (1-5)" GridPane.rowIndex="3" />
                               <Label text="muistiinpanot" GridPane.rowIndex="4" />
-                              <TextField fx:id="editPvm" text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField fx:id="editSijainti" text="kotikuntosali" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                              <TextField fx:id="editKesto" text="70" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                              <TextField fx:id="editFiilikset" text="3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="editMuistiinpanot" text="lisää painoja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="editPvm" editable="false" text="12.06.2023" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                              <TextField fx:id="editSijainti" editable="false" text="kotikuntosali" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <TextField fx:id="editKesto" editable="false" text="70" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <TextField fx:id="editFiilikset" editable="false" text="3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="editMuistiinpanot" editable="false" text="lisää painoja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </content>

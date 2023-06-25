@@ -11,12 +11,12 @@ import java.util.*;
  * 
  * Punttisalimuistio-luokka, joka huolehtii treeneistä ja liikkeistä.
  * Pääosin kaikki metodit ovat vain "välittäjämetodeja".
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.4, 03.06.2023 Tiedoston synty
  * @version 0.5, 08.06.2023 Liikkeet ja Liike mukaan
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
- * @version 0.7.4, 23.06.2023 Lisää tai korvaa olemassaoleva
+ * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva
  */
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
@@ -73,8 +73,10 @@ public class Punttisalimuistio {
      * Haetaan kaikki treenin liikkeet
      * @param treeni minkä treenin liikkeet haetaan
      * @return tietorakenne jossa viitteet löydettyihin liikkeisiin
+     * @throws SailoException jos tulee ongelmia
      * @example
      * <pre name="test">
+     * #THROWS SailoException
      * #import java.util.*;
      *   Punttisalimuistio muistio = new Punttisalimuistio();
      *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
@@ -100,7 +102,7 @@ public class Punttisalimuistio {
      *   loytyneet.get(2) == lii5T2 === true;
      * </pre>
      */
-    public List<Liike> annaLiikkeet(Treeni treeni) {
+    public List<Liike> annaLiikkeet(Treeni treeni) throws SailoException {
         return liikkeet.anna(treeni.getTunnusNro());
     }
     

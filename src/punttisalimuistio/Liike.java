@@ -15,7 +15,7 @@ import static kanta.Apu.rand;
  * ja osaa laittaa merkkijonon i:neksi kentäksi.
  * 
  * Punttisalimuistion Liike-luokka
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.5, 07.06.2023 Tiedoston synty
  * @version 0.6, 16.06.2023 Tiedostonhallinta
  */

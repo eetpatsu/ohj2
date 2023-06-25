@@ -32,14 +32,14 @@ import punttisalimuistio.Treeni;
  * Ei tiedä punttisalimuistion yksityiskohtia.
  * 
  * Luokka muistion pääkäyttöliittymän tapahtumien hoitamiseen.
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.3, 14.02.2023 Tiedoston synty
  * @version 0.4, 30.05.2023 Uudistuksia
  * @version 0.5, 09.06.2023 Treenit ja Liikkeet
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen tyhmästi
  * @version 0.7.3, 22.06.2023 Liikkeiden näyttäminen, treeni fiksusti
- * @version 0.7.4, 23.06.2023 Tiedon syöttäminen treeniin ja tallentaminen
+ * @version 0.7.4, 25.06.2023 Tiedonsyöttö treeniin, tallentaminen
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -215,7 +215,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     /**
      * Aseta ohjelmaikkunalle nimi
-     * @param title
+     * @param title asetettava nimi
      */
     private void setTitle(String title) {
         ModalController.getStage(hakuehto).setTitle(title);
@@ -301,11 +301,15 @@ public class PunttisalimuistioGUIController implements Initializable {
         if (treeni == null)
             return;
         tableLiikkeet.clear();
-        List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
-        if (liikkeet.size() == 0)
-            return;
-        for (Liike lii : liikkeet)
-            naytaLiike(lii);
+        try {
+            List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
+            if (liikkeet.size() == 0)
+                return;
+            for (Liike lii : liikkeet)
+                naytaLiike(lii);
+        } catch (SailoException ex) {
+            naytaVirhe(ex.getMessage());
+        }
     }
     
     
@@ -353,8 +357,10 @@ public class PunttisalimuistioGUIController implements Initializable {
      */
     private void uusiTreeni() {
         Treeni uusi = new Treeni();
+        uusi = TreeniDialogController.kysyTreeni(null, uusi);
+        if (uusi == null)
+            return;
         uusi.rekisteroi();
-        uusi.taytaTreeni();
         muistio.lisaa(uusi);
         hae(uusi.getTunnusNro());
     }
@@ -417,9 +423,12 @@ public class PunttisalimuistioGUIController implements Initializable {
         os.println("----------------------------------------------");
         treeni.tulosta(os);
         os.println("----------------------------------------------");
-        List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
-        for (Liike lii : liikkeet) {
-            lii.tulosta(os);
+        try {
+            List<Liike> liikkeet = muistio.annaLiikkeet(treeni);
+            for (Liike lii : liikkeet)
+                lii.tulosta(os);
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Liikkeen hakemisessa ongelmia! " + ex.getMessage());
         }
     }
     

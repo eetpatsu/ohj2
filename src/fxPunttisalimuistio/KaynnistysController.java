@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
  * Luokka muistion käynnistysikkunaa varten
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.3, 14.2.2023 Tiedoston synty
  * @version 0.4, 02.06.2023 Uudistuksia
  * @version 0.6, 14.06.2023 Tiedostonhallinta

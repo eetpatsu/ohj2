@@ -14,13 +14,13 @@ import punttisalimuistio.Treeni;
 
 /**
  * Treenille oma kontrolleri
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.7.1, 22.06.2023 Tiedoston synty
  * @version 0.7.3, 22.06.2023 Treenin näyttäminen fiksusti
- * @version 0.7.4, 23.06.2023 Tiedon syöttäminen
+ * @version 0.7.4, 25.06.2023 Tiedon syöttäminen
  */
 public class TreeniDialogController implements ModalControllerInterface<Treeni>, Initializable {
-    @FXML private Label labelVirhe;
+    @FXML private Label     labelVirhe;
     @FXML private TextField editPvm;
     @FXML private TextField editSijainti;
     @FXML private TextField editKesto;
@@ -96,20 +96,30 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      */
     private void alusta() {
         kenttia = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
-        editPvm.setOnKeyReleased(e -> handleMuutos(editPvm));
+        editPvm.setOnKeyReleased(e -> handleMuutos(0, editPvm));
+        editSijainti.setOnKeyReleased(e -> handleMuutos(1, editSijainti));
+        editKesto.setOnKeyReleased(e -> handleMuutos(2, editKesto));
+        editFiilikset.setOnKeyReleased(e -> handleMuutos(3,editFiilikset));
+        editMuistiinpanot.setOnKeyReleased(e -> handleMuutos(4, editMuistiinpanot));
     }
     
     
     /**
      * Käsitellään muutos treenin kentässä
+     * @param kenttaNro monesko kentta kyseessa
      * @param kentta jossa muutos
      */
-    private void handleMuutos(TextField kentta) {
+    private void handleMuutos(int kenttaNro, TextField kentta) {
         if (treeniKohdalla == null)
             return;
         String syote = kentta.getText();
-        String virhe = null;
-        virhe = treeniKohdalla.setPvm(syote);
+        String virhe = treeniKohdalla.aseta(kenttaNro, syote);
+        if (virhe == null) {
+            kentta.getStyleClass().add("normaali");
+            naytaVirhe(virhe);
+            return;
+            }
+        kentta.getStyleClass().add("virhe");
         naytaVirhe(virhe);
     }
     
@@ -138,11 +148,8 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     public static void naytaTreeni(TextField[] kentat, Treeni treeni) {
         if (treeni == null)
             return;
-        kentat[0].setText(treeni.getPvm());
-        kentat[1].setText(treeni.getSijainti());
-        kentat[2].setText(treeni.getKesto());
-        kentat[3].setText(treeni.getFiilikset());
-        kentat[4].setText(treeni.getMuistiinpanot());
+        for (int i = 0; i < kentat.length; i++)
+            kentat[i].setText(treeni.anna(i));
     }
     
     

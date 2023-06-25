@@ -15,7 +15,7 @@ import java.util.*;
  * Osaa etsiä ja lajitella.
  * 
  * Punttisalimuistion Liikkeet-luokka
- * @author Eetu
+ * @author eetpatsu@student.jyu.fi
  * @version 0.5, 07.06.2023 Tiedoston synty
  * @version 0.6, 16.06.2023 Tiedostonhallinta
  */

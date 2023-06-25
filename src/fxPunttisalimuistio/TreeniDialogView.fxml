@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPunttisalimuistio.TreeniDialogController">
+<BorderPane stylesheets="@punttisalimuistio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPunttisalimuistio.TreeniDialogController">
    <center>
       <ScrollPane fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
          <content>
