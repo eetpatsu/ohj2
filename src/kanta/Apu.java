@@ -28,14 +28,14 @@ public class Apu {
      * @return virheteksti jos ei kelpaa päivämääräksi
      * @example
      * <pre name="test">
-     *   tarkistaPvm("abcdefgh") === "Kiellettyjä merkkejä";
-     *   tarkistaPvm("1.1.2023") === "Pvm pitää olla muotoa pp.kk.vv";
-     *   tarkistaPvm("00.01.2023") === "Liian pieni pvm";
-     *   tarkistaPvm("01.00.2023") === "Liian pieni pvm";
-     *   tarkistaPvm("01.01.1999") === "Liian pieni pvm";
-     *   tarkistaPvm("32.01.2023") === "Liian suuri pvm";
-     *   tarkistaPvm("01.13.2023") === "Liian suuri pvm";
-     *   tarkistaPvm("01.01.2100") === "Liian suuri pvm";
+     *   tarkistaPvm("abcdefgh") === "kiellettyjä merkkejä";
+     *   tarkistaPvm("1.1.2023") === "pvm pitää olla muotoa pp.kk.vv";
+     *   tarkistaPvm("00.01.2023") === "liian pieni pvm";
+     *   tarkistaPvm("01.00.2023") === "liian pieni pvm";
+     *   tarkistaPvm("01.01.1999") === "liian pieni pvm";
+     *   tarkistaPvm("32.01.2023") === "liian suuri pvm";
+     *   tarkistaPvm("01.13.2023") === "liian suuri pvm";
+     *   tarkistaPvm("01.01.2100") === "liian suuri pvm";
      *   tarkistaPvm("09.06.2023") === null;
      *   tarkistaPvm("10.06.2023") === null;
      *   tarkistaPvm("12.06.2023") === null;
@@ -49,13 +49,13 @@ public class Apu {
         Mjonot.erota(sb,'.');
         int vv = Mjonot.erotaInt(sb,0);
         if (!pvm.matches("[0-9.]*"))
-                return "Kiellettyjä merkkejä";
+                return "kiellettyjä merkkejä";
         if (!pvm.matches("[0-9][0-9]\\.[0-9][0-9]\\.[0-9][0-9][0-9][0-9]"))
-            return "Pvm pitää olla muotoa pp.kk.vv";
+            return "pvm pitää olla muotoa pp.kk.vv";
         if (pp < 1 || kk < 1 || vv < 2000)
-            return "Liian pieni pvm";
+            return "liian pieni pvm";
         if (pp > 31 || kk > 12 || vv > 2099)
-            return "Liian suuri pvm";
+            return "liian suuri pvm";
         return null;
     }
 }

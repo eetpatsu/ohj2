@@ -40,7 +40,7 @@ public class KaynnistysController implements ModalControllerInterface<String>  {
      */
     @Override
     public String getResult() {
-        return this.vastaus;
+        return vastaus;
     }
     
     

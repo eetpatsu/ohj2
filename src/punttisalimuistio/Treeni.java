@@ -19,6 +19,7 @@ import kanta.Apu;
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen
  * @version 0.7.4, 25.06.2023 Kloonaaminen, Oikeellisuustarkistus
+ * @version 0.7.5, 26.06.2023 Hakeminen
  */
 public class Treeni implements Cloneable {
     private int        tunnusNro;               // liikkeen id
@@ -51,7 +52,7 @@ public class Treeni implements Cloneable {
      * </pre>
      */
     public int getTunnusNro() {
-        return this.tunnusNro;
+        return tunnusNro;
     }
     
     
@@ -82,7 +83,33 @@ public class Treeni implements Cloneable {
      * </pre>
      */
     public String getPvm() {
-        return this.pvm;
+        return pvm;
+    }
+    
+    
+    /**
+     * Palauttaa montako näytettävää kenttää treenissä on
+     * @return montako kenttää treenissä on
+     */
+    public int getKenttaLkm() {
+        return 5;
+    }
+    
+    
+    /**
+     * Palauttaa kenttänumeroa vastaavan kentän kysymyksen
+     * @param kenttaNro monennenko kentän kysymys palautetaan
+     * @return kenttänumeroa vastaava kysymys
+     */
+    public String getKysymys(int kenttaNro) {
+        switch ( kenttaNro ) {
+        case 0: return "pvm";
+        case 1: return "sijainti";
+        case 2: return "kesto";
+        case 3: return "fiilikset";
+        case 4: return "muistiinpanot";
+        default: return "kenttää ei ole";
+        }
     }
     
     
@@ -93,12 +120,12 @@ public class Treeni implements Cloneable {
      */
     public String anna(int kenttaNro) {
         switch (kenttaNro) {
-        case 0: return "" + this.pvm;
-        case 1: return "" + this.sijainti;
-        case 2: return "" + this.kesto;
-        case 3: return "" + this.fiilikset;
-        case 4: return "" + this.muistiinpanot;
-        default: return "Kenttää ei ole";
+        case 0: return "" + pvm;
+        case 1: return "" + sijainti;
+        case 2: return "" + kesto;
+        case 3: return "" + fiilikset;
+        case 4: return "" + muistiinpanot;
+        default: return "kenttää ei ole";
         }
     }
     
@@ -109,9 +136,9 @@ public class Treeni implements Cloneable {
      * @param nro asetettava tunnusnumero
      */
     private void setTunnusNro(int nro) {
-        this.tunnusNro = nro;
-        if (this.tunnusNro >= seuraavaNro) {
-            seuraavaNro = this.tunnusNro + 1;
+        tunnusNro = nro;
+        if (tunnusNro >= seuraavaNro) {
+            seuraavaNro = tunnusNro + 1;
         }
     }
     
@@ -124,15 +151,15 @@ public class Treeni implements Cloneable {
      * @example
      * <pre name="test">
      *   Treeni tre = new Treeni();
-     *   tre.aseta(0, "abcdefgh") === "Kiellettyjä merkkejä";
+     *   tre.aseta(0, "abcdefgh") === "kiellettyjä merkkejä";
      *   tre.aseta(0, "12.06.2023") === null;
      *   tre.getPvm() === "12.06.2023";
      *   tre.aseta(1, "4 b c d 3 f g") === null;
      *   tre.aseta(1, "kotikuntosali") === null;
-     *   tre.aseta(2, "30 minuuttia") === "Kiellettyjä merkkejä";
+     *   tre.aseta(2, "30 minuuttia") === "kiellettyjä merkkejä";
      *   tre.aseta(2, "30") === null;
-     *   tre.aseta(3, "OK") === "Fiilikset 1-5 asteikolla";
-     *   tre.aseta(3, "0") === "Fiilikset 1-5 asteikolla";
+     *   tre.aseta(3, "OK") === "fiilikset 1-5 asteikolla";
+     *   tre.aseta(3, "0") === "fiilikset 1-5 asteikolla";
      *   tre.aseta(3, "3") === null;
      *   tre.aseta(4, "4 b c d 3 f g") === null;
      *   tre.aseta(4, "lisää painoja") === null;
@@ -144,28 +171,28 @@ public class Treeni implements Cloneable {
             String virhe = Apu.tarkistaPvm(syote);
             if (virhe != null)
                 return virhe;
-            this.pvm = syote;
+            pvm = syote;
             return null;
         case 1:
-            this.sijainti = syote;
+            sijainti = syote;
             return null;
         case 2:
             if (!syote.matches("[0-9]+"))
-                return "Kiellettyjä merkkejä";
+                return "kiellettyjä merkkejä";
             int minuuttia = Mjonot.erotaInt(syote, 0);
-            this.kesto = minuuttia;
+            kesto = minuuttia;
             return null;
         case 3:
             if (!syote.matches("[1-5]"))
-                return "Fiilikset 1-5 asteikolla";
+                return "fiilikset 1-5 asteikolla";
             int fiilis = Mjonot.erotaInt(syote, 0);
-            this.fiilikset = fiilis;
+            fiilikset = fiilis;
             return null;
         case 4:
-            this.muistiinpanot = syote;
+            muistiinpanot = syote;
             return null;
         default:
-            return "Kenttää ei ole";
+            return "kenttää ei ole";
         }
     }
     
@@ -182,11 +209,11 @@ public class Treeni implements Cloneable {
      */
     public void taytaTreeni() {
         String[] sijainteja = {"kotikuntosali","ulkokuntosali","yksityinen kuntosali"};
-        this.pvm = "12.06.2023";
-        this.sijainti = sijainteja[rand(0,2)];
-        this.kesto = rand(20,90);
-        this.fiilikset = rand(1,5);
-        this.muistiinpanot = "lisää painoja";
+        pvm = "12.06.2023";
+        sijainti = sijainteja[rand(0,2)];
+        kesto = rand(20,90);
+        fiilikset = rand(1,5);
+        muistiinpanot = "lisää painoja";
     }
     
     
@@ -231,9 +258,9 @@ public class Treeni implements Cloneable {
      * </pre>
      */
     public int rekisteroi() {
-        this.tunnusNro = seuraavaNro;
+        tunnusNro = seuraavaNro;
         seuraavaNro++;
-        return this.tunnusNro;
+        return tunnusNro;
     }
     
     
@@ -270,12 +297,12 @@ public class Treeni implements Cloneable {
     @Override
     public String toString() {
         return "" +
-                this.tunnusNro + "|" +
-                this.pvm + "|" + 
-                this.sijainti + "|" +
-                this.kesto + "|" +
-                this.fiilikset + "|" +
-                this.muistiinpanot;
+                tunnusNro + "|" +
+                pvm + "|" + 
+                sijainti + "|" +
+                kesto + "|" +
+                fiilikset + "|" +
+                muistiinpanot;
     }
     
     
@@ -299,12 +326,12 @@ public class Treeni implements Cloneable {
      */
     public void parse(String rivi) {
         var sb = new StringBuilder(rivi);
-        setTunnusNro(Mjonot.erota(sb, '|', this.tunnusNro));
-        this.pvm = Mjonot.erota(sb, '|', this.pvm);
-        this.sijainti = Mjonot.erota(sb, '|', this.sijainti);
-        this.kesto = Mjonot.erota(sb, '|', this.kesto);
-        this.fiilikset = Mjonot.erota(sb, '|', this.fiilikset);
-        this.muistiinpanot = Mjonot.erota(sb, '|', this.muistiinpanot);
+        setTunnusNro(Mjonot.erota(sb, '|', tunnusNro));
+        pvm = Mjonot.erota(sb, '|', pvm);
+        sijainti = Mjonot.erota(sb, '|', sijainti);
+        kesto = Mjonot.erota(sb, '|', kesto);
+        fiilikset = Mjonot.erota(sb, '|', fiilikset);
+        muistiinpanot = Mjonot.erota(sb, '|', muistiinpanot);
     }
     
     

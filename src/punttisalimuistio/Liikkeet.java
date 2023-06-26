@@ -70,7 +70,7 @@ public class Liikkeet implements Iterable<Liike>  {
      */
     public void lisaa(Liike lii) {
         alkiot.add(lii);
-        this.onkoMuutettu = true;
+        onkoMuutettu = true;
     }
     
     
@@ -116,8 +116,8 @@ public class Liikkeet implements Iterable<Liike>  {
      * </pre>
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
-        this.tiedostoNimi = hakemisto + "/liikkeet.dat";
-        File tiedosto = new File(this.tiedostoNimi);
+        tiedostoNimi = hakemisto + "/liikkeet.dat";
+        File tiedosto = new File(tiedostoNimi);
         try (Scanner fi = new Scanner(new FileInputStream(tiedosto))) {
             while (fi.hasNext()) {
                 String rivi = fi.nextLine();
@@ -127,9 +127,9 @@ public class Liikkeet implements Iterable<Liike>  {
                 lii.parse(rivi);
                 lisaa(lii);
             }
-            this.onkoMuutettu = false;
+            onkoMuutettu = false;
         } catch (FileNotFoundException ex) {
-            throw new SailoException("Ei saa luettua tiedostoa " + this.tiedostoNimi);
+            throw new SailoException("Ei saa luettua tiedostoa " + tiedostoNimi);
         } 
     }
     
@@ -154,7 +154,7 @@ public class Liikkeet implements Iterable<Liike>  {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void talleta(String hakemisto) throws SailoException {
-        if (!this.onkoMuutettu)
+        if (!onkoMuutettu)
             return;
         File tiedosto = new File(hakemisto + "/liikkeet.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(tiedosto, false))) {
@@ -164,7 +164,7 @@ public class Liikkeet implements Iterable<Liike>  {
         } catch (FileNotFoundException ex) {
             throw new SailoException("Tiedosto " + tiedosto.getAbsolutePath() + " ei aukea");
         }
-        this.onkoMuutettu = false;
+        onkoMuutettu = false;
     }
     
     
@@ -173,7 +173,7 @@ public class Liikkeet implements Iterable<Liike>  {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void talleta() throws SailoException {
-        talleta(this.tiedostoNimi);
+        talleta(tiedostoNimi);
     }
     
     

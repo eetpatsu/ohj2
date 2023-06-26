@@ -38,7 +38,7 @@ public class Treenit implements Iterable<Treeni> {
      * @return treenien lukumäärä
      */
     public int getLkm() {
-        return this.lkm;
+        return lkm;
     }
     
     
@@ -72,10 +72,10 @@ public class Treenit implements Iterable<Treeni> {
      * </pre>
      */
     public void lisaa(Treeni treeni) {
-        if (this.lkm >= alkiot.length) alkiot = Arrays.copyOf(alkiot, lkm+12);
-        alkiot[this.lkm] = treeni;
-        this.lkm++;
-        this.onkoMuutettu = true;
+        if (lkm >= alkiot.length) alkiot = Arrays.copyOf(alkiot, lkm+12);
+        alkiot[lkm] = treeni;
+        lkm++;
+        onkoMuutettu = true;
     }
     
     
@@ -111,10 +111,10 @@ public class Treenit implements Iterable<Treeni> {
      */
     public void korvaaTaiLisaa(Treeni treeni) {
         int tunnusNro = treeni.getTunnusNro();
-        for (int i = 0; i < this.lkm; i++) {
+        for (int i = 0; i < lkm; i++) {
             if (tunnusNro == alkiot[i].getTunnusNro()) {
                 alkiot[i] = treeni;
-                this.onkoMuutettu = true;
+                onkoMuutettu = true;
                 return;
             }
         }
@@ -146,7 +146,7 @@ public class Treenit implements Iterable<Treeni> {
      * </pre>
      */
     public Treeni anna(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || this.lkm <= i)
+        if (i < 0 || lkm <= i)
             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return alkiot[i];
     }
@@ -194,8 +194,8 @@ public class Treenit implements Iterable<Treeni> {
      * </pre>
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
-        this.tiedostoNimi = hakemisto + "/treenit.dat";
-        File tiedosto = new File(this.tiedostoNimi);
+        tiedostoNimi = hakemisto + "/treenit.dat";
+        File tiedosto = new File(tiedostoNimi);
         try (Scanner fi = new Scanner(new FileInputStream(tiedosto))) {
             while (fi.hasNext()) {
                 String rivi = fi.nextLine();
@@ -205,9 +205,9 @@ public class Treenit implements Iterable<Treeni> {
                 lii.parse(rivi);
                 lisaa(lii);
             }
-            this.onkoMuutettu = false;
+            onkoMuutettu = false;
         } catch (FileNotFoundException ex) {
-            throw new SailoException("Ei saa luettua tiedostoa " + this.tiedostoNimi);
+            throw new SailoException("Ei saa luettua tiedostoa " + tiedostoNimi);
         } 
     }
     
@@ -225,7 +225,7 @@ public class Treenit implements Iterable<Treeni> {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void talleta(String hakemisto) throws SailoException {
-        if (!this.onkoMuutettu)
+        if (!onkoMuutettu)
             return;
         File tiedosto = new File(hakemisto + "/treenit.dat");
         try (PrintStream fo = new PrintStream(new FileOutputStream(tiedosto, false))) {
@@ -236,7 +236,7 @@ public class Treenit implements Iterable<Treeni> {
         } catch (FileNotFoundException ex) {
             throw new SailoException("Tiedosto " + tiedosto.getAbsolutePath() + " ei aukea");
         }
-        this.onkoMuutettu = false;
+        onkoMuutettu = false;
     }
     
     
@@ -245,7 +245,7 @@ public class Treenit implements Iterable<Treeni> {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void talleta() throws SailoException {
-        talleta(this.tiedostoNimi);
+        talleta(tiedostoNimi);
     }
     
     

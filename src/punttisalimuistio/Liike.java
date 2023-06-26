@@ -39,10 +39,10 @@ public class Liike {
     
     /**
      * Muodosta tietyn treenin liike
-     * @param treeniNro treenin viitenumero
+     * @param nro treenin viitenumero
      */
-    public Liike(int treeniNro) {
-        this.treeniNro = treeniNro;
+    public Liike(int nro) {
+        treeniNro = nro;
     }
     
     
@@ -59,7 +59,7 @@ public class Liike {
      * </pre>
      */
     public int getTunnusNro() {
-        return this.tunnusNro;
+        return tunnusNro;
     }
     
     
@@ -90,7 +90,7 @@ public class Liike {
      * </pre>
      */
     public int getTreeniNro() {
-        return this.treeniNro;
+        return treeniNro;
     }
     
     
@@ -100,16 +100,16 @@ public class Liike {
      * @param nro asetettava tunnusnumero
      */
     private void setTunnusNro(int nro) {
-        this.tunnusNro = nro;
-        if (this.tunnusNro >= seuraavaNro) {
-            seuraavaNro = this.tunnusNro + 1;
+        tunnusNro = nro;
+        if (tunnusNro >= seuraavaNro) {
+            seuraavaNro = tunnusNro + 1;
         }
     }
     
     
     /**
      * Apumetodi, luo testiarvot liikkeelle.
-     * @param treNro id treenille, jonka liikkeestä kyse
+     * @param nro id treenille, jonka liikkeestä kyse
      * @example
      * <pre name="test">
      *   Liike lii1 = new Liike();
@@ -118,13 +118,13 @@ public class Liike {
      *   lii1.getTreeniNro() === 1;
      * </pre>
      */
-    public void taytaLiike(int treNro) {
+    public void taytaLiike(int nro) {
         String[] liikkeita = {"penkkipunnerrus","soutu","pystypunnerrus","kyykky","dippi"};
-        this.treeniNro = treNro;
-        this.liikkeenNimi = liikkeita[rand(0,4)];
-        this.paino = rand(0,60);
-        this.sarjat = rand(1,12);
-        this.toistot = rand(1,5);
+        treeniNro = nro;
+        liikkeenNimi = liikkeita[rand(0,4)];
+        paino = rand(0,60);
+        sarjat = rand(1,12);
+        toistot = rand(1,5);
     }
     
     
@@ -133,7 +133,7 @@ public class Liike {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(this.liikkeenNimi + " " + this.paino + "kg " + this.sarjat + " x " + this.toistot);
+        out.println(liikkeenNimi + " " + paino + "kg " + sarjat + " x " + toistot);
     }
     
     
@@ -165,9 +165,9 @@ public class Liike {
      * </pre>
      */
     public int rekisteroi() {
-        this.tunnusNro = seuraavaNro;
+        tunnusNro = seuraavaNro;
         seuraavaNro++;
-        return this.tunnusNro;
+        return tunnusNro;
     }
     
     
@@ -184,12 +184,12 @@ public class Liike {
     @Override
     public String toString() {
         return "" +
-                this.tunnusNro + "|" +
-                this.treeniNro + "|" + 
-                this.liikkeenNimi + "|" +
-                this.paino + "|" +
-                this.sarjat + "|" +
-                this.toistot;
+                tunnusNro + "|" +
+                treeniNro + "|" + 
+                liikkeenNimi + "|" +
+                paino + "|" +
+                sarjat + "|" +
+                toistot;
     }
     
     
@@ -213,12 +213,12 @@ public class Liike {
      */
     public void parse(String rivi) {
         var sb = new StringBuilder(rivi);
-        setTunnusNro(Mjonot.erota(sb, '|', this.tunnusNro));
-        this.treeniNro = Mjonot.erota(sb, '|', this.treeniNro);
-        this.liikkeenNimi = Mjonot.erota(sb, '|', this.liikkeenNimi);
-        this.paino = Mjonot.erota(sb, '|', this.paino);
-        this.sarjat = Mjonot.erota(sb, '|', this.sarjat);
-        this.toistot = Mjonot.erota(sb, '|', this.toistot);
+        setTunnusNro(Mjonot.erota(sb, '|', tunnusNro));
+        treeniNro = Mjonot.erota(sb, '|', treeniNro);
+        liikkeenNimi = Mjonot.erota(sb, '|', liikkeenNimi);
+        paino = Mjonot.erota(sb, '|', paino);
+        sarjat = Mjonot.erota(sb, '|', sarjat);
+        toistot = Mjonot.erota(sb, '|', toistot);
     }
     
     

@@ -40,6 +40,7 @@ import punttisalimuistio.Treeni;
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen tyhmästi
  * @version 0.7.3, 22.06.2023 Liikkeiden näyttäminen, treeni fiksusti
  * @version 0.7.4, 25.06.2023 Tiedonsyöttö treeniin, tallentaminen
+ * @version 0.7.5, 26.06.2023 Hakeminen
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -185,6 +186,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     private String              kayttaja = "aku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
     private TextField[]         kentat;
+    private static Treeni       apuTreeni = new Treeni();
     
     
     /**
@@ -194,6 +196,11 @@ public class PunttisalimuistioGUIController implements Initializable {
     private void alusta() {
         kentat = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
         chooserTreenit.clear();
+        cbKentat.clear();
+        for (int i = 0; i < apuTreeni.getKenttaLkm(); i++) {
+            cbKentat.add(apuTreeni.getKysymys(i));
+        }
+        cbKentat.setSelectedIndex(0);
         chooserTreenit.addSelectionListener(e -> naytaTreeni());
     }
     
@@ -228,8 +235,8 @@ public class PunttisalimuistioGUIController implements Initializable {
      * @return null jos onnistuu, muuten virhe tekstinä
      */
     protected String lueTiedosto(String nimi) {
-        this.kayttaja = nimi;
-        setTitle("Punttisalimuistio - " + this.kayttaja);
+        kayttaja = nimi;
+        setTitle("Punttisalimuistio - " + kayttaja);
         try {
             muistio.lueTiedostosta(nimi);
             hae(0);
@@ -248,7 +255,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * @return true jos onnistui, false jos ei
      */
     public boolean avaa() {
-        String uusikayttaja = KaynnistysController.kysyKayttaja(null, this.kayttaja);
+        String uusikayttaja = KaynnistysController.kysyKayttaja(null, kayttaja);
         if (uusikayttaja == null) return false;
         lueTiedosto(uusikayttaja);
         return true;
@@ -406,10 +413,10 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     /**
      * Aseta punttisalimuistio.
-     * @param muistio Punttisalimuistio jota käytetään tässä käyttöliittymässä
+     * @param punttisalimuistio Punttisalimuistio jota käytetään tässä käyttöliittymässä
      */
-    public void setMuistio(Punttisalimuistio muistio) {
-        this.muistio = muistio;
+    public void setMuistio(Punttisalimuistio punttisalimuistio) {
+        muistio = punttisalimuistio;
         naytaTreeni();
     }
     

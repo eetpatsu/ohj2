@@ -244,7 +244,7 @@ public class Punttisalimuistio {
         dir.mkdir();
         treenit = new Treenit();
         liikkeet = new Liikkeet();
-        this.hakemisto = nimi;
+        hakemisto = nimi;
         treenit.lueTiedostosta(nimi);
         liikkeet.lueTiedostosta(nimi);
     }
@@ -259,12 +259,12 @@ public class Punttisalimuistio {
     public void talleta() throws SailoException {
         String virhe = "";
         try {
-            treenit.talleta(this.hakemisto);
+            treenit.talleta(hakemisto);
         } catch (SailoException ex) {
             virhe = ex.getMessage();
         }
         try {
-            liikkeet.talleta(this.hakemisto);
+            liikkeet.talleta(hakemisto);
         } catch (SailoException ex) {
             virhe += ex.getMessage();
         }
