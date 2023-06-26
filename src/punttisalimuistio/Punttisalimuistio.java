@@ -16,8 +16,8 @@ import java.util.*;
  * @version 0.5, 08.06.2023 Liikkeet ja Liike mukaan
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
- * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva
- * @version 0.7.5, 26.06.2023 Hakeminen
+ * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva treeni
+ * @version 0.7.5, 26.06.2023 Hakeminen, Lisää tai korvaa olemassaoleva liike
  */
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
@@ -168,6 +168,16 @@ public class Punttisalimuistio {
      */
     public void lisaa(Liike liike) throws SailoException  {
         liikkeet.lisaa(liike);
+    }
+    
+    
+    /**
+     * Katsotaan onko jo olemassa liike samalla id:llä
+     * ja korvataan jos on. Muulloin lisätään normaalisti.
+     * @param liike käsiteltävä liike
+     */
+    public void korvaaTaiLisaa(Liike liike) {
+        liikkeet.korvaaTaiLisaa(liike);
     }
     
     

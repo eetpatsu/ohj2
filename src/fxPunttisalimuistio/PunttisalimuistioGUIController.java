@@ -40,7 +40,7 @@ import punttisalimuistio.Treeni;
  * @version 0.7.1, 22.06.2023 Treenin näyttäminen tyhmästi
  * @version 0.7.3, 22.06.2023 Liikkeiden näyttäminen, treeni fiksusti
  * @version 0.7.4, 25.06.2023 Tiedonsyöttö treeniin, tallentaminen
- * @version 0.7.5, 26.06.2023 Hakeminen
+ * @version 0.7.5, 26.06.2023 Hakeminen, Tiedonsyöttö liikkeeseen
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -123,7 +123,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Muokkaa treeniä -painike
      */
     @FXML private void handleMuokkaaTreeni() {
-        muokkaa();
+        muokkaaTreeni();
     }
     
     
@@ -147,7 +147,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Muokkaa liikettä -painike
      */
     @FXML private void handleMuokkaaLiike() {
-        ModalController.showModal(PunttisalimuistioGUIController.class.getResource("LiikeDialogView.fxml"), "Liike", null, "");
+        muokkaaLiike();
     }
     
     
@@ -378,22 +378,25 @@ public class PunttisalimuistioGUIController implements Initializable {
         Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null)
             return;
-        Liike uusi = new Liike();
+        Liike uusi = new Liike(treeniKohdalla.getTunnusNro());
+        uusi = LiikeDialogController.kysyLiike(null, uusi);
+        if (uusi == null)
+            return;
         uusi.rekisteroi();
-        uusi.taytaLiike(treeniKohdalla.getTunnusNro());
         try {
             muistio.lisaa(uusi);
         } catch (SailoException ex) {
             Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + ex.getMessage());
         }
-        hae(treeniKohdalla.getTunnusNro());
+        naytaLiikkeet(treeniKohdalla);
+        tableLiikkeet.selectRow(1000);
     }
     
     
     /**
      * Avaa valitun treenin muokkausdialogissa
      */
-    private void muokkaa() {
+    private void muokkaaTreeni() {
         Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null)
             return;
@@ -406,6 +409,24 @@ public class PunttisalimuistioGUIController implements Initializable {
             return;
         muistio.korvaaTaiLisaa(treeniKohdalla);
         hae(treeniKohdalla.getTunnusNro());
+    }
+    
+    
+    /**
+     * Avaa valitun liikkeen muokkausdialogissa
+     */
+    private void muokkaaLiike() {
+        Liike liikeKohdalla = tableLiikkeet.getObject();
+        if (liikeKohdalla == null)
+            return;
+        try {
+            liikeKohdalla = liikeKohdalla.clone();
+        } catch (CloneNotSupportedException ex) {
+            Dialogs.showMessageDialog(ex.getMessage()); 
+        }
+        if (LiikeDialogController.kysyLiike(null, liikeKohdalla) == null)
+            return;
+        muistio.korvaaTaiLisaa(liikeKohdalla);
     }
     
     

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.jyu.mit.fxgui.ModalController">
+<BorderPane stylesheets="@punttisalimuistio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxPunttisalimuistio.LiikeDialogController">
    <center>
       <ScrollPane fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
          <content>
@@ -32,11 +32,11 @@
                   <Label text="liikkeen nimi" />
                   <Label text="paino (kg)" GridPane.rowIndex="1" />
                   <Label text="sarjat" GridPane.rowIndex="2" />
-                  <TextField text="pystypunnerrus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                  <TextField text="40" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                  <TextField text="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                   <Label text="toistot" GridPane.rowIndex="3" />
-                  <TextField text="6" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <TextField fx:id="editNimi" text="pystypunnerrus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                  <TextField fx:id="editPaino" text="40" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <TextField fx:id="editSarjat" text="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <TextField fx:id="editToistot" text="6" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" top="10.0" />
@@ -55,8 +55,8 @@
             <HBox />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button defaultButton="true" mnemonicParsing="false" onAction="#handleDefaultOK" text="OK" />
-                  <Button cancelButton="true" mnemonicParsing="false" onAction="#handleDefaultCancel" text="Peruuta" />
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOK" text="OK" />
+                  <Button cancelButton="true" mnemonicParsing="false" onAction="#handlePeruuta" text="Peruuta" />
               </buttons>
                <padding>
                   <Insets right="10.0" />

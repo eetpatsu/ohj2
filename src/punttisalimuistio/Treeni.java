@@ -181,14 +181,12 @@ public class Treeni implements Cloneable {
         case 2:
             if (!syote.matches("[0-9]+"))
                 return "kiellettyjä merkkejä";
-            int minuuttia = Mjonot.erotaInt(syote, 0);
-            kesto = minuuttia;
+            kesto = Mjonot.erotaInt(syote, 0);
             return null;
         case 3:
             if (!syote.matches("[1-5]"))
                 return "fiilikset 1-5 asteikolla";
-            int fiilis = Mjonot.erotaInt(syote, 0);
-            fiilikset = fiilis;
+            fiilikset = Mjonot.erotaInt(syote, 0);
             return null;
         case 4:
             muistiinpanot = syote;

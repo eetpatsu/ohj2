@@ -18,10 +18,11 @@ import java.util.*;
  * @author eetpatsu@student.jyu.fi
  * @version 0.5, 07.06.2023 Tiedoston synty
  * @version 0.6, 16.06.2023 Tiedostonhallinta
+ * @version 0.7.5, 26.06.2023 Lisää tai korvaa olemassaoleva
  */
 public class Liikkeet implements Iterable<Liike>  {
-    private final Collection<Liike> alkiot = new ArrayList<Liike>(); // Taulukko liikkeistä
-    private boolean onkoMuutettu = false;                            // Ovatko liikkeen tiedot muuttuneet alkuperäisestä
+    private final List<Liike> alkiot = new ArrayList<Liike>(); // Taulukko liikkeistä
+    private boolean onkoMuutettu = false;                      // Ovatko liikkeen tiedot muuttuneet alkuperäisestä
     private String  tiedostoNimi = "";
     
     
@@ -71,6 +72,49 @@ public class Liikkeet implements Iterable<Liike>  {
     public void lisaa(Liike lii) {
         alkiot.add(lii);
         onkoMuutettu = true;
+    }
+    
+    
+    /**
+     * Katsotaan onko jo olemassa liike samalla id:llä
+     * ja korvataan jos on. Muulloin lisätään normaalisti.
+     * @param liike käsiteltävä liike
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     * #THROWS SailoException
+     *   Liikkeet liikkeet = new Liikkeet();
+     *   Liike lii1T1 = new Liike();
+     *   lii1T1.rekisteroi();
+     *   lii1T1.taytaLiike(1);
+     *   liikkeet.lisaa(lii1T1);
+     *   Liike lii2T1 = new Liike();
+     *   lii2T1.rekisteroi();
+     *   lii2T1.taytaLiike(1);
+     *   liikkeet.lisaa(lii2T1);
+     *   liikkeet.korvaaTaiLisaa(lii1T1);
+     *   liikkeet.korvaaTaiLisaa(lii2T1);
+     *   liikkeet.getLkm() === 2;
+     *   Liike klooni = lii1T1.clone();
+     *   lii1T1.toString().equals(klooni.toString()) === true;
+     *   liikkeet.korvaaTaiLisaa(klooni);
+     *   liikkeet.getLkm() === 2;
+     *   lii1T1.parse("2|1|kyykky|80|3|5");
+     *   lii1T1.toString().equals(klooni.toString()) === false;
+     *   liikkeet.korvaaTaiLisaa(lii1T1);
+     *   liikkeet.getLkm() === 3;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Liike liike) {
+        int tunnusNro = liike.getTunnusNro();
+        for (int i = 0; i < getLkm(); i++) {
+            if (tunnusNro == alkiot.get(i).getTunnusNro()) {
+                alkiot.set(i, liike);
+                onkoMuutettu = true;
+                return;
+            }
+        }
+        lisaa(liike);
     }
     
     

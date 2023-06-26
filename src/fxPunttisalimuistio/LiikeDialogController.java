@@ -10,29 +10,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import punttisalimuistio.Treeni;
+import punttisalimuistio.Liike;
 
 /**
- * Treenille oma kontrolleri
+ * Liikkeelle oma kontrolleri
  * @author eetpatsu@student.jyu.fi
- * @version 0.7.1, 22.06.2023 Tiedoston synty
- * @version 0.7.3, 22.06.2023 Treenin näyttäminen fiksusti
- * @version 0.7.4, 25.06.2023 Tiedon syöttäminen
+ * @version 0.7.5, 26.06.2023 Tiedoston synty
  */
-public class TreeniDialogController implements ModalControllerInterface<Treeni>, Initializable {
+public class LiikeDialogController implements ModalControllerInterface<Liike>, Initializable {
     @FXML private Label     labelVirhe;
-    @FXML private TextField editPvm;
-    @FXML private TextField editSijainti;
-    @FXML private TextField editKesto;
-    @FXML private TextField editFiilikset;
-    @FXML private TextField editMuistiinpanot;
+    @FXML private TextField editNimi;
+    @FXML private TextField editPaino;
+    @FXML private TextField editSarjat;
+    @FXML private TextField editToistot;
+    
     
     /**
      * OK-painike
      */
     @FXML private void handleOK() {
-        if (treeniKohdalla != null && treeniKohdalla.getPvm().equals("")) {
-            naytaVirhe("Pvm ei voi olla tyhjä");
+        if (liikeKohdalla != null && liikeKohdalla.getNimi().equals("")) {
+            naytaVirhe("Nimi ei voi olla tyhjä");
             return;
         }
         ModalController.closeStage(labelVirhe);
@@ -43,7 +41,7 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      * Peruuta-painike
      */
     @FXML private void handlePeruuta() {
-        treeniKohdalla = null;
+        liikeKohdalla = null;
         ModalController.closeStage(labelVirhe);
     }
     
@@ -61,8 +59,8 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      * Tiedon palautus
      */
     @Override
-    public Treeni getResult() {
-        return treeniKohdalla;
+    public Liike getResult() {
+        return liikeKohdalla;
     }
     
     
@@ -76,18 +74,18 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     
     
     /**
-     * Aseta oletustreeni
+     * Aseta oletusliike
      */
     @Override
-    public void setDefault(Treeni oletus) {
-        treeniKohdalla = oletus;
-        naytaTreeni(kenttia, treeniKohdalla);
+    public void setDefault(Liike oletus) {
+        liikeKohdalla = oletus;
+        naytaLiike(kenttia, liikeKohdalla);
     }
     
 //===========================================================================================    
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
-    private Treeni treeniKohdalla;
+    private Liike liikeKohdalla;
     private TextField[] kenttia;
     
     
@@ -95,25 +93,24 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
      * Tekee tarvittavat alustukset
      */
     private void alusta() {
-        kenttia = new TextField[] {editPvm, editSijainti, editKesto, editFiilikset, editMuistiinpanot};
-        editPvm.setOnKeyReleased(e -> handleMuutos(0, editPvm));
-        editSijainti.setOnKeyReleased(e -> handleMuutos(1, editSijainti));
-        editKesto.setOnKeyReleased(e -> handleMuutos(2, editKesto));
-        editFiilikset.setOnKeyReleased(e -> handleMuutos(3,editFiilikset));
-        editMuistiinpanot.setOnKeyReleased(e -> handleMuutos(4, editMuistiinpanot));
+        kenttia = new TextField[] {editNimi, editPaino, editSarjat, editToistot};
+        editNimi.setOnKeyReleased(e -> handleMuutos(0, editNimi));
+        editPaino.setOnKeyReleased(e -> handleMuutos(1, editPaino));
+        editSarjat.setOnKeyReleased(e -> handleMuutos(2, editSarjat));
+        editToistot.setOnKeyReleased(e -> handleMuutos(3,editToistot));
     }
     
     
     /**
-     * Käsitellään muutos treenin kentässä
+     * Käsitellään muutos liikkeen kentässä
      * @param kenttaNro monesko kentta kyseessa
      * @param kentta jossa muutos
      */
     private void handleMuutos(int kenttaNro, TextField kentta) {
-        if (treeniKohdalla == null)
+        if (liikeKohdalla == null)
             return;
         String syote = kentta.getText();
-        String virhe = treeniKohdalla.aseta(kenttaNro, syote);
+        String virhe = liikeKohdalla.aseta(kenttaNro, syote);
         if (virhe == null) {
             kentta.getStyleClass().add("normaali");
             naytaVirhe(virhe);
@@ -140,26 +137,26 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     
     
     /**
-     * Näytetään annettu treeni dialogissa
-     * Täytetään treenin kentät
+     * Näytetään annettu liike dialogissa
+     * Täytetään liikkeen kentät
      * @param kentat TextField jossa täytettävät kentät
-     * @param treeni joka näytetään
+     * @param liike joka näytetään
      */
-    public static void naytaTreeni(TextField[] kentat, Treeni treeni) {
-        if (treeni == null)
+    public static void naytaLiike(TextField[] kentat, Liike liike) {
+        if (liike == null)
             return;
         for (int i = 0; i < kentat.length; i++)
-            kentat[i].setText(treeni.anna(i));
+            kentat[i].setText(liike.anna(i));
     }
     
     
     /**
-     * Luodaan treenin kysymisdialogi ja palautetaan sama tietue muutettuna tai null.
+     * Luodaan liikkeen kysymisdialogi ja palautetaan sama tietue muutettuna tai null.
      * @param modalityStage mille ollaan modaalisia, null = ollaan modaalisia sovellukselle.
      * @param oletus minkä tietoa näytetään oletuksena.
      * @return null jos peruutetaan, muuten täytetty tietue.
      */
-    public static Treeni kysyTreeni(Stage modalityStage, Treeni oletus) {
-        return ModalController.showModal(PunttisalimuistioGUIController.class.getResource("TreeniDialogView.fxml"), "Treeni", modalityStage, oletus);
+    public static Liike kysyLiike(Stage modalityStage, Liike oletus) {
+        return ModalController.showModal(PunttisalimuistioGUIController.class.getResource("LiikeDialogView.fxml"), "Liike", modalityStage, oletus);
     }
 }
