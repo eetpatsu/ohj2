@@ -1,5 +1,6 @@
 package fxPunttisalimuistio;
 
+import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
@@ -23,6 +24,10 @@ public class KaynnistysController implements ModalControllerInterface<String>  {
      */
     @FXML private void handleOK() {
         vastaus = textVastaus.getText();
+        if (vastaus.equals("")) {
+            Dialogs.showMessageDialog("Et kirjoittanut käyttäjää");
+            return;
+        }
         ModalController.closeStage(textVastaus);
     }
     
@@ -49,7 +54,8 @@ public class KaynnistysController implements ModalControllerInterface<String>  {
      */
     @Override
     public void handleShown() {
-        textVastaus.requestFocus();    
+        textVastaus.requestFocus();
+        textVastaus.clear();
     }
     
     

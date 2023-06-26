@@ -3,6 +3,8 @@ package punttisalimuistio;
 import java.io.*;
 import java.util.*;
 
+import fi.jyu.mit.ohj2.WildChars;
+
 /**
  * Avustajat: Treeni
  * Vastuualueet: Pitää yllä varsinaista treenirekisteriä,
@@ -16,6 +18,7 @@ import java.util.*;
  * @version 0.6, 13.06.2023 Tiedostonkäsittely
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
  * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva
+ * @version 0.7.5, 26.06.2023 Hakeminen
  */
 public class Treenit implements Iterable<Treeni> {
     private static final int MAX_TREENEJA   = 12;                       // Treenien lkm yläraja
@@ -259,34 +262,32 @@ public class Treenit implements Iterable<Treeni> {
     }
     
     
-    /** 
-     * Palauttaa "taulukossa" hakuehtoon vastaavien treenien viitteet 
-     * @param hakuehto hakuehto 
-     * @param indeksi etsittävän kentän indeksi  
+    /**
+     * Palauttaa "taulukossa" hakuehtoa vastaavien treenien viitteet"
+     * @param ehto hakuehto
+     * @param kenttaNro kentän indeksi jonka mukaan etsitään
      * @return tietorakenteen löytyneistä treeneistä 
-     * @example 
-     * <pre name="test"> 
-     * #THROWS SailoException  
-     *   Treenit treenit = new Treenit(); 
-     *   Treeni treeni1 = new Treeni(); treeni1.parse("1|09.06.2023|kotikuntosali|60|5|-"); 
-     *   Treeni treeni2 = new Treeni(); treeni2.parse("2|10.06.2023|ulkokuntosali|50|1|jatkossa juotavaa"); 
-     *   Treeni treeni3 = new Treeni(); treeni3.parse("3|12.06.2023|kotikuntosali|70|3|lisää painoja"); 
-     *   treenit.lisaa(treeni1); treenit.lisaa(treeni2); treenit.lisaa(treeni3);
-     *   // TODO: toistaiseksi palauttaa kaikki treenit 
-     * </pre> 
-     */ 
-    @SuppressWarnings("unused")
-    public Collection<Treeni> etsi(String hakuehto, int indeksi) { 
-        Collection<Treeni> loytyneet = new ArrayList<Treeni>(); 
-        for (Treeni treeni : this) { 
-            loytyneet.add(treeni);  
-        } 
-        return loytyneet; 
+     */
+    public Collection<Treeni> etsi(String ehto, int kenttaNro) {
+        ArrayList<Treeni> loytyneet = new ArrayList<Treeni>();
+        int hakukentta = kenttaNro;
+        if (hakukentta < 0)
+            hakukentta = 0;
+        for (int i = 0; i < getLkm(); i++) {
+            Treeni treeni = anna(i);
+            String sisalto = treeni.anna(hakukentta);
+            if (WildChars.onkoSamat(sisalto, ehto))
+                loytyneet.add(treeni);
+        }
+        Collections.sort(loytyneet, new Treeni.Vertailija());
+        return loytyneet;
     }
     
     
     /**
      * Luokka treenien iteroimiseksi.
+     * @author eetpatsu@student.jyu.fi
+     * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
      * @example
      * <pre name="test">
      * #THROWS SailoException 
@@ -305,7 +306,7 @@ public class Treenit implements Iterable<Treeni> {
      *   String tulos = " " + tre1.getTunnusNro() + " " + tre2.getTunnusNro() + " " + tre1.getTunnusNro();
      *   ids.toString() === tulos; 
      *   ids = new StringBuffer(30);
-     *   for (Iterator<Treeni>  i=treenit.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
+     *   for (Iterator<Treeni> i = treenit.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
      *     Treeni treeni = i.next();
      *     ids.append(" "+treeni.getTunnusNro());           
      *   }

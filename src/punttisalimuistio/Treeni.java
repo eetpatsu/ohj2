@@ -2,6 +2,8 @@ package punttisalimuistio;
 
 import static kanta.Apu.*;
 import java.io.*;
+import java.util.Comparator;
+
 import fi.jyu.mit.ohj2.Mjonot;
 import kanta.Apu;
 
@@ -332,6 +334,26 @@ public class Treeni implements Cloneable {
         kesto = Mjonot.erota(sb, '|', kesto);
         fiilikset = Mjonot.erota(sb, '|', fiilikset);
         muistiinpanot = Mjonot.erota(sb, '|', muistiinpanot);
+    }
+    
+    
+    /**
+     * Luokka päivämäärien vertailuun
+     * @author Eetu
+     * @version 0.7.5, 26.06.2023
+     */
+    public static class Vertailija implements Comparator<Treeni> {
+        
+        /**
+         * Vertaa kumman treenin päivämäärä on suurempi
+         * @param tre1 Ensimmäinen vertailtava treeni
+         * @param tre2 Toinen vertailtava treeni
+         * @return -1 jos tre1 < tre2, 0 jos tre1 = tre2, 1 jos tre1 > tre2
+         */
+        @Override
+        public int compare(Treeni tre1, Treeni tre2) {
+            return tre2.getPvm().compareTo(tre1.getPvm());
+        }
     }
     
     

@@ -69,10 +69,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Hakuehto-valikko
      */
     @FXML private void handleHakuehto() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
-        if (treeniKohdalla != null) {
-            hae(treeniKohdalla.getTunnusNro());
-        }
+        hae(0);
     }
     
 //===========================================================================================    
@@ -332,30 +329,31 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     /**
      * Hakee treenien tiedot listaan
-     * @param treNro treeni joka valitaan haun jälkeen
+     * @param nro treeni joka valitaan haun jälkeen, 0 = haetaan nykyinen treeni
      */
-    private void hae(int treNro) {
-        int indeksi = cbKentat.getSelectionModel().getSelectedIndex();
-        String ehto = hakuehto.getText(); 
-        if (indeksi > 0 || ehto.length() > 0)
-            naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", indeksi, ehto));
-        else
-            naytaVirhe(null);
-        chooserTreenit.clear();
-        int index = 0;
-        Collection<Treeni> treenit;
-        try {
-            treenit = muistio.etsi(ehto, indeksi);
-            int i = 0;
-            for (Treeni treeni:treenit) {
-                if (treeni.getTunnusNro() == treNro) index = i;
-                chooserTreenit.add(treeni.getPvm(), treeni);
-                i++;
-            }
-        } catch (SailoException ex) {
-            Dialogs.showMessageDialog("Treenin hakemisessa ongelmia! " + ex.getMessage());
+    private void hae(int nro) {
+        int treNro = nro;
+        if (treNro == 0) {
+            Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+            if (treeniKohdalla != null)
+                treNro = treeniKohdalla.getTunnusNro();
         }
-        chooserTreenit.setSelectedIndex(index);
+        int kenttaNro = cbKentat.getSelectionModel().getSelectedIndex();
+        
+        chooserTreenit.clear();
+        String ehto = hakuehto.getText();
+        if (ehto.indexOf('*') < 0)
+            ehto = "*" + ehto + "*";
+        Collection<Treeni> treenit = muistio.etsi(ehto, kenttaNro);
+        int indeksi = 0;
+        int chooserIndeksi = 0;
+        for (Treeni treeni : treenit) {
+            if (treeni.getTunnusNro() == treNro)
+                indeksi = chooserIndeksi;
+            chooserTreenit.add("" + treeni.getPvm(), treeni);
+            chooserIndeksi++;
+        }
+        chooserTreenit.setSelectedIndex(indeksi);
     }
     
     
@@ -448,12 +446,10 @@ public class PunttisalimuistioGUIController implements Initializable {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
             os.println("Tulostetaan kaikki treenit");
             Collection<Treeni> treenit = muistio.etsi("", -1); 
-            for (Treeni treeni:treenit) { 
+            for (Treeni treeni : treenit) { 
                 tulosta(os, treeni);
                 os.println("\n\n");
             }
-        } catch (SailoException ex) { 
-            Dialogs.showMessageDialog("Jäsenen hakemisessa ongelmia! " + ex.getMessage()); 
         }
     }
     

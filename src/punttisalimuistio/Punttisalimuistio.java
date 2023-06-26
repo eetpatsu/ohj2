@@ -17,6 +17,7 @@ import java.util.*;
  * @version 0.6, 14.06.2023 Tiedostonhallinta
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
  * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva
+ * @version 0.7.5, 26.06.2023 Hakeminen
  */
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
@@ -170,15 +171,14 @@ public class Punttisalimuistio {
     }
     
     
-    /** 
-     * Palauttaa "taulukossa" hakuehtoon vastaavien treenien viitteet 
-     * @param hakuehto käytettävä hakuehto  
-     * @param indeksi etsittävän kentän indeksi  
+    /**
+     * Palauttaa "taulukossa" hakuehtoa vastaavien treenien viitteet"
+     * @param ehto hakuehto
+     * @param kenttaNro kentän indeksi jonka mukaan etsitään
      * @return tietorakenteen löytyneistä treeneistä 
-     * @throws SailoException Jos jotakin menee väärin
-     */ 
-    public Collection<Treeni> etsi(String hakuehto, int indeksi) throws SailoException {
-        return treenit.etsi(hakuehto, indeksi);
+     */
+    public Collection<Treeni> etsi(String ehto, int kenttaNro) {
+        return treenit.etsi(ehto, kenttaNro);
     }
     
     
