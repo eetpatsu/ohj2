@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class KaynnistysController implements ModalControllerInterface<String>  {
     
     @FXML private TextField textVastaus;
-    private String vastaus = null;
+    private String vastaus = "";
     
     
     /**

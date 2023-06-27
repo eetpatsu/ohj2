@@ -182,7 +182,7 @@ public class PunttisalimuistioGUIController implements Initializable {
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
 //=========================================================================================== 
     
-    private String              kayttaja = "";
+    private String              kayttaja = "testiaku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
     private TextField[]         kentat;
     private static Treeni       apuTreeni = new Treeni();
@@ -264,7 +264,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      */
     public boolean avaa() {
         String uusikayttaja = KaynnistysController.kysyKayttaja(null, kayttaja);
-        if (uusikayttaja == null) return false;
+        if (uusikayttaja.length() == 0) return false;
         lueTiedosto(uusikayttaja);
         return true;
     }
@@ -354,7 +354,6 @@ public class PunttisalimuistioGUIController implements Initializable {
                 treNro = treeniKohdalla.getTunnusNro();
         }
         int kenttaNro = cbKentat.getSelectionModel().getSelectedIndex();
-        
         chooserTreenit.clear();
         String ehto = hakuehto.getText();
         if (ehto.indexOf('*') < 0)

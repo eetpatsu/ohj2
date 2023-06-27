@@ -331,7 +331,7 @@ public class Punttisalimuistio {
         Punttisalimuistio muistio = new Punttisalimuistio();
         // Lue Treenit ja Liikkeet
         try {
-            muistio.lueTiedostosta("testiaku");
+            muistio.lueTiedostosta("roope");
         } catch (SailoException ex) {
             System.out.println(ex.getMessage());
         }

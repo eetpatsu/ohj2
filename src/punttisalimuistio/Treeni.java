@@ -223,10 +223,10 @@ public class Treeni implements Cloneable {
      */
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro, 3) + "        pvm: " + pvm);
-        out.println("      " + "sijainti: " + sijainti);
-        out.println("         " + "kesto: " + kesto + " min");
-        out.println("     " + "fiilikset: " + fiilikset);
-        out.println(" " + "muistiinpanot: " + muistiinpanot);
+        out.println("           " + "sijainti: " + sijainti);
+        out.println("             " + "kesto: " + kesto + " min");
+        out.println("           " + "fiilikset: " + fiilikset);
+        out.println("muistiinpanot: " + muistiinpanot);
     }
     
     
@@ -338,7 +338,7 @@ public class Treeni implements Cloneable {
     /**
      * Luokka päivämäärien vertailuun
      * @author Eetu
-     * @version 0.7.5, 26.06.2023
+     * @version 0.7.5, 26.06.2023 Hakeminen
      */
     public static class Vertailija implements Comparator<Treeni> {
         

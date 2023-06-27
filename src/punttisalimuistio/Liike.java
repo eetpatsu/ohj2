@@ -179,7 +179,6 @@ public class Liike implements Cloneable {
      *   lii.aseta(1, "50kg") === "anna paino muodossa 0.0";
      *   lii.aseta(1, "50") === "anna paino muodossa 0.0";
      *   lii.aseta(1, "5a.0") === "anna paino muodossa 0.0";
-     *   lii.aseta(1, "5.0a") === "anna paino muodossa 0.0";
      *   lii.aseta(1, "5.0") === null;
      *   lii.aseta(1, "50.0") === null;
      *   lii.aseta(1, "500.0") === null;

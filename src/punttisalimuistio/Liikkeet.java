@@ -372,7 +372,7 @@ public class Liikkeet implements Iterable<Liike>  {
         Liikkeet liikkeet = new Liikkeet();
         // Lue Liikkeet
         try {
-            liikkeet.lueTiedostosta("aku");
+            liikkeet.lueTiedostosta("sepe");
         } catch (SailoException ex) {
             System.err.println(ex.getMessage());
         }
@@ -403,7 +403,7 @@ public class Liikkeet implements Iterable<Liike>  {
         }
         // Tallenna Liikkeet
         try {
-            liikkeet.talleta("aku");
+            liikkeet.talleta("sepe");
         } catch (SailoException ex) {
             System.err.println(ex.getMessage());
         }

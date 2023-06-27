@@ -422,7 +422,7 @@ public class Treenit implements Iterable<Treeni> {
         Treenit treenit = new Treenit();
         // Lue Treenit
         try {
-            treenit.lueTiedostosta("aku");
+            treenit.lueTiedostosta("sepe");
         } catch (SailoException ex) {
             System.err.println(ex.getMessage());
         }
@@ -449,7 +449,7 @@ public class Treenit implements Iterable<Treeni> {
         }
         // Tallenna Treenit
         try {
-            treenit.talleta("aku");
+            treenit.talleta("sepe");
         }  catch (SailoException ex) {
             System.err.println(ex.getMessage());
         }
