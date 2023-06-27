@@ -19,6 +19,7 @@ import fi.jyu.mit.ohj2.WildChars;
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
  * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva
  * @version 0.7.5, 26.06.2023 Hakeminen
+ * @version 0.7.6, 27.06.2023 Poistaminen
  */
 public class Treenit implements Iterable<Treeni> {
     private static final int MAX_TREENEJA   = 12;                       // Treenien lkm yläraja
@@ -156,6 +157,38 @@ public class Treenit implements Iterable<Treeni> {
     
     
     /**
+     * Poistaa annetun treenin
+     * @param tunnusNro joka poistetaan
+     * @return montako treeniä poistettiin
+     * @example
+     * <pre name="test">
+     *   Treenit treenit = new Treenit();
+     *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi();
+     *   int nro = tre1.getTunnusNro();
+     *   treenit.lisaa(tre1); treenit.lisaa(tre2); treenit.lisaa(tre3);
+     *   treenit.getLkm() === 3;
+     *   treenit.poista(nro) === 1;
+     *   treenit.getLkm() === 2;
+     *   treenit.poista(nro+1) === 1; treenit.getLkm() === 1;
+     *   treenit.poista(nro+3) === 0; treenit.getLkm() === 1;
+     *   treenit.poista(nro+2) === 1; treenit.getLkm() === 0;
+     * </pre>
+     */
+    public int poista(int tunnusNro) {
+        int ind = etsi(tunnusNro); 
+        if (ind < 0)
+            return 0; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++)
+            alkiot[i] = alkiot[i + 1]; 
+        alkiot[lkm] = null; 
+        onkoMuutettu = true; 
+        return 1;
+    }
+    
+    
+    /**
      * Lukee treenit tiedostosta.  
      * @param hakemisto hakemiston nimi
      * @throws SailoException jos lukeminen epäonnistuu
@@ -210,7 +243,7 @@ public class Treenit implements Iterable<Treeni> {
             }
             onkoMuutettu = false;
         } catch (FileNotFoundException ex) {
-            throw new SailoException("Ei saa luettua tiedostoa " + tiedostoNimi);
+            throw new SailoException("Käyttäjäkansiota " + hakemisto + " ei tunneta. Luodaan käyttäjäkansio.");
         } 
     }
     
@@ -260,6 +293,29 @@ public class Treenit implements Iterable<Treeni> {
     public Iterator<Treeni> iterator() {
         return new TreenitIterator();
     }
+    
+    
+    /** 
+     * Etsii treenin tunnusnumeron perusteella 
+     * @param tunnusNro tunnusnumero, jonka mukaan etsitään 
+     * @return löytyneen treenin indeksi tai -1 jos ei löydy 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Treenit treenit = new Treenit(); 
+     * Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
+     * tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi(); 
+     * int nro = tre1.getTunnusNro(); 
+     * treenit.lisaa(tre1); treenit.lisaa(tre2); treenit.lisaa(tre3); 
+     * treenit.etsi(nro+1) === 1; 
+     * treenit.etsi(nro+2) === 2; 
+     * </pre> 
+     */ 
+    public int etsi(int tunnusNro) { 
+        for (int i = 0; i < lkm; i++) 
+            if (tunnusNro == alkiot[i].getTunnusNro())
+                return i; 
+        return -1; 
+    } 
     
     
     /**

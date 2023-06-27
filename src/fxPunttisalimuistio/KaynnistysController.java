@@ -24,7 +24,7 @@ public class KaynnistysController implements ModalControllerInterface<String>  {
      */
     @FXML private void handleOK() {
         vastaus = textVastaus.getText();
-        if (vastaus.equals("")) {
+        if (vastaus.length() == 0) {
             Dialogs.showMessageDialog("Et kirjoittanut käyttäjää");
             return;
         }

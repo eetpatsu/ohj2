@@ -26,10 +26,10 @@ import kanta.Apu;
 public class Treeni implements Cloneable {
     private int        tunnusNro;               // liikkeen id
     private String     pvm              = "";   // treenin päivämäärä
-    private String     sijainti         = "-";  // missä tapahtui
-    private int        kesto            = 0;    // kuinka kauan kesti minuuteissa
+    private String     sijainti         = "";   // missä tapahtui
+    private int        kesto;                   // kuinka kauan kesti minuuteissa
     private int        fiilikset        = 3;    // fiilikset 1-5 asteikolla
-    private String     muistiinpanot    = "-";  // tärkeitä pohdintoja
+    private String     muistiinpanot    = "";   // tärkeitä pohdintoja
     private static int seuraavaNro      = 1;    // seuraavan treenin id
     
     

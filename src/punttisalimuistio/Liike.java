@@ -25,8 +25,8 @@ public class Liike implements Cloneable {
     private int        treeniNro;               // treenin id
     private String     liikkeenNimi     = "";   // minkä niminen liike
     private Double     paino            = 0.0;  // millä painoilla
-    private int        sarjat           = 0;    // montako sarjaa
-    private int        toistot          = 0;    // montako kertaa toistettiin
+    private int        sarjat;                  // montako sarjaa
+    private int        toistot;                 // montako kertaa toistettiin
     private static int seuraavaNro      = 1;    // seuraavan liikkeen id
     
     
@@ -117,6 +117,22 @@ public class Liike implements Cloneable {
      */
     public int getKenttaLkm() {
         return 4;
+    }
+    
+    
+    /**
+     * Palauttaa kenttänumeroa vastaavan kentän kysymyksen
+     * @param kenttaNro monennenko kentän kysymys palautetaan
+     * @return kenttänumeroa vastaava kysymys
+     */
+    public String getKysymys(int kenttaNro) {
+        switch ( kenttaNro ) {
+        case 0: return "liike";
+        case 1: return "paino";
+        case 2: return "sarjat";
+        case 3: return "toistot";
+        default: return "kenttää ei ole";
+        }
     }
     
     

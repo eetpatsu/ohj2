@@ -112,7 +112,7 @@ public class LiikeDialogController implements ModalControllerInterface<Liike>, I
         String syote = kentta.getText();
         String virhe = liikeKohdalla.aseta(kenttaNro, syote);
         if (virhe == null) {
-            kentta.getStyleClass().add("normaali");
+            kentta.getStyleClass().removeAll("virhe");
             naytaVirhe(virhe);
             return;
             }

@@ -19,6 +19,7 @@ import java.util.*;
  * @version 0.5, 07.06.2023 Tiedoston synty
  * @version 0.6, 16.06.2023 Tiedostonhallinta
  * @version 0.7.5, 26.06.2023 Lisää tai korvaa olemassaoleva
+ * @version 0.7.6, 27.06.2023 Poistaminen
  */
 public class Liikkeet implements Iterable<Liike>  {
     private final List<Liike> alkiot = new ArrayList<Liike>(); // Taulukko liikkeistä
@@ -115,6 +116,79 @@ public class Liikkeet implements Iterable<Liike>  {
             }
         }
         lisaa(liike);
+    }
+    
+    
+    /**
+     * Poistaa annetun liikkeen
+     * @param liike poistettava liike
+     * @return true jos löytyi poistettava liike 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *   Liikkeet liikkeet = new Liikkeet();
+     *   Liike lii1T1 = new Liike(); lii1T1.taytaLiike(1);
+     *   Liike lii2T1 = new Liike(); lii2T1.taytaLiike(1);
+     *   Liike lii3T2 = new Liike(); lii3T2.taytaLiike(2); 
+     *   Liike lii4T2 = new Liike(); lii4T2.taytaLiike(2); 
+     *   Liike lii5T2 = new Liike(); lii5T2.taytaLiike(2); 
+     *   liikkeet.lisaa(lii1T1);
+     *   liikkeet.lisaa(lii2T1);
+     *   liikkeet.lisaa(lii3T2);
+     *   liikkeet.lisaa(lii4T2);
+     *   liikkeet.poista(lii5T2) === false ; liikkeet.getLkm() === 4;
+     *   liikkeet.poista(lii1T1) === true;   liikkeet.getLkm() === 3;
+     *   List<Liike> liikkeet1 = liikkeet.anna(1);
+     *   liikkeet1.size() === 1; 
+     *   liikkeet1.get(0) === lii2T1;
+     * </pre>
+     */
+    public boolean poista(Liike liike) {
+        boolean tulos = alkiot.remove(liike);
+        if (tulos)
+            onkoMuutettu = true;
+        return tulos;
+    }
+    
+    
+    /**
+     * Poistaa kaikki tietyn treenin liikkeet
+     * @param tunnusNro viite treeniin, mihin liittyvät liikkeet poistetaan
+     * @return montako poistettiin 
+     * @example
+     * <pre name="test">
+     *   Liikkeet liikkeet = new Liikkeet();
+     *   Liike lii1T1 = new Liike(); lii1T1.taytaLiike(1);
+     *   Liike lii2T1 = new Liike(); lii2T1.taytaLiike(1);
+     *   Liike lii3T2 = new Liike(); lii3T2.taytaLiike(2); 
+     *   Liike lii4T2 = new Liike(); lii4T2.taytaLiike(2); 
+     *   Liike lii5T2 = new Liike(); lii5T2.taytaLiike(2); 
+     *   liikkeet.lisaa(lii1T1);
+     *   liikkeet.lisaa(lii2T1);
+     *   liikkeet.lisaa(lii3T2);
+     *   liikkeet.lisaa(lii4T2);
+     *   liikkeet.lisaa(lii5T2);
+     *   liikkeet.poista(2) === 3;  liikkeet.getLkm() === 2;
+     *   liikkeet.poista(3) === 0;  liikkeet.getLkm() === 2;
+     *   List<Liike> liikkeet2 = liikkeet.anna(2);
+     *   liikkeet2.size() === 0; 
+     *   liikkeet2 = liikkeet.anna(1);
+     *   liikkeet2.get(0) === lii1T1;
+     *   liikkeet2.get(1) === lii2T1;
+     * </pre>
+     */
+    public int poista(int tunnusNro) {
+        int lkm = 0;
+        for (Iterator<Liike> it = alkiot.iterator(); it.hasNext();) {
+            Liike lii = it.next();
+            if ( lii.getTreeniNro() == tunnusNro ) {
+                it.remove();
+                lkm++;
+            }
+        }
+        if (lkm > 0) onkoMuutettu = true;
+        return lkm;
     }
     
     

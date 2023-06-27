@@ -115,7 +115,7 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
         String syote = kentta.getText();
         String virhe = treeniKohdalla.aseta(kenttaNro, syote);
         if (virhe == null) {
-            kentta.getStyleClass().add("normaali");
+            kentta.getStyleClass().removeAll("virhe");
             naytaVirhe(virhe);
             return;
             }

@@ -18,6 +18,7 @@ import java.util.*;
  * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
  * @version 0.7.4, 25.06.2023 Lisää tai korvaa olemassaoleva treeni
  * @version 0.7.5, 26.06.2023 Hakeminen, Lisää tai korvaa olemassaoleva liike
+ * @version 0.7.6, 27.06.2023 Poistaminen
  */
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
@@ -193,12 +194,51 @@ public class Punttisalimuistio {
     
     
     /**
-     * Poistaa treeneistä ja liikkeistä ne joilla on nro. Kesken.
-     * @param nro viitenumero, jonka mukaan poistetaan
+     * Poistaa annetun treenin
+     * @param treeni joka poistetaan
      * @return montako treeniä poistettiin
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni(); tre1.taytaTreeni(); tre1.rekisteroi();
+     *   muistio.lisaa(tre1);
+     *   Liike lii1T1 = new Liike(); lii1T1.taytaLiike(tre1.getTunnusNro());
+     *   muistio.lisaa(lii1T1);
+     *   muistio.etsi("*",0).size() === 1;
+     *   muistio.annaLiikkeet(tre1).size() === 1;
+     *   muistio.poista(tre1) === 1;
+     *   muistio.etsi("*",0).size() === 0;
+     *   muistio.annaLiikkeet(tre1).size() === 0;
+     * </pre>
      */
-    public int poista(@SuppressWarnings("unused") int nro) {
-        return 0;
+    public int poista(Treeni treeni) {
+        if ( treeni == null ) return 0;
+        int ret = treenit.poista(treeni.getTunnusNro());
+        liikkeet.poista(treeni.getTunnusNro());
+        return ret;
+    }
+    
+    
+    /**
+     * Poistaa annetun liikkeen.
+     * @param liike joka poistetaan
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     *   Punttisalimuistio muistio = new Punttisalimuistio();
+     *   Treeni tre1 = new Treeni(); tre1.taytaTreeni(); tre1.rekisteroi();
+     *   muistio.lisaa(tre1);
+     *   Liike lii1T1 = new Liike(); lii1T1.taytaLiike(tre1.getTunnusNro());
+     *   muistio.lisaa(lii1T1);
+     *   muistio.etsi("*",0).size() === 1;
+     *   muistio.annaLiikkeet(tre1).size() === 1;
+     *   muistio.poista(lii1T1);
+     *   muistio.annaLiikkeet(tre1).size() === 0;
+     * </pre>
+     */
+    public void poista(Liike liike) {
+        liikkeet.poista(liike); 
     }
     
     
