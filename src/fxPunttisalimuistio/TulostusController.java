@@ -1,15 +1,17 @@
 package fxPunttisalimuistio;
 
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
 import javafx.scene.control.TextArea;
+import javafx.scene.web.WebEngine;
 
 /**
  * Tulostuksen hoitava luokka
  * @author eetpatsu@student.jyu.fi
  * @version 0.3, 14.02.2023 Tiedoston synty
+ * @version 0.7.6, 27.06.2023 Tulostaminen toimii
  */
 public class TulostusController implements ModalControllerInterface<String> {
     
@@ -28,7 +30,13 @@ public class TulostusController implements ModalControllerInterface<String> {
      * Tulosta-painike
      */
     @FXML void handleTulosta() {
-        Dialogs.showMessageDialog("Ei osata vielä tulostaa");
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if ( job != null && job.showPrintDialog(null) ) {
+            WebEngine webEngine = new WebEngine();
+            webEngine.loadContent("<pre>" + tulostusAlue.getText() + "</pre>");
+            webEngine.print(job);
+            job.endJob();
+        }
     }
     
     
@@ -46,7 +54,7 @@ public class TulostusController implements ModalControllerInterface<String> {
      */
     @Override
     public void handleShown() {
-        // TODO
+        tulostusAlue.requestFocus();
     }
     
     
@@ -55,7 +63,6 @@ public class TulostusController implements ModalControllerInterface<String> {
      */
     @Override
     public void setDefault(String oletus) {
-        // if ( oletus == null ) return;
         tulostusAlue.setText(oletus);
     }
     

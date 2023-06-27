@@ -42,7 +42,7 @@ import punttisalimuistio.Treeni;
  * @version 0.7.3, 22.06.2023 Liikkeiden näyttäminen, treeni fiksusti
  * @version 0.7.4, 25.06.2023 Tiedonsyöttö treeniin, tallentaminen
  * @version 0.7.5, 26.06.2023 Hakeminen, Tiedonsyöttö liikkeeseen
- * @version 0.7.6, 27.06.2023 Poistaminen
+ * @version 0.7.6, 27.06.2023 Poistaminen, Tulostaminen
  */
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
@@ -517,8 +517,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     public void tulostaValitut(TextArea text) {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
             os.println("Tulostetaan kaikki treenit");
-            Collection<Treeni> treenit = muistio.etsi("", -1); 
-            for (Treeni treeni : treenit) { 
+            for (Treeni treeni : chooserTreenit.getObjects()) { 
                 tulosta(os, treeni);
                 os.println("\n\n");
             }
