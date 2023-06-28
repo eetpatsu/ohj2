@@ -176,11 +176,11 @@ public class Treenit implements Iterable<Treeni> {
      * </pre>
      */
     public int poista(int tunnusNro) {
-        int ind = etsi(tunnusNro); 
-        if (ind < 0)
+        int indeksi = etsiIndeksi(tunnusNro); 
+        if (indeksi < 0)
             return 0; 
         lkm--; 
-        for (int i = ind; i < lkm; i++)
+        for (int i = indeksi; i < lkm; i++)
             alkiot[i] = alkiot[i + 1]; 
         alkiot[lkm] = null; 
         onkoMuutettu = true; 
@@ -200,30 +200,27 @@ public class Treenit implements Iterable<Treeni> {
      *   Treeni tre1 = new Treeni(); tre1.taytaTreeni();
      *   Treeni tre2 = new Treeni(); tre2.taytaTreeni(); 
      *   Treeni tre3 = new Treeni(); tre3.taytaTreeni();
-     *   Treeni tre4 = new Treeni(); tre4.taytaTreeni();
-     *   Treeni tre5 = new Treeni(); tre5.taytaTreeni(); 
      *   String nimi = "testi";
      *   File tiedosto = new File(nimi + "/treenit.dat");
      *   File dir = new File(nimi);
      *   dir.mkdir();
      *   tiedosto.delete();
+     *   treenit.lueTiedostosta(nimi); #THROWS SailoException
      *   treenit.lisaa(tre1);
      *   treenit.lisaa(tre2);
      *   treenit.lisaa(tre3);
-     *   treenit.lisaa(tre4);
-     *   treenit.lisaa(tre5);
      *   treenit.talleta(nimi);
+     *   treenit = new Treenit();
+     *   treenit.lueTiedostosta(nimi);
      *   Iterator<Treeni> i = treenit.iterator();
      *   i.next().toString() === tre1.toString();
      *   i.next().toString() === tre2.toString();
      *   i.next().toString() === tre3.toString();
-     *   i.next().toString() === tre4.toString();
-     *   i.next().toString() === tre5.toString();
      *   treenit = new Treenit();
      *   i = treenit.iterator();
      *   i.hasNext() === false;
      *   treenit.lueTiedostosta(nimi);
-     *   treenit.lisaa(tre5);
+     *   treenit.lisaa(tre3);
      *   treenit.talleta(nimi);
      *   tiedosto.delete() === true;
      *   dir.delete() === true;
@@ -259,6 +256,33 @@ public class Treenit implements Iterable<Treeni> {
      * </pre>
      * @param hakemisto tallennettavan tiedoston hakemisto
      * @throws SailoException jos talletus epäonnistuu
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *   Treenit treenit = new Treenit();
+     *   Treeni tre1 = new Treeni(); tre1.taytaTreeni();
+     *   String nimi = "testi";
+     *   File tiedosto = new File(nimi + "/treenit.dat");
+     *   File dir = new File(nimi);
+     *   dir.mkdir();
+     *   tiedosto.delete();
+     *   treenit.lueTiedostosta(nimi); #THROWS SailoException
+     *   treenit.lisaa(tre1);
+     *   treenit.talleta(nimi);
+     *   treenit = new Treenit();
+     *   treenit.lueTiedostosta(nimi);
+     *   Iterator<Treeni> i = treenit.iterator();
+     *   i.next().toString() === tre1.toString();
+     *   treenit = new Treenit();
+     *   i = treenit.iterator();
+     *   i.hasNext() === false;
+     *   treenit.lueTiedostosta(nimi);
+     *   treenit.lisaa(tre1);
+     *   treenit.talleta(nimi);
+     *   tiedosto.delete() === true;
+     *   dir.delete() === true;
+     * </pre>
      */
     public void talleta(String hakemisto) throws SailoException {
         if (!onkoMuutettu)
@@ -277,8 +301,15 @@ public class Treenit implements Iterable<Treeni> {
     
     
     /**
-     * Tallentaa treenit tiedostoon
+     * Tallentaa treenit tiedostoon käyttämällä aiemmin annettua tiedostonimeä
      * @throws SailoException jos talletus epäonnistuu
+     * Tiedoston muoto:
+     * <pre>
+     * ;id|pvm|sijainti|kesto|fiilikset|muistiinpanot
+     * 1|09.06.2023|kotikuntosali|60|5|-
+     * 2|10.06.2023|ulkokuntosali|50|1|jatkossa juotavaa
+     * 3|12.06.2023|kotikuntosali|70|3|lisää painoja
+     * </pre>
      */
     public void talleta() throws SailoException {
         talleta(tiedostoNimi);
@@ -298,22 +329,24 @@ public class Treenit implements Iterable<Treeni> {
     /** 
      * Etsii treenin tunnusnumeron perusteella 
      * @param tunnusNro tunnusnumero, jonka mukaan etsitään 
-     * @return löytyneen treenin indeksi tai -1 jos ei löydy 
+     * @return löytyneen treenin indeksi tai -1 jos ei löydy
+     * @example 
      * <pre name="test"> 
      * #THROWS SailoException  
-     * Treenit treenit = new Treenit(); 
-     * Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
-     * tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi(); 
-     * int nro = tre1.getTunnusNro(); 
-     * treenit.lisaa(tre1); treenit.lisaa(tre2); treenit.lisaa(tre3); 
-     * treenit.etsi(nro+1) === 1; 
-     * treenit.etsi(nro+2) === 2; 
+     *   Treenit treenit = new Treenit(); 
+     *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi(); 
+     *   int nro = tre1.getTunnusNro(); 
+     *   treenit.lisaa(tre1); treenit.lisaa(tre2); treenit.lisaa(tre3); 
+     *   treenit.etsiIndeksi(nro+1) === 1; 
+     *   treenit.etsiIndeksi(nro+2) === 2; 
      * </pre> 
      */ 
-    public int etsi(int tunnusNro) { 
-        for (int i = 0; i < lkm; i++) 
+    public int etsiIndeksi(int tunnusNro) { 
+        for (int i = 0; i < lkm; i++) {
             if (tunnusNro == alkiot[i].getTunnusNro())
-                return i; 
+                return i;
+        }
         return -1; 
     } 
     
@@ -343,7 +376,7 @@ public class Treenit implements Iterable<Treeni> {
     /**
      * Luokka treenien iteroimiseksi.
      * @author eetpatsu@student.jyu.fi
-     * @version 0.7.1, 22.06.2023 Rajaton määrä Treenejä
+     * @version 0.7.1, 22.06.2023 Luokan synty
      * @example
      * <pre name="test">
      * #THROWS SailoException 
@@ -356,13 +389,13 @@ public class Treenit implements Iterable<Treeni> {
      *   treenit.lisaa(tre2); 
      *   treenit.lisaa(tre1); 
      *   StringBuffer ids = new StringBuffer(30);
-     *   for (Treeni treeni:treenit) {   // Kokeillaan for-silmukan toimintaa
+     *   for (Treeni treeni:treenit) {
      *     ids.append(" "+treeni.getTunnusNro());
      *   }         
      *   String tulos = " " + tre1.getTunnusNro() + " " + tre2.getTunnusNro() + " " + tre1.getTunnusNro();
      *   ids.toString() === tulos; 
      *   ids = new StringBuffer(30);
-     *   for (Iterator<Treeni> i = treenit.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
+     *   for (Iterator<Treeni> i = treenit.iterator(); i.hasNext(); ) {
      *     Treeni treeni = i.next();
      *     ids.append(" "+treeni.getTunnusNro());           
      *   }

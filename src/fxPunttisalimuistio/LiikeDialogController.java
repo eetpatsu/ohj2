@@ -115,7 +115,7 @@ public class LiikeDialogController implements ModalControllerInterface<Liike>, I
             kentta.getStyleClass().removeAll("virhe");
             naytaVirhe(virhe);
             return;
-            }
+        }
         kentta.getStyleClass().add("virhe");
         naytaVirhe(virhe);
     }

@@ -55,7 +55,7 @@ public class Liikkeet implements Iterable<Liike>  {
     
     /**
      * Lisää uuden liikkeen tietorakenteeseen.  Ottaa liikkeen omistukseensa.
-     * @param lii lisättävä liike.  Huom tietorakenne muuttuu omistajaksi
+     * @param lii lisättävä liike. Huom tietorakenne muuttuu omistajaksi
      * @example
      * <pre name="test">
      *   Liikkeet liikkeet = new Liikkeet();
@@ -100,7 +100,7 @@ public class Liikkeet implements Iterable<Liike>  {
      *   lii1T1.toString().equals(klooni.toString()) === true;
      *   liikkeet.korvaaTaiLisaa(klooni);
      *   liikkeet.getLkm() === 2;
-     *   lii1T1.parse("2|1|kyykky|80|3|5");
+     *   lii1T1.parse("3|1|kyykky|80|3|5");
      *   lii1T1.toString().equals(klooni.toString()) === false;
      *   liikkeet.korvaaTaiLisaa(lii1T1);
      *   liikkeet.getLkm() === 3;
@@ -137,8 +137,8 @@ public class Liikkeet implements Iterable<Liike>  {
      *   liikkeet.lisaa(lii2T1);
      *   liikkeet.lisaa(lii3T2);
      *   liikkeet.lisaa(lii4T2);
-     *   liikkeet.poista(lii5T2) === false ; liikkeet.getLkm() === 4;
-     *   liikkeet.poista(lii1T1) === true;   liikkeet.getLkm() === 3;
+     *   liikkeet.poista(lii5T2) === false; liikkeet.getLkm() === 4;
+     *   liikkeet.poista(lii1T1) === true;  liikkeet.getLkm() === 3;
      *   List<Liike> liikkeet1 = liikkeet.anna(1);
      *   liikkeet1.size() === 1; 
      *   liikkeet1.get(0) === lii2T1;
@@ -169,8 +169,8 @@ public class Liikkeet implements Iterable<Liike>  {
      *   liikkeet.lisaa(lii3T2);
      *   liikkeet.lisaa(lii4T2);
      *   liikkeet.lisaa(lii5T2);
-     *   liikkeet.poista(2) === 3;  liikkeet.getLkm() === 2;
-     *   liikkeet.poista(3) === 0;  liikkeet.getLkm() === 2;
+     *   liikkeet.poista(2) === 3; liikkeet.getLkm() === 2;
+     *   liikkeet.poista(3) === 0; liikkeet.getLkm() === 2;
      *   List<Liike> liikkeet2 = liikkeet.anna(2);
      *   liikkeet2.size() === 0; 
      *   liikkeet2 = liikkeet.anna(1);
@@ -187,7 +187,8 @@ public class Liikkeet implements Iterable<Liike>  {
                 lkm++;
             }
         }
-        if (lkm > 0) onkoMuutettu = true;
+        if (lkm > 0)
+            onkoMuutettu = true;
         return lkm;
     }
     
@@ -204,30 +205,27 @@ public class Liikkeet implements Iterable<Liike>  {
      *   Liike lii1T1 = new Liike(); lii1T1.taytaLiike(1);
      *   Liike lii2T1 = new Liike(); lii2T1.taytaLiike(1); 
      *   Liike lii3T2 = new Liike(); lii3T2.taytaLiike(2); 
-     *   Liike lii4T2 = new Liike(); lii4T2.taytaLiike(2);
-     *   Liike lii5T2 = new Liike(); lii5T2.taytaLiike(2); 
      *   String nimi = "testi";
      *   File tiedosto = new File(nimi + "/liikkeet.dat");
      *   File dir = new File(nimi);
      *   dir.mkdir();
      *   tiedosto.delete();
+     *   liikkeet.lueTiedostosta(nimi); #THROWS SailoException
      *   liikkeet.lisaa(lii1T1);
      *   liikkeet.lisaa(lii2T1);
      *   liikkeet.lisaa(lii3T2);
-     *   liikkeet.lisaa(lii4T2);
-     *   liikkeet.lisaa(lii5T2);
      *   liikkeet.talleta(nimi);
+     *   liikkeet = new Liikkeet();
+     *   liikkeet.lueTiedostosta(nimi);
      *   Iterator<Liike> i = liikkeet.iterator();
      *   i.next().toString() === lii1T1.toString();
      *   i.next().toString() === lii2T1.toString();
      *   i.next().toString() === lii3T2.toString();
-     *   i.next().toString() === lii4T2.toString();
-     *   i.next().toString() === lii5T2.toString();
      *   liikkeet = new Liikkeet();
      *   i = liikkeet.iterator();
      *   i.hasNext() === false;
      *   liikkeet.lueTiedostosta(nimi);
-     *   liikkeet.lisaa(lii5T2);
+     *   liikkeet.lisaa(lii3T2);
      *   liikkeet.talleta(nimi);
      *   tiedosto.delete() === true;
      *   dir.delete() === true;
@@ -254,22 +252,35 @@ public class Liikkeet implements Iterable<Liike>  {
     
     /**
      * Tallentaa liikkeet tiedostoon.
-     * Tiedoston muoto:
-     * <pre>
-     * ;id|tid|liikkeennimi|paino|sarjat|toistot
-     * 1|1|penkkipunnerrus|60|3|5
-     * 2|1|kyykky|80|3|5
-     * 3|1|kulmasoutu|45|3|8
-     * 4|2|leuanveto|0|3|8
-     * 5|2|dippi|0|2|12
-     * 6|2|jalkaprässi|40|4|10
-     * 7|3|pystypunnerrus|40|3|6
-     * 8|3|kyykky|80|3|6
-     * 9|3|kulmasoutu|45|3|8
-     * 10|3|selkäojennus|5|3|8
-     * </pre>
      * @param hakemisto tallennettavan tiedoston hakemisto
      * @throws SailoException jos talletus epäonnistuu
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *   Liikkeet liikkeet = new Liikkeet();
+     *   Liike lii1T1 = new Liike(); lii1T1.taytaLiike(1);
+     *   String nimi = "testi";
+     *   File tiedosto = new File(nimi + "/liikkeet.dat");
+     *   File dir = new File(nimi);
+     *   dir.mkdir();
+     *   tiedosto.delete();
+     *   liikkeet.lueTiedostosta(nimi); #THROWS SailoException
+     *   liikkeet.lisaa(lii1T1);
+     *   liikkeet.talleta(nimi);
+     *   liikkeet = new Liikkeet();
+     *   liikkeet.lueTiedostosta(nimi);
+     *   Iterator<Liike> i = liikkeet.iterator();
+     *   i.next().toString() === lii1T1.toString();
+     *   liikkeet = new Liikkeet();
+     *   i = liikkeet.iterator();
+     *   i.hasNext() === false;
+     *   liikkeet.lueTiedostosta(nimi);
+     *   liikkeet.lisaa(lii1T1);
+     *   liikkeet.talleta(nimi);
+     *   tiedosto.delete() === true;
+     *   dir.delete() === true;
+     * </pre>
      */
     public void talleta(String hakemisto) throws SailoException {
         if (!onkoMuutettu)
@@ -287,8 +298,22 @@ public class Liikkeet implements Iterable<Liike>  {
     
     
     /**
-     * Tallentaa liikkeet tiedostoon.
+     * Tallentaa liikkeet tiedostoon käyttämällä aiemmin annettua tiedostonimeä.
      * @throws SailoException jos talletus epäonnistuu
+     * Tiedoston muoto:
+     * <pre>
+     * ;id|tid|liikkeennimi|paino|sarjat|toistot
+     * 1|1|penkkipunnerrus|60|3|5
+     * 2|1|kyykky|80|3|5
+     * 3|1|kulmasoutu|45|3|8
+     * 4|2|leuanveto|0|3|8
+     * 5|2|dippi|0|2|12
+     * 6|2|jalkaprässi|40|4|10
+     * 7|3|pystypunnerrus|40|3|6
+     * 8|3|kyykky|80|3|6
+     * 9|3|kulmasoutu|45|3|8
+     * 10|3|selkäojennus|5|3|8
+     * </pre>
      */
     public void talleta() throws SailoException {
         talleta(tiedostoNimi);

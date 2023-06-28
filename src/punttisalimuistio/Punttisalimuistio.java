@@ -23,7 +23,7 @@ import java.util.*;
 public class Punttisalimuistio {
     private Treenit treenit = new Treenit();              // Treenit-olioviite
     private Liikkeet liikkeet = new Liikkeet();           // Liikkeet-olioviite
-    private String hakemisto = "aku";
+    private String hakemisto = "";
     
     
     /**
@@ -31,7 +31,6 @@ public class Punttisalimuistio {
      * @return treenien määrä
      * @example
      * <pre name="test">
-     * #THROWS SailoException
      *   Punttisalimuistio muistio = new Punttisalimuistio();
      *   Treeni tre1 = new Treeni();
      *   Treeni tre2 = new Treeni();
@@ -51,10 +50,9 @@ public class Punttisalimuistio {
      * Palauttaa i:n treenin
      * @param i monesko treeni palautetaan
      * @return viite i:teen treeniin
-     * @throws IndexOutOfBoundsException jos i väärin
      * @example
      * <pre name="test">
-     * #THROWS SailoException
+     * #THROWS IndexOutOfBoundsException
      *   Punttisalimuistio muistio = new Punttisalimuistio();
      *   Treeni tre1 = new Treeni();
      *   Treeni tre2 = new Treeni();
@@ -66,7 +64,7 @@ public class Punttisalimuistio {
      *   muistio.annaTreeni(3) === tre1; #THROWS IndexOutOfBoundsException
      * </pre>
      */
-    public Treeni annaTreeni(int i) throws IndexOutOfBoundsException {
+    public Treeni annaTreeni(int i) {
         return treenit.anna(i);
     }
     
@@ -114,6 +112,7 @@ public class Punttisalimuistio {
      * @param treeni lisättävä treeni
      * @example
      * <pre name="test">
+     * #THROWS IndexOutOfBoundsException
      *   Punttisalimuistio muistio = new Punttisalimuistio();
      *   Treeni tre1 = new Treeni();
      *   Treeni tre2 = new Treeni();
@@ -143,6 +142,32 @@ public class Punttisalimuistio {
      * Katsotaan onko jo olemassa treeni samalla id:llä
      * ja korvataan jos on. Muulloin lisätään normaalisti.
      * @param treeni käsiteltävä treeni
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     * #THROWS SailoException
+     *   Treenit treenit = new Treenit();
+     *   Treeni tre1 = new Treeni();
+     *   tre1.rekisteroi();
+     *   tre1.taytaTreeni();
+     *   treenit.lisaa(tre1);
+     *   Treeni tre2 = new Treeni();
+     *   tre2.rekisteroi();
+     *   tre2.taytaTreeni();
+     *   treenit.lisaa(tre2);
+     *   treenit.getLkm() === 2;
+     *   treenit.korvaaTaiLisaa(tre1);
+     *   treenit.korvaaTaiLisaa(tre2);
+     *   treenit.getLkm() === 2;
+     *   Treeni klooni = tre1.clone();
+     *   tre1.toString().equals(klooni.toString()) === true;
+     *   treenit.korvaaTaiLisaa(klooni);
+     *   treenit.getLkm() === 2;
+     *   tre1.parse("1|09.06.2023|kotikuntosali|60|5|-");
+     *   tre1.toString().equals(klooni.toString()) === false;
+     *   treenit.korvaaTaiLisaa(tre1);
+     *   treenit.getLkm() === 3;
+     * </pre>
      */
     public void korvaaTaiLisaa(Treeni treeni) {
         treenit.korvaaTaiLisaa(treeni);
@@ -176,6 +201,32 @@ public class Punttisalimuistio {
      * Katsotaan onko jo olemassa liike samalla id:llä
      * ja korvataan jos on. Muulloin lisätään normaalisti.
      * @param liike käsiteltävä liike
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException
+     * #THROWS SailoException
+     *   Liikkeet liikkeet = new Liikkeet();
+     *   Liike lii1T1 = new Liike();
+     *   lii1T1.rekisteroi();
+     *   lii1T1.taytaLiike(1);
+     *   liikkeet.lisaa(lii1T1);
+     *   Liike lii2T1 = new Liike();
+     *   lii2T1.rekisteroi();
+     *   lii2T1.taytaLiike(1);
+     *   liikkeet.lisaa(lii2T1);
+     *   liikkeet.getLkm() === 2;
+     *   liikkeet.korvaaTaiLisaa(lii1T1);
+     *   liikkeet.korvaaTaiLisaa(lii2T1);
+     *   liikkeet.getLkm() === 2;
+     *   Liike klooni = lii1T1.clone();
+     *   lii1T1.toString().equals(klooni.toString()) === true;
+     *   liikkeet.korvaaTaiLisaa(klooni);
+     *   liikkeet.getLkm() === 2;
+     *   lii1T1.parse("3|1|kyykky|80|3|5");
+     *   lii1T1.toString().equals(klooni.toString()) === false;
+     *   liikkeet.korvaaTaiLisaa(lii1T1);
+     *   liikkeet.getLkm() === 3;
+     * </pre>
      */
     public void korvaaTaiLisaa(Liike liike) {
         liikkeet.korvaaTaiLisaa(liike);
@@ -187,6 +238,17 @@ public class Punttisalimuistio {
      * @param ehto hakuehto
      * @param kenttaNro kentän indeksi jonka mukaan etsitään
      * @return tietorakenteen löytyneistä treeneistä 
+     * @example 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     *   Treenit treenit = new Treenit(); 
+     *   Treeni tre1 = new Treeni(), tre2 = new Treeni(), tre3 = new Treeni();
+     *   tre1.rekisteroi(); tre2.rekisteroi(); tre3.rekisteroi(); 
+     *   int nro = tre1.getTunnusNro(); 
+     *   treenit.lisaa(tre1); treenit.lisaa(tre2); treenit.lisaa(tre3); 
+     *   treenit.etsiIndeksi(nro+1) === 1; 
+     *   treenit.etsiIndeksi(nro+2) === 2; 
+     * </pre> 
      */
     public Collection<Treeni> etsi(String ehto, int kenttaNro) {
         return treenit.etsi(ehto, kenttaNro);
@@ -213,7 +275,8 @@ public class Punttisalimuistio {
      * </pre>
      */
     public int poista(Treeni treeni) {
-        if ( treeni == null ) return 0;
+        if ( treeni == null )
+            return 0;
         int ret = treenit.poista(treeni.getTunnusNro());
         liikkeet.poista(treeni.getTunnusNro());
         return ret;

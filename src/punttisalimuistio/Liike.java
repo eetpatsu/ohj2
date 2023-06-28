@@ -280,6 +280,7 @@ public class Liike implements Cloneable {
     /**
      * Luo ja palauttaa kloonin annetusta liienistä
      * @return Object kloonattu liieni olio
+     * @throws CloneNotSupportedException jos kloonaus ei onnistu
      * @example
      * <pre name="test">
      * #THROWS CloneNotSupportedException

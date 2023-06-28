@@ -27,6 +27,7 @@ import punttisalimuistio.SailoException;
 import punttisalimuistio.Treeni;
 
 /**
+ * Tietorakennekuvan "Näyttö"-luokka
  * Avustajat: Punttisalimuistio, Treeni, Liike
  * Vastuualueet: Hoitaa kaiken näyttöön tulevan tekstin
  * ja kaiken tiedon pyytämisen käyttäjältä.
@@ -47,7 +48,7 @@ import punttisalimuistio.Treeni;
 public class PunttisalimuistioGUIController implements Initializable {    
     @FXML private ComboBoxChooser<String> cbKentat;         // Hakuehto-valikko
     @FXML private TextField hakuehto;                       // Hakuehto-kenttä
-    @FXML private TextField editPvm;
+    @FXML private TextField editPvm;                        // Treenin kenttiä
     @FXML private TextField editSijainti;
     @FXML private TextField editKesto;
     @FXML private TextField editFiilikset;
@@ -55,7 +56,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     @FXML private Label labelVirhe;                         // Virheilmoitus-kenttä
     @FXML private ScrollPane panelTreeni;                   // Treenin tiedot -paneeli
     @FXML private ListChooser<Treeni> chooserTreenit;       // Treenit-lista
-    @FXML private StringGrid<Liike> tableLiikkeet;
+    @FXML private StringGrid<Liike> tableLiikkeet;          // Liikkeet-taulukko
     
     
     /**
@@ -184,8 +185,10 @@ public class PunttisalimuistioGUIController implements Initializable {
     
     private String              kayttaja = "testiaku";
     private Punttisalimuistio   muistio;                        // Tynkä Punttisalimuistio-olioviite
-    private TextField[]         kentat;
-    private static Treeni       apuTreeni = new Treeni();
+    private Treeni              treeniKohdalla;
+    private Liike               liikeKohdalla;
+    private TextField[]         kentat;                         // Tähän tallennetaan treenin kentät
+    private static Treeni       apuTreeni = new Treeni();       // Apuoliot vain muutaman metodin käyttöön
     private static Liike        apuLiike  = new Liike();
     
     
@@ -202,10 +205,10 @@ public class PunttisalimuistioGUIController implements Initializable {
         }
         cbKentat.setSelectedIndex(0);
         chooserTreenit.addSelectionListener(e -> naytaTreeni());
-        String[] headings = new String[apuLiike.getKenttaLkm()]; 
+        String[] otsikot = new String[apuLiike.getKenttaLkm()]; 
         for (int i=0; i < apuLiike.getKenttaLkm(); i++)
-            headings[i] = apuLiike.getKysymys(i); 
-        tableLiikkeet.initTable(headings); 
+            otsikot[i] = apuLiike.getKysymys(i); 
+        tableLiikkeet.initTable(otsikot); 
         tableLiikkeet.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
         tableLiikkeet.setEditable(false); 
         tableLiikkeet.setPlaceholder(new Label("Ei vielä liikkeitä"));
@@ -299,7 +302,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Näyttää listasta valitun treenin tiedot
      */
     private void naytaTreeni() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+        treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null) {
             return;
         }
@@ -349,7 +352,7 @@ public class PunttisalimuistioGUIController implements Initializable {
     private void hae(int nro) {
         int treNro = nro;
         if (treNro == 0) {
-            Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+            treeniKohdalla = chooserTreenit.getSelectedObject();
             if (treeniKohdalla != null)
                 treNro = treeniKohdalla.getTunnusNro();
         }
@@ -389,7 +392,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Tekee uuden tyhjän liikkeen editointia varten
      */
     public void uusiLiike() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+        treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null)
             return;
         Liike uusi = new Liike(treeniKohdalla.getTunnusNro());
@@ -411,7 +414,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Avaa valitun treenin muokkausdialogissa
      */
     private void muokkaaTreeni() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+        treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null)
             return;
         try {
@@ -430,8 +433,8 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Avaa valitun liikkeen muokkausdialogissa
      */
     private void muokkaaLiike() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
-        Liike liikeKohdalla = tableLiikkeet.getObject();
+        treeniKohdalla = chooserTreenit.getSelectedObject();
+        liikeKohdalla = tableLiikkeet.getObject();
         if (liikeKohdalla == null)
             return;
         try {
@@ -450,7 +453,7 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Poistetaan listalta valittu treeni
      */
     private void poistaTreeni() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+        treeniKohdalla = chooserTreenit.getSelectedObject();
         if (treeniKohdalla == null)
             return;
         if (!Dialogs.showQuestionDialog("Poisto", "Poistetaanko treeni: " + treeniKohdalla.getPvm(), "OK", "Peruuta"))
@@ -466,15 +469,20 @@ public class PunttisalimuistioGUIController implements Initializable {
      * Poistetaan liiketaulukosta valitulla kohdalla oleva liike.
      */
     private void poistaLiike() {
-        Treeni treeniKohdalla = chooserTreenit.getSelectedObject();
+        treeniKohdalla = chooserTreenit.getSelectedObject();
         int rivi = tableLiikkeet.getRowNr();
-        if ( rivi < 0 ) return;
-        Liike liike = tableLiikkeet.getObject();
-        if ( liike == null ) return;
-        muistio.poista(liike);
+        if ( rivi < 0 )
+            return;
+        liikeKohdalla = tableLiikkeet.getObject();
+        if (liikeKohdalla == null)
+            return;
+        if (!Dialogs.showQuestionDialog("Poisto", "Poistetaanko liike: " + liikeKohdalla.getNimi(), "OK", "Peruuta"))
+            return;
+        muistio.poista(liikeKohdalla);
         naytaLiikkeet(treeniKohdalla);
         int liikkeet = tableLiikkeet.getItems().size();
-        if ( rivi >= liikkeet ) rivi = liikkeet -1;
+        if (rivi >= liikkeet)
+            rivi = liikkeet -1;
         tableLiikkeet.getFocusModel().focus(rivi);
         tableLiikkeet.getSelectionModel().select(rivi);
     }

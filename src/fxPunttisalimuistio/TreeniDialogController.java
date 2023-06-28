@@ -27,6 +27,7 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
     @FXML private TextField editFiilikset;
     @FXML private TextField editMuistiinpanot;
     
+    
     /**
      * OK-painike
      */
@@ -118,7 +119,7 @@ public class TreeniDialogController implements ModalControllerInterface<Treeni>,
             kentta.getStyleClass().removeAll("virhe");
             naytaVirhe(virhe);
             return;
-            }
+        }
         kentta.getStyleClass().add("virhe");
         naytaVirhe(virhe);
     }

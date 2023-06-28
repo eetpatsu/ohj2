@@ -267,6 +267,7 @@ public class Treeni implements Cloneable {
     /**
      * Luo ja palauttaa kloonin annetusta treenistä
      * @return Object kloonattu treeni olio
+     * @throws CloneNotSupportedException jos kloonaus ei onnistu
      * @example
      * <pre name="test">
      * #THROWS CloneNotSupportedException
@@ -338,7 +339,7 @@ public class Treeni implements Cloneable {
     /**
      * Luokka päivämäärien vertailuun
      * @author Eetu
-     * @version 0.7.5, 26.06.2023 Hakeminen
+     * @version 0.7.5, 26.06.2023 Luokan synty
      */
     public static class Vertailija implements Comparator<Treeni> {
         
